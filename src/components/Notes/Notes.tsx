@@ -3,7 +3,6 @@ import {
   MouseEventHandler,
   useCallback,
   useEffect,
-  useReducer,
   useRef,
   useState,
 } from 'react';
@@ -21,55 +20,10 @@ const text = [
   'The PD & Ballas seem to incur the most conflict and maintain long lasting rivals. The HOA appears to be the only group that is consistently friendly with PD.',
   "Olga, while not being a faction seems significant due to her bench. This is the only bench that isn't backed by a single faction. The middlemen have long revolved around the orbit of Hydra, Angels and HOA. This is why Hydra, Angels and HOA are near one another despite the recent tensions between the three groups.",
   "CG appears to be the only faction that owns/controls two benches although before the SS (Michael Simone's bench) & ESV split, ESV controlled two benches as well. The HOA x Lost bench is the only one that shares blueprints so I placed those benches near one another.",
+  "I intentionally left out some up and coming groups like RM & BCF. I don't have enough data on these groups to justify adding them.",
 ];
 
 const transitionDuration = 150;
-
-// const INIT = 'INIT';
-// const SET_INVISIBLE = 'SET INVISIBLE';
-// const SET_SLIDE = 'SET SLIDE';
-// const INCREMENT_SLIDE = 'INCREMENT SLIDE';
-// const PAUSE = 'PAUSE';
-// const UNPAUSE = 'UNPAUSE';
-
-// interface State {
-//   slide: number;
-//   isVisible: boolean;
-//   isPaused: boolean;
-// }
-
-// type Action =
-//   | { type: typeof INIT }
-//   | { type: typeof SET_INVISIBLE }
-//   | { type: typeof SET_SLIDE; payload: number }
-//   | { type: typeof INCREMENT_SLIDE }
-//   | { type: typeof PAUSE }
-//   | { type: typeof UNPAUSE };
-
-// const reducer = (state: State, action: Action): State => {
-//   switch (action.type) {
-//     case INIT:
-//       return { ...state, isVisible: true };
-//     case SET_INVISIBLE:
-//       return { ...state, isVisible: false };
-//     case SET_SLIDE:
-//       return { ...state, slide: action.payload, isVisible: true };
-//     case INCREMENT_SLIDE:
-//       return { ...state, slide: state.slide + 1, isVisible: true };
-//     case PAUSE:
-//       return { ...state, isPaused: true };
-//     case UNPAUSE:
-//       return { ...state, isPaused: false };
-//     default:
-//       return state;
-//   }
-// };
-
-// const initialState = {
-//   slide: 0,
-//   isVisible: false,
-//   isPaused: false,
-// };
 
 function Notes() {
   const [slide, setSlide] = useState(0);
