@@ -8,7 +8,7 @@ import {
 } from 'react';
 import { Transition, TransitionGroup } from 'react-transition-group';
 
-const duration = 10000;
+const duration = 15000;
 
 const text = [
   "This chart is made from an HOA viewer's perspective with help from the nopixel wiki which may be outdated.",
