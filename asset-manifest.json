@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/np-faction-relations/static/css/main.7d287042.css",
+    "main.js": "/np-faction-relations/static/js/main.c24348b7.js",
+    "static/js/787.94455a74.chunk.js": "/np-faction-relations/static/js/787.94455a74.chunk.js",
+    "static/media/np-logo-dark.png": "/np-faction-relations/static/media/np-logo-dark.be196f1917693f2ca5c3.png",
+    "index.html": "/np-faction-relations/index.html",
+    "main.7d287042.css.map": "/np-faction-relations/static/css/main.7d287042.css.map",
+    "main.c24348b7.js.map": "/np-faction-relations/static/js/main.c24348b7.js.map",
+    "787.94455a74.chunk.js.map": "/np-faction-relations/static/js/787.94455a74.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.7d287042.css",
+    "static/js/main.c24348b7.js"
+  ]
+}
