@@ -10,7 +10,6 @@ import {
   MORTELLE,
   BALLAS,
   NERDS,
-  MAYHEM,
   MG,
   SSMC,
   ST,
@@ -23,7 +22,7 @@ const HOA = new RelationalFaction(H);
 
 HOA.allies = [CG, GSF, LOST, MORTELLE, MG, SSMC, NERDS, ESV, OLGA];
 HOA.friends = [PD, BALLAS, ST, NBC];
-HOA.coldWar = [HYDRA, MAYHEM];
+HOA.coldWar = [HYDRA];
 HOA.enemies = [ANGELS];
 
 export { HOA };

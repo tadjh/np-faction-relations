@@ -27,21 +27,14 @@ const transitionDuration = 150;
 
 function Notes() {
   const [slide, setSlide] = useState(0);
-  // const [didUpdate, setDidUpdate] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [progress, setProgress] = useState(0);
   const requestRef = useRef<number | null>(null);
   const previousTimeRef = useRef<number | null>(null);
-  // const [{ isPaused, slide }, dispatch] = useReducer(
-  //   reducer,
-  //   initialState
-  // );
 
   const animate = useCallback((time: number) => {
     if (previousTimeRef.current !== null) {
       const deltaTime = time - previousTimeRef.current;
-      // Pass on a function to the setter of the state
-      // to make sure we always have the latest state
       setProgress((prevProgress) => (prevProgress + deltaTime * 0.01) % 100);
     }
     previousTimeRef.current = time;
@@ -58,7 +51,6 @@ function Notes() {
   useEffect(() => {
     const interval: NodeJS.Timer = setInterval(() => {
       if (isPaused) return clearInterval(interval);
-      // dispatch({ type: SET_INVISIBLE });
       const timeout: NodeJS.Timer = setTimeout(() => {
         setProgress(0);
         slide === text.length - 1
