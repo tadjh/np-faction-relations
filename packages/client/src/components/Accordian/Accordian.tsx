@@ -45,7 +45,7 @@ function Accordian({ label, children }: AccordianProps) {
           className={clsx(
             'text-xs border-l border-b border-r w-full',
             isAnimating
-              ? 'max-h-[700px] overflow-auto'
+              ? 'max-h-[800px] overflow-auto'
               : 'max-h-0 overflow-hidden',
             'transition-all'
           )}
