@@ -6,8 +6,9 @@ import {
   useState,
 } from 'react';
 import FACTIONS from '../../config/factions';
+import Accordian from '../Accordian';
+import SubmitButton from '../SubmitButton';
 function AddForm() {
-  const [isOpen, setIsOpen] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
   const [name, setName] = useState('');
   const [abbr, setAbbr] = useState('');
@@ -20,15 +21,11 @@ function AddForm() {
   const [coldWar, setColdWar] = useState<string[]>([]);
   const [enemies, setEnemies] = useState<string[]>([]);
 
-  const handleAddAccordian: MouseEventHandler<HTMLSpanElement> = (event) => {
-    setIsOpen((prevState) => !prevState);
-  };
-
-  const handleNameChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+  const handleName: ChangeEventHandler<HTMLInputElement> = (event) => {
     setName(event.target.value);
   };
 
-  const handleAbbrChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+  const handleAbbr: ChangeEventHandler<HTMLInputElement> = (event) => {
     setAbbr(event.target.value);
   };
 
@@ -40,9 +37,7 @@ function AddForm() {
     setBenchCount(event.target.value);
   };
 
-  const handleAssociatesChange: ChangeEventHandler<HTMLSelectElement> = (
-    event
-  ) => {
+  const handleAssociates: ChangeEventHandler<HTMLSelectElement> = (event) => {
     const value = Array.from(
       event.target.selectedOptions,
       (option) => option.value
@@ -50,41 +45,35 @@ function AddForm() {
     setAssociates(value);
   };
 
-  const handleAlliesChange: ChangeEventHandler<HTMLSelectElement> = (event) => {
+  const handleAllies: ChangeEventHandler<HTMLSelectElement> = (event) => {
     const value = Array.from(
       event.target.selectedOptions,
       (option) => option.value
     );
     setAllies(value);
   };
-  const handleFriendsChange: ChangeEventHandler<HTMLSelectElement> = (
-    event
-  ) => {
+  const handleFriends: ChangeEventHandler<HTMLSelectElement> = (event) => {
     const value = Array.from(
       event.target.selectedOptions,
       (option) => option.value
     );
     setFriends(value);
   };
-  const handleHotWarChange: ChangeEventHandler<HTMLSelectElement> = (event) => {
+  const handleHotWar: ChangeEventHandler<HTMLSelectElement> = (event) => {
     const value = Array.from(
       event.target.selectedOptions,
       (option) => option.value
     );
     setHotWar(value);
   };
-  const handleColdWarChange: ChangeEventHandler<HTMLSelectElement> = (
-    event
-  ) => {
+  const handleColdWar: ChangeEventHandler<HTMLSelectElement> = (event) => {
     const value = Array.from(
       event.target.selectedOptions,
       (option) => option.value
     );
     setColdWar(value);
   };
-  const handleEnemiesChange: ChangeEventHandler<HTMLSelectElement> = (
-    event
-  ) => {
+  const handleEnemies: ChangeEventHandler<HTMLSelectElement> = (event) => {
     const value = Array.from(
       event.target.selectedOptions,
       (option) => option.value
@@ -125,55 +114,49 @@ function AddForm() {
   };
 
   return (
-    <div className="flex items-center flex-col justify-center shadow w-full">
-      <div
-        className="bg-stone-700 text-white text-opacity-90 w-full hover:cursor-pointer hover:bg-stone-900 transition-colors"
-        onClick={handleAddAccordian}
-      >
-        <div className="flex justify-between items-center p-2">
-          <span>add faction</span>
-          <span className={clsx('text-base', isOpen && 'rotate-180')}>
-            &#x25BC;
-          </span>
-        </div>
-      </div>
-      <form
-        className={clsx(
-          'text-xs border-l border-b border-r w-full gap-y-2 flex flex-col',
-          isOpen ? 'max-h-[700px] overflow-auto' : 'max-h-0 overflow-hidden',
-          'transition-all'
-        )}
-        onSubmit={handleSubmit}
-      >
-        <div className="flex gap-x-2 items-center justify-between px-2 pt-2">
-          <label htmlFor="name">name</label>
+    <Accordian label="add faction">
+      <form onSubmit={handleSubmit} className="gap-y-2 flex flex-col">
+        <h3 className="flex items-center gap-x-2 pt-4 px-2">
+          <span>info</span>
+        </h3>
+        <hr />
+        <div className="flex gap-x-2 items-center px-2">
+          <label htmlFor="name" className="w-32">
+            name
+          </label>
           <input
             type="text"
             id="name"
             name="name"
-            className="border"
+            className="border flex-1"
             value={name}
-            onChange={handleNameChange}
+            onChange={handleName}
           />
-          <label htmlFor="nickname">abbr</label>
+        </div>
+        <div className="flex gap-x-2 items-center px-2">
+          <label htmlFor="nickname" className="w-32">
+            abbr <span className="text-[8px]">optional</span>
+          </label>
           <input
             type="text"
             id="nickname"
             name="nickname"
-            className="border"
+            className="border flex-1"
             value={abbr}
-            onChange={handleAbbrChange}
+            onChange={handleAbbr}
           />
         </div>
         <div className="flex gap-x-2 items-center h-5 px-2">
-          <label htmlFor="hasBench">has bench?</label>
-          <input
-            type="checkbox"
-            id="hasBench"
-            name="hasBench"
-            checked={hasBench}
-            onChange={handleHasBench}
-          />
+          <div className="flex gap-x-2 items-center w-32">
+            <label htmlFor="hasBench">has bench?</label>
+            <input
+              type="checkbox"
+              id="hasBench"
+              name="hasBench"
+              checked={hasBench}
+              onChange={handleHasBench}
+            />
+          </div>
           <label
             htmlFor="benchCount"
             className={clsx(
@@ -189,7 +172,7 @@ function AddForm() {
             name="benchCount"
             className={clsx(
               !hasBench ? 'opacity-0' : 'opacity-100',
-              'border w-10 text-center',
+              'border w-10 text-right',
               'transition-opacity'
             )}
             min={1}
@@ -197,6 +180,9 @@ function AddForm() {
             onChange={handleBenchCount}
           />
         </div>
+        <h3 className="pt-4 px-2">
+          <span>relationships</span>
+        </h3>
         <hr />
         <div className="flex gap-x-2 items-center px-2">
           <label
@@ -219,7 +205,7 @@ function AddForm() {
             multiple
             className="flex-1 border"
             value={associates}
-            onChange={handleAssociatesChange}
+            onChange={handleAssociates}
           >
             {FACTIONS.map((faction) => (
               <option key={`associates-${faction.id}`} value={faction.id}>
@@ -246,7 +232,7 @@ function AddForm() {
             multiple
             className="flex-1 border"
             value={allies}
-            onChange={handleAlliesChange}
+            onChange={handleAllies}
           >
             {FACTIONS.map((faction) => (
               <option key={`allies-${faction.id}`} value={faction.id}>
@@ -273,7 +259,7 @@ function AddForm() {
             multiple
             className="flex-1 border"
             value={friends}
-            onChange={handleFriendsChange}
+            onChange={handleFriends}
           >
             {FACTIONS.map((faction) => (
               <option key={`friends-${faction.id}`} value={faction.id}>
@@ -300,7 +286,7 @@ function AddForm() {
             multiple
             className="flex-1 border"
             value={hotWar}
-            onChange={handleHotWarChange}
+            onChange={handleHotWar}
           >
             {FACTIONS.map((faction) => (
               <option key={`hotWar-${faction.id}`} value={faction.id}>
@@ -327,7 +313,7 @@ function AddForm() {
             multiple
             className="flex-1 border"
             value={coldWar}
-            onChange={handleColdWarChange}
+            onChange={handleColdWar}
           >
             {FACTIONS.map((faction) => (
               <option key={`coldWar-${faction.id}`} value={faction.id}>
@@ -354,7 +340,7 @@ function AddForm() {
             multiple
             className="flex-1 border"
             value={enemies}
-            onChange={handleEnemiesChange}
+            onChange={handleEnemies}
           >
             {FACTIONS.map((faction) => (
               <option key={`enemies-${faction.id}`} value={faction.id}>
@@ -363,41 +349,9 @@ function AddForm() {
             ))}
           </select>
         </div>
-        <div className="w-full flex justify-end p-2 h-11">
-          {!isFetching ? (
-            <button
-              type="submit"
-              className="text-xs hover:cursor-pointer bg-stone-700 hover:bg-stone-900 border transition-colors text-white text-opacity-90 px-4 py-1 w-16"
-            >
-              save
-            </button>
-          ) : (
-            <div className="w-16 flex justify-center items-center">
-              <svg
-                className="animate-spin h-5 w-5 text-stone-900"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                ></circle>
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                ></path>
-              </svg>
-            </div>
-          )}
-        </div>
+        <SubmitButton isFetching={isFetching}>save</SubmitButton>
       </form>
-    </div>
+    </Accordian>
   );
 }
 
