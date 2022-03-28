@@ -66,7 +66,7 @@ function DeleteForm() {
             ))}
           </select>
         </div>
-        <SubmitButton isFetching={isFetching}>save</SubmitButton>
+        <SubmitButton isFetching={isFetching}>delete</SubmitButton>
       </form>
     </Accordian>
   );

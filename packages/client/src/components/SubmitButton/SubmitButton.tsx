@@ -9,7 +9,7 @@ function SubmitButton({ isFetching = false, children }: SubmitButtonProps) {
       {!isFetching ? (
         <button
           type="submit"
-          className="text-xs hover:cursor-pointer bg-stone-700 hover:bg-stone-900 border transition-colors text-white text-opacity-90 px-4 py-1 w-[72px]"
+          className="text-xs hover:cursor-pointer bg-stone-700 hover:bg-stone-900 border transition-colors text-white text-opacity-90 px-4 py-1"
         >
           {children}
         </button>
