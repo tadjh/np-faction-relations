@@ -9,6 +9,7 @@ import {
 import { Transition, TransitionGroup } from 'react-transition-group';
 
 const duration = 15000;
+const scalar = 10000 / duration;
 
 const text = [
   "This chart is made from an HOA viewer's perspective with help from the nopixel wiki which may be outdated.",
@@ -35,7 +36,9 @@ function Notes() {
   const animate = useCallback((time: number) => {
     if (previousTimeRef.current !== null) {
       const deltaTime = time - previousTimeRef.current;
-      setProgress((prevProgress) => (prevProgress + deltaTime * 0.01) % 100);
+      setProgress(
+        (prevProgress) => (prevProgress + deltaTime * 0.01 * scalar) % 100
+      );
     }
     previousTimeRef.current = time;
     requestRef.current = requestAnimationFrame(animate);
@@ -100,7 +103,7 @@ function Notes() {
           style={{ width: `${progress}%` }}
         ></div>
       </div>
-      <div className="text-xs border-l border-b border-r">
+      <div className="text-xs border-l border-b border-r w-full">
         <TransitionGroup component={null}>
           {text.map((item, i) => (
             <Transition key={i} timeout={transitionDuration}>
@@ -117,7 +120,6 @@ function Notes() {
           ))}
         </TransitionGroup>
       </div>
-      <div className="w-full"></div>
     </div>
   );
 }

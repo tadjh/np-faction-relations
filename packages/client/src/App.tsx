@@ -7,6 +7,13 @@ import Grid from './components/Grid';
 import Notes from './components/Notes';
 import logo from './assets/np-logo-dark.png';
 import { DATE, LOGO_ALT_TEXT, SITE_HEADER_TEXT } from './config/constants';
+import AddForm from './components/AddForm';
+import AuthProvider from './components/AuthProvider';
+import RequireAuth from './components/RequireAuth';
+import { Route, Routes } from 'react-router-dom';
+import LoginForm from './components/LoginForm';
+import Admin from './components/Admin';
+import Edit from './components/Edit';
 
 function App() {
   const GENERATOR = useMemo(
@@ -19,7 +26,23 @@ function App() {
       className="grid gap-x-4 font-mono min-h-screen p-4"
       style={{ gridTemplateColumns: '1fr auto 1fr' }}
     >
-      <div></div>
+      <div className="flex flex-col gap-y-4">
+        <AuthProvider>
+          <Routes>
+            <Route path="/" element={<Admin />}>
+              <Route path="login" element={<LoginForm />} />
+              <Route
+                path="admin"
+                element={
+                  <RequireAuth>
+                    <Edit />
+                  </RequireAuth>
+                }
+              />
+            </Route>
+          </Routes>
+        </AuthProvider>
+      </div>
       <div className="flex h-full justify-center items-center flex-col">
         <div className="flex items-center justify-center gap-x-2 p-2">
           <img src={logo} alt={LOGO_ALT_TEXT} width={160} />
@@ -72,9 +95,11 @@ function App() {
             </Fragment>
           ))}
         </Grid>
-        <div className="text-[8px] p-2">{DATE}</div>
+        <div className="flex gap-x-2 text-[8px] p-2 w-full">
+          <div>{DATE}</div>
+        </div>
       </div>
-      <div className="flex items-center flex-col justify-center">
+      <div className="flex items-center flex-col justify-center gap-y-4">
         <Notes />
       </div>
     </div>
