@@ -28,7 +28,7 @@ function Accordian({ label, children }: AccordianProps) {
   };
 
   return (
-    <div className="flex items-center flex-col justify-center shadow w-full min-w-[360px]">
+    <div className="flex items-center flex-col justify-center shadow w-full min-w-[360px] bg-white">
       <header
         className="bg-stone-700 text-white text-opacity-90 w-full hover:cursor-pointer hover:bg-stone-900 transition-colors"
         onClick={handleAddAccordian}

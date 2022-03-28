@@ -66,7 +66,9 @@ function DeleteForm() {
             ))}
           </select>
         </div>
-        <SubmitButton isFetching={isFetching}>delete</SubmitButton>
+        <div className="w-full flex justify-end items-center p-2 h-11">
+          <SubmitButton isFetching={isFetching}>delete</SubmitButton>
+        </div>
       </form>
     </Accordian>
   );

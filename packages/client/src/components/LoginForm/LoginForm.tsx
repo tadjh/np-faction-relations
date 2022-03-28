@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import { ChangeEventHandler, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks';
@@ -48,15 +47,15 @@ function LoginForm() {
       return clearTimeout(timeout);
     }, 150);
   }
-
+  //hover:bg-stone-900 transition-colors
   return (
     <div className="flex items-center flex-col justify-center shadow w-full">
-      <div className="bg-stone-700 text-white text-opacity-90 w-full hover:bg-stone-900 transition-colors">
+      <div className="bg-stone-700 text-white text-opacity-90 w-full">
         <div className="flex justify-between items-center p-2 group">
           <span>login</span>
-          <span className="text-2xl cursor-pointer leading-none opacity-0 group-hover:opacity-100 transition-opacity">
+          {/* <span className="text-2xl cursor-pointer leading-none opacity-0 group-hover:opacity-100 transition-opacity">
             &#x2715;
-          </span>
+          </span> */}
         </div>
       </div>
       <form
@@ -89,7 +88,9 @@ function LoginForm() {
             onChange={handlePassword}
           />
         </div>
-        <SubmitButton isFetching={isFetching}>login</SubmitButton>
+        <div className="w-full flex justify-end items-center p-2 h-11">
+          <SubmitButton isFetching={isFetching}>login</SubmitButton>
+        </div>
       </form>
     </div>
   );

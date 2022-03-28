@@ -3,30 +3,47 @@ import {
   ChangeEventHandler,
   FormEventHandler,
   MouseEventHandler,
+  useEffect,
   useState,
 } from 'react';
+import { SERVER } from '../../config/db';
 import FACTIONS from '../../config/factions';
 import Accordian from '../Accordian';
 import SubmitButton from '../SubmitButton';
+import { useMutation } from 'react-query';
+import axios from 'axios';
+import { FactionProps } from '../../types';
+
 function AddForm() {
-  const [isFetching, setIsFetching] = useState(false);
   const [name, setName] = useState('');
-  const [abbr, setAbbr] = useState('');
+  const [nickname, setNickname] = useState('');
   const [hasBench, setHasBench] = useState(false);
-  const [benchCount, setBenchCount] = useState('1');
+  const [benchCount, setBenchCount] = useState(0);
   const [associates, setAssociates] = useState<string[]>([]);
   const [allies, setAllies] = useState<string[]>([]);
   const [friends, setFriends] = useState<string[]>([]);
   const [hotWar, setHotWar] = useState<string[]>([]);
   const [coldWar, setColdWar] = useState<string[]>([]);
   const [enemies, setEnemies] = useState<string[]>([]);
+  const [order, setOrder] = useState<number>(FACTIONS.length);
+  // const queryClient = useQueryClient();
+
+  const mutation = useMutation((newFaction: FactionProps) =>
+    axios.post(`${SERVER}/faction`, newFaction)
+  );
+
+  useEffect(() => {
+    console.log('mutation', mutation);
+  });
+
+  const error = mutation.error as any;
 
   const handleName: ChangeEventHandler<HTMLInputElement> = (event) => {
     setName(event.target.value);
   };
 
-  const handleAbbr: ChangeEventHandler<HTMLInputElement> = (event) => {
-    setAbbr(event.target.value);
+  const handleNickname: ChangeEventHandler<HTMLInputElement> = (event) => {
+    setNickname(event.target.value);
   };
 
   const handleHasBench: ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -34,7 +51,7 @@ function AddForm() {
   };
 
   const handleBenchCount: ChangeEventHandler<HTMLInputElement> = (event) => {
-    setBenchCount(event.target.value);
+    setBenchCount(parseInt(event.target.value));
   };
 
   const handleAssociates: ChangeEventHandler<HTMLSelectElement> = (event) => {
@@ -52,6 +69,7 @@ function AddForm() {
     );
     setAllies(value);
   };
+
   const handleFriends: ChangeEventHandler<HTMLSelectElement> = (event) => {
     const value = Array.from(
       event.target.selectedOptions,
@@ -59,6 +77,7 @@ function AddForm() {
     );
     setFriends(value);
   };
+
   const handleHotWar: ChangeEventHandler<HTMLSelectElement> = (event) => {
     const value = Array.from(
       event.target.selectedOptions,
@@ -79,6 +98,10 @@ function AddForm() {
       (option) => option.value
     );
     setEnemies(value);
+  };
+
+  const handleOrder: ChangeEventHandler<HTMLInputElement> = (event) => {
+    setOrder(Number(event.target.value));
   };
 
   const resetAssociates: MouseEventHandler<HTMLSpanElement> = (event) => {
@@ -102,15 +125,42 @@ function AddForm() {
     setEnemies([]);
   };
 
+  const resetState = () => {
+    setName('');
+    setNickname('');
+    setHasBench(false);
+    setBenchCount(0);
+    setAssociates([]);
+    setAllies([]);
+    setFriends([]);
+    setHotWar([]);
+    setColdWar([]);
+    setEnemies([]);
+    setOrder(FACTIONS.length);
+  };
+
   const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
-    setIsFetching(true);
 
-    // mock api call
-    const timeout: NodeJS.Timer = setTimeout(() => {
-      setIsFetching(false);
-      return clearTimeout(timeout);
-    }, 150);
+    if (mutation.isSuccess || mutation.isError) {
+      resetState();
+      return mutation.reset();
+    }
+
+    mutation.mutate({
+      name,
+      nickname,
+      hasBench,
+      benchCount,
+      associates,
+      allies,
+      friends,
+      hotWar,
+      coldWar,
+      enemies,
+      active: true,
+      order,
+    });
   };
 
   return (
@@ -135,15 +185,15 @@ function AddForm() {
         </div>
         <div className="flex gap-x-2 items-center px-2">
           <label htmlFor="nickname" className="w-32">
-            abbr <span className="text-[8px]">optional</span>
+            nickname <span className="text-[8px]">optional</span>
           </label>
           <input
             type="text"
             id="nickname"
             name="nickname"
             className="border flex-1"
-            value={abbr}
-            onChange={handleAbbr}
+            value={nickname}
+            onChange={handleNickname}
           />
         </div>
         <div className="flex gap-x-2 items-center h-5 px-2">
@@ -175,7 +225,6 @@ function AddForm() {
               'border w-10 text-right',
               'transition-opacity'
             )}
-            min={1}
             value={benchCount}
             onChange={handleBenchCount}
           />
@@ -349,7 +398,28 @@ function AddForm() {
             ))}
           </select>
         </div>
-        <SubmitButton isFetching={isFetching}>save</SubmitButton>
+        <div className="flex gap-x-2 items-center px-2">
+          <label htmlFor="order">sort order</label>
+          <input
+            type="number"
+            id="order"
+            name="order"
+            className="border w-10 text-right"
+            min={0}
+            value={order}
+            onChange={handleOrder}
+          />
+        </div>
+        <div className="w-full flex justify-between items-center p-2 h-11">
+          <span className={clsx(mutation.isError && 'text-red-600')}>
+            {mutation.isLoading && 'Adding faction...'}
+            {mutation.isError && `${error.response.data.message}`}
+            {mutation.isSuccess && 'Faction added!'}
+          </span>
+          <SubmitButton isFetching={mutation.isLoading}>
+            {mutation.isSuccess || mutation.isError ? 'reset' : 'save'}
+          </SubmitButton>
+        </div>
       </form>
     </Accordian>
   );

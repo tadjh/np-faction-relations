@@ -1,12 +1,13 @@
+import { FactionProps } from '../../types';
 import AddForm from '../AddForm';
 import DeleteForm from '../DeleteForm';
-import EditForm, { EditProps } from '../EditForm';
+import EditForm from '../EditForm';
 
-const mockData: EditProps = {
+const mockData: FactionProps = {
   name: 'Hogs of Anarchy',
-  abbr: 'HOA',
+  nickname: 'HOA',
   hasBench: true,
-  benchCount: '1',
+  benchCount: 1,
   associates: [],
   allies: [
     'e2d44500-7bf8-4fc0-9b7f-11f5372ee9ef',
@@ -28,7 +29,8 @@ const mockData: EditProps = {
   hotWar: [],
   coldWar: ['a51b26d1-35ca-4681-b319-435e959484a1'],
   enemies: ['5e7e416f-bc93-49ca-935a-ea9611f12129'],
-  position: 0,
+  active: true,
+  order: 0,
 };
 
 function Edit() {

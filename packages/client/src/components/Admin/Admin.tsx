@@ -1,10 +1,14 @@
 import { Outlet } from 'react-router-dom';
 import AuthStatus from '../AuthStatus';
 
-function Admin() {
+export interface AdminProps {
+  onClose: () => void;
+}
+
+function Admin({ onClose }: AdminProps) {
   return (
     <>
-      <AuthStatus />
+      <AuthStatus onClose={onClose} />
       <Outlet />
     </>
   );

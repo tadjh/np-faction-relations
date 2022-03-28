@@ -3,33 +3,19 @@ import {
   ChangeEventHandler,
   FormEventHandler,
   MouseEventHandler,
-  useEffect,
   useState,
 } from 'react';
 import FACTIONS from '../../config/factions';
+import { FactionProps } from '../../types';
 import Accordian from '../Accordian';
 import SubmitButton from '../SubmitButton';
 
-export interface EditProps {
-  name: string;
-  abbr: string;
-  hasBench: boolean;
-  benchCount: string;
-  associates: string[];
-  allies: string[];
-  friends: string[];
-  hotWar: string[];
-  coldWar: string[];
-  enemies: string[];
-  position: number;
-}
-
-function EditForm(props: EditProps) {
+function EditForm(props: FactionProps) {
   const [isFetching, setIsFetching] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [selected, setSelected] = useState('');
   const [name, setName] = useState(props.name);
-  const [abbr, setAbbr] = useState(props.abbr);
+  const [nickname, setNickname] = useState(props.nickname);
   const [hasBench, setHasBench] = useState(props.hasBench);
   const [benchCount, setBenchCount] = useState(props.benchCount);
   const [associates, setAssociates] = useState<string[]>(props.associates);
@@ -38,6 +24,7 @@ function EditForm(props: EditProps) {
   const [hotWar, setHotWar] = useState<string[]>(props.hotWar);
   const [coldWar, setColdWar] = useState<string[]>(props.coldWar);
   const [enemies, setEnemies] = useState<string[]>(props.enemies);
+  const [order, setOrder] = useState<number>(props.order);
 
   const handleSelected: ChangeEventHandler<HTMLSelectElement> = (event) => {
     const data = selected;
@@ -55,8 +42,8 @@ function EditForm(props: EditProps) {
     setName(event.target.value);
   };
 
-  const handleAbbr: ChangeEventHandler<HTMLInputElement> = (event) => {
-    setAbbr(event.target.value);
+  const handleNickname: ChangeEventHandler<HTMLInputElement> = (event) => {
+    setNickname(event.target.value);
   };
 
   const handleHasBench: ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -64,7 +51,7 @@ function EditForm(props: EditProps) {
   };
 
   const handleBenchCount: ChangeEventHandler<HTMLInputElement> = (event) => {
-    setBenchCount(event.target.value);
+    setBenchCount(parseInt(event.target.value));
   };
 
   const handleAssociates: ChangeEventHandler<HTMLSelectElement> = (event) => {
@@ -82,6 +69,7 @@ function EditForm(props: EditProps) {
     );
     setAllies(value);
   };
+
   const handleFriends: ChangeEventHandler<HTMLSelectElement> = (event) => {
     const value = Array.from(
       event.target.selectedOptions,
@@ -89,6 +77,7 @@ function EditForm(props: EditProps) {
     );
     setFriends(value);
   };
+
   const handleHotWar: ChangeEventHandler<HTMLSelectElement> = (event) => {
     const value = Array.from(
       event.target.selectedOptions,
@@ -96,6 +85,7 @@ function EditForm(props: EditProps) {
     );
     setHotWar(value);
   };
+
   const handleColdWar: ChangeEventHandler<HTMLSelectElement> = (event) => {
     const value = Array.from(
       event.target.selectedOptions,
@@ -103,12 +93,17 @@ function EditForm(props: EditProps) {
     );
     setColdWar(value);
   };
+
   const handleEnemies: ChangeEventHandler<HTMLSelectElement> = (event) => {
     const value = Array.from(
       event.target.selectedOptions,
       (option) => option.value
     );
     setEnemies(value);
+  };
+
+  const handleOrder: ChangeEventHandler<HTMLInputElement> = (event) => {
+    setOrder(Number(event.target.value));
   };
 
   const resetSelected: MouseEventHandler<HTMLSpanElement> = (event) => {
@@ -220,15 +215,15 @@ function EditForm(props: EditProps) {
             </div>
             <div className="flex gap-x-2 items-center px-2">
               <label htmlFor="nickname" className="w-32">
-                abbr <span className="text-[8px]">optional</span>
+                nickname <span className="text-[8px]">optional</span>
               </label>
               <input
                 type="text"
                 id="nickname"
                 name="nickname"
                 className="border flex-1"
-                value={abbr}
-                onChange={handleAbbr}
+                value={nickname}
+                onChange={handleNickname}
               />
             </div>
             <div className="flex gap-x-2 items-center h-5 px-2">
@@ -260,7 +255,6 @@ function EditForm(props: EditProps) {
                   'border w-10 text-right',
                   'transition-opacity'
                 )}
-                min={1}
                 value={benchCount}
                 onChange={handleBenchCount}
               />
@@ -449,7 +443,21 @@ function EditForm(props: EditProps) {
                 ))}
               </select>
             </div>
-            <SubmitButton isFetching={isFetching}>save</SubmitButton>
+            <div className="flex gap-x-2 items-center px-2">
+              <label htmlFor="order">sort order</label>
+              <input
+                type="number"
+                id="order"
+                name="order"
+                className="border w-10 text-right"
+                min={0}
+                value={order}
+                onChange={handleOrder}
+              />
+            </div>
+            <div className="w-full flex justify-end items-center p-2 h-11">
+              <SubmitButton isFetching={isFetching}>save</SubmitButton>
+            </div>
           </div>
         )}
       </form>

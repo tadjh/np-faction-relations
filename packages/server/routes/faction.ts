@@ -1,25 +1,46 @@
 import { Router } from 'express';
-import Faction from '../models/faction';
+import Model, { Faction } from '../models/faction';
+import { HydratedDocument } from 'mongoose';
 const router = Router();
 
-router.get('/factions', (req, res) => {
-  res.send('All factions retrieved');
+router.get('/factions', async (req, res) => {
+  try {
+    const doc = await Model.find<Faction>({ active: true }).exec();
+    doc.sort((a, b) => a.order - b.order);
+    res.json({
+      doc,
+      message: `All Active Factions retrieved`,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(404).json({ message: 'Unable to find active factions' });
+  }
 });
 
-router.get('/faction/:id', (req, res) => {
-  res.send('Faction retrieved');
+router.get('/faction/:id', async (req, res) => {
+  try {
+    const doc = await Model.findById<Faction>(req.params.id);
+    res.json({
+      doc,
+      message: `Faction ${doc?.nickname || doc?.name} retrieved`,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(404).json({ message: 'Unable to find faction' });
+  }
 });
 
 router.post('/faction', async (req, res) => {
   try {
-    const data = await Faction.create({ ...req.body });
+    const doc: HydratedDocument<Faction> = new Model<Faction>(req.body);
+    await doc.save();
     res.json({
-      data,
-      message: `Faction ${req.body.nickname || req.body.name} created`,
+      doc,
+      message: `Faction ${doc.nickname || doc.name} created`,
     });
   } catch (error) {
     console.error(error);
-    res.status(400).json({ error: 'Unable to create faction' });
+    res.status(400).json({ message: 'Unable to add faction' });
   }
 });
 

@@ -5,7 +5,7 @@ export interface SubmitButtonProps extends HTMLAttributes<HTMLDivElement> {
 }
 function SubmitButton({ isFetching = false, children }: SubmitButtonProps) {
   return (
-    <div className="w-full flex justify-end p-2 h-11">
+    <>
       {!isFetching ? (
         <button
           type="submit"
@@ -37,7 +37,7 @@ function SubmitButton({ isFetching = false, children }: SubmitButtonProps) {
           </svg>
         </div>
       )}
-    </div>
+    </>
   );
 }
 

@@ -1,35 +1,35 @@
-import { Schema, model, Document } from 'mongoose';
+import { Schema, Types, model } from 'mongoose';
 
-export interface FactionItem {
+export interface Faction {
   name: string;
-  nickname: string | null;
-  active: boolean;
+  nickname: string;
   hasBench: boolean;
-  benchCount: boolean;
-  position: number;
-  associates: Schema.Types.ObjectId[];
-  allies: Schema.Types.ObjectId[];
-  friends: Schema.Types.ObjectId[];
-  hotWar: Schema.Types.ObjectId[];
-  coldWar: Schema.Types.ObjectId[];
-  enemies: Schema.Types.ObjectId[];
+  benchCount: number;
+  associates: Types.ObjectId[];
+  allies: Types.ObjectId[];
+  friends: Types.ObjectId[];
+  hotWar: Types.ObjectId[];
+  coldWar: Types.ObjectId[];
+  enemies: Types.ObjectId[];
+  active: boolean;
+  order: number;
 }
 
-export interface IFaction extends Document, FactionItem {}
+// export interface IFaction extends Document, Faction {}
 
-const FactionSchema = new Schema({
+const schema = new Schema({
   name: String,
-  nickname: String || null,
-  active: Boolean,
+  nickname: String,
   hasBench: Boolean,
   benchCount: Number,
-  position: Number,
   associates: [{ type: Schema.Types.ObjectId, ref: 'Faction' }],
   allies: [{ type: Schema.Types.ObjectId, ref: 'Faction' }],
   friends: [{ type: Schema.Types.ObjectId, ref: 'Faction' }],
   hotWar: [{ type: Schema.Types.ObjectId, ref: 'Faction' }],
   coldWar: [{ type: Schema.Types.ObjectId, ref: 'Faction' }],
   enemies: [{ type: Schema.Types.ObjectId, ref: 'Faction' }],
+  active: Boolean,
+  order: Number,
 });
 
-export default model('Faction', FactionSchema);
+export default model<Faction>('Faction', schema);
