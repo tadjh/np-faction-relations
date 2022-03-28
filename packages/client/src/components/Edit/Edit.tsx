@@ -28,6 +28,7 @@ const mockData: EditProps = {
   hotWar: [],
   coldWar: ['a51b26d1-35ca-4681-b319-435e959484a1'],
   enemies: ['5e7e416f-bc93-49ca-935a-ea9611f12129'],
+  position: 0,
 };
 
 function Edit() {

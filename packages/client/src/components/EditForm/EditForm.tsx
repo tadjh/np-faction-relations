@@ -21,10 +21,13 @@ export interface EditProps {
   hotWar: string[];
   coldWar: string[];
   enemies: string[];
+  position: number;
 }
 
 function EditForm(props: EditProps) {
   const [isFetching, setIsFetching] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [selected, setSelected] = useState('');
   const [name, setName] = useState(props.name);
   const [abbr, setAbbr] = useState(props.abbr);
   const [hasBench, setHasBench] = useState(props.hasBench);
@@ -35,6 +38,18 @@ function EditForm(props: EditProps) {
   const [hotWar, setHotWar] = useState<string[]>(props.hotWar);
   const [coldWar, setColdWar] = useState<string[]>(props.coldWar);
   const [enemies, setEnemies] = useState<string[]>(props.enemies);
+
+  const handleSelected: ChangeEventHandler<HTMLSelectElement> = (event) => {
+    const data = selected;
+    setSelected(event.target.value);
+
+    if (data === '') {
+      const timeout = setTimeout(() => {
+        setIsAnimating(true);
+        clearTimeout(timeout);
+      }, 0);
+    }
+  };
 
   const handleName: ChangeEventHandler<HTMLInputElement> = (event) => {
     setName(event.target.value);
@@ -96,6 +111,14 @@ function EditForm(props: EditProps) {
     setEnemies(value);
   };
 
+  const resetSelected: MouseEventHandler<HTMLSpanElement> = (event) => {
+    setIsAnimating(false);
+    const timeout = setTimeout(() => {
+      setSelected('');
+      clearTimeout(timeout);
+    }, 150);
+  };
+
   const resetAssociates: MouseEventHandler<HTMLSpanElement> = (event) => {
     setAssociates(props.associates);
   };
@@ -128,247 +151,307 @@ function EditForm(props: EditProps) {
     }, 150);
   };
 
-  useEffect(() => {
-    console.log(allies);
-  });
-
   return (
     <Accordian label="edit faction">
       <form onSubmit={handleSubmit} className="gap-y-2 flex flex-col">
-        <h3 className="flex items-center gap-x-2 pt-4 px-2">
-          <span>info</span>
-        </h3>
-        <hr />
-        <div className="flex gap-x-2 items-center px-2">
-          <label htmlFor="name" className="w-32">
-            name
+        <div
+          className={clsx(
+            'flex gap-x-2 items-center px-2 pt-4',
+            selected === '' && 'pb-2'
+          )}
+        >
+          <label
+            htmlFor="selected"
+            className="w-32 h-8 flex items-center gap-x-2"
+          >
+            select faction
+            {selected !== '' && (
+              <span
+                className="text-base hover:cursor-pointer"
+                onClick={resetSelected}
+              >
+                &#8635;
+              </span>
+            )}
           </label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            className="border flex-1"
-            value={name}
-            onChange={handleName}
-          />
+          <select
+            id="selected"
+            name="selected"
+            className="flex-1 border"
+            value={selected}
+            onChange={handleSelected}
+          >
+            <option key={`selected-none`} value={''}>
+              Select faction
+            </option>
+            {FACTIONS.map((faction) => (
+              <option key={`selected-${faction.id}`} value={faction.id}>
+                {faction.name}
+              </option>
+            ))}
+          </select>
         </div>
-        <div className="flex gap-x-2 items-center px-2">
-          <label htmlFor="nickname" className="w-32">
-            abbr <span className="text-[8px]">optional</span>
-          </label>
-          <input
-            type="text"
-            id="nickname"
-            name="nickname"
-            className="border flex-1"
-            value={abbr}
-            onChange={handleAbbr}
-          />
-        </div>
-        <div className="flex gap-x-2 items-center h-5 px-2">
-          <div className="flex gap-x-2 items-center w-32">
-            <label htmlFor="hasBench">has bench?</label>
-            <input
-              type="checkbox"
-              id="hasBench"
-              name="hasBench"
-              checked={hasBench}
-              onChange={handleHasBench}
-            />
+        {selected !== '' && (
+          <div
+            className={clsx(
+              'flex flex-col gap-y-2',
+              isAnimating
+                ? 'max-h-[800px] overflow-auto'
+                : 'max-h-0 overflow-hidden',
+              'transition-all'
+            )}
+          >
+            <h3 className="flex items-center gap-x-2 pt-4 px-2">
+              <span>info</span>
+            </h3>
+            <hr />
+            <div className="flex gap-x-2 items-center px-2">
+              <label htmlFor="name" className="w-32">
+                name
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                className="border flex-1"
+                value={name}
+                onChange={handleName}
+              />
+            </div>
+            <div className="flex gap-x-2 items-center px-2">
+              <label htmlFor="nickname" className="w-32">
+                abbr <span className="text-[8px]">optional</span>
+              </label>
+              <input
+                type="text"
+                id="nickname"
+                name="nickname"
+                className="border flex-1"
+                value={abbr}
+                onChange={handleAbbr}
+              />
+            </div>
+            <div className="flex gap-x-2 items-center h-5 px-2">
+              <div className="flex gap-x-2 items-center w-32">
+                <label htmlFor="hasBench">has bench?</label>
+                <input
+                  type="checkbox"
+                  id="hasBench"
+                  name="hasBench"
+                  checked={hasBench}
+                  onChange={handleHasBench}
+                />
+              </div>
+              <label
+                htmlFor="benchCount"
+                className={clsx(
+                  !hasBench ? 'opacity-0' : 'opacity-100',
+                  'transition-opacity'
+                )}
+              >
+                number of benches
+              </label>
+              <input
+                type="number"
+                id="benchCount"
+                name="benchCount"
+                className={clsx(
+                  !hasBench ? 'opacity-0' : 'opacity-100',
+                  'border w-10 text-right',
+                  'transition-opacity'
+                )}
+                min={1}
+                value={benchCount}
+                onChange={handleBenchCount}
+              />
+            </div>
+            <h3 className="pt-4 px-2">
+              <span>relationships</span>
+            </h3>
+            <hr />
+            <div className="flex gap-x-2 items-center px-2">
+              <label
+                htmlFor="associates"
+                className="w-32 flex items-center gap-x-2"
+              >
+                associates
+                {associates.length !== 0 && (
+                  <span
+                    className="text-base hover:cursor-pointer"
+                    onClick={resetAssociates}
+                  >
+                    &#8635;
+                  </span>
+                )}
+              </label>
+              <select
+                id="associates"
+                name="associates"
+                multiple
+                className="flex-1 border"
+                value={associates}
+                onChange={handleAssociates}
+              >
+                {FACTIONS.map((faction) => (
+                  <option key={`associates-${faction.id}`} value={faction.id}>
+                    {faction.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="flex gap-x-2 items-center px-2">
+              <label
+                htmlFor="allies"
+                className="w-32 flex items-center gap-x-2"
+              >
+                allies
+                {allies.length !== 0 && (
+                  <span
+                    className="text-base hover:cursor-pointer"
+                    onClick={resetAllies}
+                  >
+                    &#8635;
+                  </span>
+                )}
+              </label>
+              <select
+                id="allies"
+                name="allies"
+                multiple
+                className="flex-1 border"
+                value={allies}
+                onChange={handleAllies}
+              >
+                {FACTIONS.map((faction) => (
+                  <option key={`allies-${faction.id}`} value={faction.id}>
+                    {faction.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="flex gap-x-2 items-center px-2">
+              <label
+                htmlFor="friends"
+                className="w-32 flex items-center gap-x-2"
+              >
+                friends
+                {friends.length !== 0 && (
+                  <span
+                    className="text-base hover:cursor-pointer"
+                    onClick={resetFriends}
+                  >
+                    &#8635;
+                  </span>
+                )}
+              </label>
+              <select
+                id="friends"
+                name="friends"
+                multiple
+                className="flex-1 border"
+                value={friends}
+                onChange={handleFriends}
+              >
+                {FACTIONS.map((faction) => (
+                  <option key={`friends-${faction.id}`} value={faction.id}>
+                    {faction.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="flex gap-x-2 items-center px-2">
+              <label
+                htmlFor="hotWar"
+                className="w-32 flex items-center gap-x-2"
+              >
+                hot war
+                {hotWar.length !== 0 && (
+                  <span
+                    className="text-base hover:cursor-pointer"
+                    onClick={resetHotWar}
+                  >
+                    &#8635;
+                  </span>
+                )}
+              </label>
+              <select
+                id="hotWar"
+                name="hotWar"
+                multiple
+                className="flex-1 border"
+                value={hotWar}
+                onChange={handleHotWar}
+              >
+                {FACTIONS.map((faction) => (
+                  <option key={`hotWar-${faction.id}`} value={faction.id}>
+                    {faction.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="flex gap-x-2 items-center px-2">
+              <label
+                htmlFor="coldWar"
+                className="w-32 flex items-center gap-x-2"
+              >
+                cold war
+                {coldWar.length !== 0 && (
+                  <span
+                    className="text-base hover:cursor-pointer"
+                    onClick={resetColdWar}
+                  >
+                    &#8635;
+                  </span>
+                )}
+              </label>
+              <select
+                id="coldWar"
+                name="coldWar"
+                multiple
+                className="flex-1 border"
+                value={coldWar}
+                onChange={handleColdWar}
+              >
+                {FACTIONS.map((faction) => (
+                  <option key={`coldWar-${faction.id}`} value={faction.id}>
+                    {faction.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="flex gap-x-2 items-center px-2">
+              <label
+                htmlFor="enemies"
+                className="w-32 flex items-center gap-x-2"
+              >
+                enemies
+                {enemies.length !== 0 && (
+                  <span
+                    className="text-base hover:cursor-pointer"
+                    onClick={resetEnemies}
+                  >
+                    &#8635;
+                  </span>
+                )}
+              </label>
+              <select
+                id="enemies"
+                name="enemies"
+                multiple
+                className="flex-1 border"
+                value={enemies}
+                onChange={handleEnemies}
+              >
+                {FACTIONS.map((faction) => (
+                  <option key={`enemies-${faction.id}`} value={faction.id}>
+                    {faction.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <SubmitButton isFetching={isFetching}>save</SubmitButton>
           </div>
-          <label
-            htmlFor="benchCount"
-            className={clsx(
-              !hasBench ? 'opacity-0' : 'opacity-100',
-              'transition-opacity'
-            )}
-          >
-            number of benches
-          </label>
-          <input
-            type="number"
-            id="benchCount"
-            name="benchCount"
-            className={clsx(
-              !hasBench ? 'opacity-0' : 'opacity-100',
-              'border w-10 text-right',
-              'transition-opacity'
-            )}
-            min={1}
-            value={benchCount}
-            onChange={handleBenchCount}
-          />
-        </div>
-        <h3 className="pt-4 px-2">
-          <span>relationships</span>
-        </h3>
-        <hr />
-        <div className="flex gap-x-2 items-center px-2">
-          <label
-            htmlFor="associates"
-            className="w-32 flex items-center gap-x-2"
-          >
-            associates
-            {associates.length !== 0 && (
-              <span
-                className="text-base hover:cursor-pointer"
-                onClick={resetAssociates}
-              >
-                &#8635;
-              </span>
-            )}
-          </label>
-          <select
-            id="associates"
-            name="associates"
-            multiple
-            className="flex-1 border"
-            value={associates}
-            onChange={handleAssociates}
-          >
-            {FACTIONS.map((faction) => (
-              <option key={`associates-${faction.id}`} value={faction.id}>
-                {faction.name}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="flex gap-x-2 items-center px-2">
-          <label htmlFor="allies" className="w-32 flex items-center gap-x-2">
-            allies
-            {allies.length !== 0 && (
-              <span
-                className="text-base hover:cursor-pointer"
-                onClick={resetAllies}
-              >
-                &#8635;
-              </span>
-            )}
-          </label>
-          <select
-            id="allies"
-            name="allies"
-            multiple
-            className="flex-1 border"
-            value={allies}
-            onChange={handleAllies}
-          >
-            {FACTIONS.map((faction) => (
-              <option key={`allies-${faction.id}`} value={faction.id}>
-                {faction.name}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="flex gap-x-2 items-center px-2">
-          <label htmlFor="friends" className="w-32 flex items-center gap-x-2">
-            friends
-            {friends.length !== 0 && (
-              <span
-                className="text-base hover:cursor-pointer"
-                onClick={resetFriends}
-              >
-                &#8635;
-              </span>
-            )}
-          </label>
-          <select
-            id="friends"
-            name="friends"
-            multiple
-            className="flex-1 border"
-            value={friends}
-            onChange={handleFriends}
-          >
-            {FACTIONS.map((faction) => (
-              <option key={`friends-${faction.id}`} value={faction.id}>
-                {faction.name}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="flex gap-x-2 items-center px-2">
-          <label htmlFor="hotWar" className="w-32 flex items-center gap-x-2">
-            hot war
-            {hotWar.length !== 0 && (
-              <span
-                className="text-base hover:cursor-pointer"
-                onClick={resetHotWar}
-              >
-                &#8635;
-              </span>
-            )}
-          </label>
-          <select
-            id="hotWar"
-            name="hotWar"
-            multiple
-            className="flex-1 border"
-            value={hotWar}
-            onChange={handleHotWar}
-          >
-            {FACTIONS.map((faction) => (
-              <option key={`hotWar-${faction.id}`} value={faction.id}>
-                {faction.name}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="flex gap-x-2 items-center px-2">
-          <label htmlFor="coldWar" className="w-32 flex items-center gap-x-2">
-            cold war
-            {coldWar.length !== 0 && (
-              <span
-                className="text-base hover:cursor-pointer"
-                onClick={resetColdWar}
-              >
-                &#8635;
-              </span>
-            )}
-          </label>
-          <select
-            id="coldWar"
-            name="coldWar"
-            multiple
-            className="flex-1 border"
-            value={coldWar}
-            onChange={handleColdWar}
-          >
-            {FACTIONS.map((faction) => (
-              <option key={`coldWar-${faction.id}`} value={faction.id}>
-                {faction.name}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="flex gap-x-2 items-center px-2">
-          <label htmlFor="enemies" className="w-32 flex items-center gap-x-2">
-            enemies
-            {enemies.length !== 0 && (
-              <span
-                className="text-base hover:cursor-pointer"
-                onClick={resetEnemies}
-              >
-                &#8635;
-              </span>
-            )}
-          </label>
-          <select
-            id="enemies"
-            name="enemies"
-            multiple
-            className="flex-1 border"
-            value={enemies}
-            onChange={handleEnemies}
-          >
-            {FACTIONS.map((faction) => (
-              <option key={`enemies-${faction.id}`} value={faction.id}>
-                {faction.name}
-              </option>
-            ))}
-          </select>
-        </div>
-        <SubmitButton isFetching={isFetching}>save</SubmitButton>
+        )}
       </form>
     </Accordian>
   );
