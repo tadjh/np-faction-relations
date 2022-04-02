@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useMemo, useState } from 'react';
+import { Fragment, useMemo, useState } from 'react';
 import clsx from 'clsx';
 import FACTIONS from './config/factions';
 import { backgroundColor, headerColor } from './config/styles';
@@ -10,12 +10,12 @@ import { DATE, LOGO_ALT_TEXT, SITE_HEADER_TEXT } from './config/constants';
 import AuthProvider from './components/AuthProvider';
 import RequireAuth from './components/RequireAuth';
 import { Link, Route, Routes } from 'react-router-dom';
-import LoginForm from './components/LoginForm';
+import SignIn from './components/SignIn';
 import Admin from './components/Admin';
 import Edit from './components/Edit';
 
 function App() {
-  const [isOpen, setIsOpen] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const GENERATOR = useMemo(
     () => new Array<boolean>(FACTIONS.length).fill(true),
@@ -23,53 +23,53 @@ function App() {
   );
 
   const handleOpen = () => {
-    setIsOpen(true);
+    // setIsOpen(true);
 
-    const timeout = setTimeout(() => {
-      setIsAnimating(true);
-      clearTimeout(timeout);
-    }, 0);
+    // const timeout = setTimeout(() => {
+    setIsAnimating(true);
+    //   clearTimeout(timeout);
+    // }, 0);
   };
 
   const handleClose = () => {
     setIsAnimating(false);
 
-    const timeout = setTimeout(() => {
-      setIsOpen(false);
-      clearTimeout(timeout);
-    }, 150);
+    // const timeout = setTimeout(() => {
+    //   setIsOpen(false);
+    //   clearTimeout(timeout);
+    // }, 150);
   };
 
   return (
     <>
-      {isOpen && (
-        <div
-          className={clsx(
-            'absolute w-[394px] h-screen top-0 left-0 bg-stone-100 border shadow-md flex flex-col gap-y-4 p-4 z-10',
-            isAnimating ? 'translate-x-0' : 'translate-x-[-500px]',
-            'transition-transform'
-          )}
-        >
-          <AuthProvider>
-            <Routes>
+      {/* {isOpen && ( */}
+      <div
+        className={clsx(
+          'absolute w-[394px] h-screen top-0 left-0 bg-stone-100 border shadow-md flex flex-col gap-y-4 p-4 z-10',
+          isAnimating ? 'translate-x-0' : 'translate-x-[-500px]',
+          'transition-transform'
+        )}
+      >
+        <AuthProvider>
+          <Routes>
+            <Route
+              path="/np-faction-relations/*"
+              element={<Admin onClose={handleClose} />}
+            >
+              <Route path="login" element={<SignIn />} />
               <Route
-                path="/np-faction-relations/*"
-                element={<Admin onClose={handleClose} />}
-              >
-                <Route path="login" element={<LoginForm />} />
-                <Route
-                  path="admin"
-                  element={
-                    <RequireAuth>
-                      <Edit />
-                    </RequireAuth>
-                  }
-                />
-              </Route>
-            </Routes>
-          </AuthProvider>
-        </div>
-      )}
+                path="admin"
+                element={
+                  <RequireAuth>
+                    <Edit />
+                  </RequireAuth>
+                }
+              />
+            </Route>
+          </Routes>
+        </AuthProvider>
+      </div>
+      {/* )} */}
       <div
         className="grid gap-x-4 font-mono min-h-screen p-4"
         style={{ gridTemplateColumns: '1fr auto 1fr' }}

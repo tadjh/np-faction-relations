@@ -1,25 +1,33 @@
 import { ReactNode, useState } from 'react';
-import { fakeAuthProvider } from '../../config/auth';
+// import { fakeAuthProvider } from '../../config/auth';
 import AuthContext from '../../config/context';
+import { signInUser, signOutUser } from '../../config/firebase';
 
 function AuthProvider({ children }: { children: ReactNode }) {
-  let [user, setUser] = useState<any>(null);
+  let [user, setUser] = useState<string | null>(null);
 
-  let signin = (newUser: string, callback: VoidFunction) => {
-    return fakeAuthProvider.signin(() => {
-      setUser(newUser);
-      callback();
-    });
+  const signIn = async (email: string, password: string) => {
+    try {
+      const user = await signInUser(email, password);
+      setUser(user);
+      return user;
+    } catch (error) {
+      throw error;
+    }
   };
 
-  let signout = (callback: VoidFunction) => {
-    return fakeAuthProvider.signout(() => {
+  const signOut = async () => {
+    try {
+      await signOutUser();
       setUser(null);
-      callback();
-    });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  let value = { user, signin, signout };
+  const isSignedIn = () => !!user;
+
+  let value = { user, signIn, signOut, isSignedIn };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

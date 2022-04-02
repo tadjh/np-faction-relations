@@ -6,7 +6,7 @@ export interface AuthStatusProps {
 }
 
 function AuthStatus({ onClose }: AuthStatusProps) {
-  let auth = useAuth();
+  let { user, signOut, isSignedIn } = useAuth();
   let navigate = useNavigate();
 
   const handleClose = () => {
@@ -14,31 +14,38 @@ function AuthStatus({ onClose }: AuthStatusProps) {
     navigate(-1);
   };
 
-  const handleSignOut = () => {
-    onClose();
-    auth.signout(() => navigate(-1));
+  const handleSignOut = async () => {
+    signOut();
+    handleClose();
   };
 
-  if (!auth.user) {
+  const back = () => onClose();
+
+  if (isSignedIn()) {
     return (
       <div className="text-[8px] flex justify-between items-center">
-        <Link
-          className="text-[8px] hover:underline"
-          to="/np-faction-relations/admin"
-        >
-          admin
-        </Link>
-        <button onClick={handleClose} className="text-base">
-          &#x2716;
-        </button>
+        <div className="flex items-center gap-x-2">
+          <i onClick={back} className="text-base cursor-pointer">
+            &#x25C0;
+          </i>
+          <span>{user}</span>
+        </div>
+        <button onClick={handleSignOut}>sign out</button>
       </div>
     );
   }
 
   return (
     <div className="text-[8px] flex justify-between items-center">
-      <span>{auth.user}</span>
-      <button onClick={handleSignOut}>logout</button>
+      <Link
+        className="text-[8px] hover:underline"
+        to="/np-faction-relations/admin"
+      >
+        admin
+      </Link>
+      <button onClick={handleClose} className="text-base">
+        &#x2716;
+      </button>
     </div>
   );
 }

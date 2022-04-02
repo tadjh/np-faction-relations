@@ -1,9 +1,10 @@
 import { createContext } from 'react';
 
 export interface AuthContextType {
-  user: any;
-  signin: (user: string, callback: VoidFunction) => void;
-  signout: (callback: VoidFunction) => void;
+  user: string | null;
+  signIn: (email: string, password: string) => Promise<string>;
+  signOut: () => void;
+  isSignedIn: () => boolean;
 }
 
 let AuthContext = createContext<AuthContextType>(null!);
