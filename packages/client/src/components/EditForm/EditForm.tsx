@@ -3,7 +3,6 @@ import {
   ChangeEventHandler,
   FormEventHandler,
   useContext,
-  useEffect,
   useState,
 } from 'react';
 import { useMutation } from 'react-query';
