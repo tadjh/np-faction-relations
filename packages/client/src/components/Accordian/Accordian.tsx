@@ -7,31 +7,15 @@ export interface AccordianProps extends HTMLAttributes<HTMLDivElement> {
 
 function Accordian({ label, children }: AccordianProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [isAnimating, setIsAnimating] = useState(false);
 
-  const handleAddAccordian: MouseEventHandler<HTMLSpanElement> = (event) => {
-    if (!isOpen) {
-      setIsOpen((prevState) => !prevState);
-
-      const timeout = setTimeout(() => {
-        setIsAnimating(true);
-        clearTimeout(timeout);
-      }, 0);
-    } else {
-      setIsAnimating(false);
-
-      const timeout = setTimeout(() => {
-        setIsOpen((prevState) => !prevState);
-        clearTimeout(timeout);
-      }, 150);
-    }
-  };
+  const toggleAccordian: MouseEventHandler<HTMLSpanElement> = () =>
+    setIsOpen((prevState) => !prevState);
 
   return (
     <div className="flex items-center flex-col justify-center shadow w-full min-w-[360px] bg-white">
       <header
         className="bg-stone-700 text-white text-opacity-90 w-full hover:cursor-pointer hover:bg-stone-900 transition-colors"
-        onClick={handleAddAccordian}
+        onClick={toggleAccordian}
       >
         <div className="flex justify-between items-center p-2">
           <span>{label}</span>
@@ -40,19 +24,17 @@ function Accordian({ label, children }: AccordianProps) {
           </span>
         </div>
       </header>
-      {isOpen && (
-        <div
-          className={clsx(
-            'text-xs border-l border-b border-r w-full',
-            isAnimating
-              ? 'max-h-[800px] overflow-auto'
-              : 'max-h-0 overflow-hidden',
-            'transition-all'
-          )}
-        >
-          {children}
-        </div>
-      )}
+      <div
+        className={clsx(
+          'text-xs w-full border-l border-r',
+          isOpen
+            ? 'max-h-[800px] overflow-auto border-b'
+            : 'max-h-0 overflow-hidden border-0',
+          'transition-all'
+        )}
+      >
+        {children}
+      </div>
     </div>
   );
 }
