@@ -35,7 +35,6 @@ export function useApi() {
       updated: serverTimestamp(),
     };
 
-    // doc(db, COLLECTION_FACTIONS, option.value)
     try {
       const docRef = await updateDoc(doc(db, COLLECTION_FACTIONS, id), {
         ...nextDoc,
