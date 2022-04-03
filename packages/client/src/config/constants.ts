@@ -29,6 +29,7 @@ export const RELATION_ENEMIES = 'Enemies';
 export const RELATION_HAS_BENCH = 'Has Bench';
 
 export const INIT = 'INIT';
+export const SET_ALL = 'SET ALL';
 export const SET_ACTIVE = 'SET ACTIVE';
 export const SET_DISPLAY_NAME = 'SET DISPLAY NAME';
 export const SET_NAME = 'SET NAME';

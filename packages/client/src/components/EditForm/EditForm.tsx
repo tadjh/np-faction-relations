@@ -3,30 +3,39 @@ import {
   ChangeEventHandler,
   FormEventHandler,
   MouseEventHandler,
+  useContext,
   useState,
 } from 'react';
-import { useFormData } from '../../hooks';
-import { HydratedFactionProps } from '../../types';
+import { useMutation } from 'react-query';
+import FactionsContext from '../../contexts/factions.context';
+import { useApi, useFormData } from '../../hooks';
 import Accordian from '../Accordian';
 import FormHeader from '../FormHeader';
 import CheckboxCounter from '../Inputs/CheckboxCounter';
 import Counter from '../Inputs/Counter';
 import Input from '../Inputs/TextInput';
 import SubmitButton from '../SubmitButton';
-interface EditFormProps {
-  factions: HydratedFactionProps[];
-}
-function EditForm({ factions }: EditFormProps) {
-  const [isFetching, setIsFetching] = useState(false);
+
+function EditForm() {
   const [isAnimating, setIsAnimating] = useState(false);
   const [selected, setSelected] = useState('');
   const { state, handlers } = useFormData();
+  const { factions } = useContext(FactionsContext);
+  const { editFaction } = useApi();
+
+  const mutation = useMutation(editFaction);
+
+  const error = mutation.error as any;
 
   const handleSelected: ChangeEventHandler<HTMLSelectElement> = (event) => {
-    const data = selected;
     setSelected(event.target.value);
 
-    if (data === '') {
+    if (factions) {
+      const doc = factions.filter((doc) => doc.id === event.target.value)[0];
+      handlers.handleSetAll(doc);
+    }
+
+    if (selected === '') {
       const timeout = setTimeout(() => {
         setIsAnimating(true);
         clearTimeout(timeout);
@@ -34,7 +43,7 @@ function EditForm({ factions }: EditFormProps) {
     }
   };
 
-  const resetSelected: MouseEventHandler<HTMLSpanElement> = (event) => {
+  const resetSelected = () => {
     setIsAnimating(false);
     const timeout = setTimeout(() => {
       setSelected('');
@@ -42,15 +51,24 @@ function EditForm({ factions }: EditFormProps) {
     }, 150);
   };
 
+  // TODO Debounce
   const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
-    setIsFetching(true);
 
-    // mock api call
-    const timeout: NodeJS.Timer = setTimeout(() => {
-      setIsFetching(false);
-      return clearTimeout(timeout);
-    }, 150);
+    if (mutation.isError) {
+      handlers.resetState();
+      resetSelected();
+      return mutation.reset();
+    }
+
+    mutation.mutate(state);
+    // setIsFetching(true);
+
+    // // mock api call
+    // const timeout: NodeJS.Timer = setTimeout(() => {
+    //   setIsFetching(false);
+    //   return clearTimeout(timeout);
+    // }, 150);
   };
 
   return (
@@ -84,13 +102,14 @@ function EditForm({ factions }: EditFormProps) {
             onChange={handleSelected}
           >
             <option key={`selected-none`} value={''}>
-              Select faction
+              select faction
             </option>
-            {factions.map((faction) => (
-              <option key={`selected-${faction.id}`} value={faction.id}>
-                {faction.name}
-              </option>
-            ))}
+            {factions &&
+              factions.map((faction) => (
+                <option key={`selected-${faction.id}`} value={faction.id}>
+                  {faction.name}
+                </option>
+              ))}
           </select>
         </div>
         {selected !== '' && (
@@ -169,11 +188,12 @@ function EditForm({ factions }: EditFormProps) {
                 value={state.relationships.associates}
                 onChange={handlers.handleAssociates}
               >
-                {factions.map((faction) => (
-                  <option key={`associates-${faction.id}`} value={faction.id}>
-                    {faction.name}
-                  </option>
-                ))}
+                {factions &&
+                  factions.map((faction) => (
+                    <option key={`associates-${faction.id}`} value={faction.id}>
+                      {faction.name}
+                    </option>
+                  ))}
               </select>
             </div>
             <div className="flex gap-x-2 items-center px-2">
@@ -198,11 +218,12 @@ function EditForm({ factions }: EditFormProps) {
                 value={state.relationships.allies}
                 onChange={handlers.handleAllies}
               >
-                {factions.map((faction) => (
-                  <option key={`allies-${faction.id}`} value={faction.id}>
-                    {faction.name}
-                  </option>
-                ))}
+                {factions &&
+                  factions.map((faction) => (
+                    <option key={`allies-${faction.id}`} value={faction.id}>
+                      {faction.name}
+                    </option>
+                  ))}
               </select>
             </div>
             <div className="flex gap-x-2 items-center px-2">
@@ -227,11 +248,12 @@ function EditForm({ factions }: EditFormProps) {
                 value={state.relationships.friends}
                 onChange={handlers.handleFriends}
               >
-                {factions.map((faction) => (
-                  <option key={`friends-${faction.id}`} value={faction.id}>
-                    {faction.name}
-                  </option>
-                ))}
+                {factions &&
+                  factions.map((faction) => (
+                    <option key={`friends-${faction.id}`} value={faction.id}>
+                      {faction.name}
+                    </option>
+                  ))}
               </select>
             </div>
             <div className="flex gap-x-2 items-center px-2">
@@ -256,11 +278,12 @@ function EditForm({ factions }: EditFormProps) {
                 value={state.relationships.hotWar}
                 onChange={handlers.handleHotWar}
               >
-                {factions.map((faction) => (
-                  <option key={`hotWar-${faction.id}`} value={faction.id}>
-                    {faction.name}
-                  </option>
-                ))}
+                {factions &&
+                  factions.map((faction) => (
+                    <option key={`hotWar-${faction.id}`} value={faction.id}>
+                      {faction.name}
+                    </option>
+                  ))}
               </select>
             </div>
             <div className="flex gap-x-2 items-center px-2">
@@ -285,11 +308,12 @@ function EditForm({ factions }: EditFormProps) {
                 value={state.relationships.coldWar}
                 onChange={handlers.handleColdWar}
               >
-                {factions.map((faction) => (
-                  <option key={`coldWar-${faction.id}`} value={faction.id}>
-                    {faction.name}
-                  </option>
-                ))}
+                {factions &&
+                  factions.map((faction) => (
+                    <option key={`coldWar-${faction.id}`} value={faction.id}>
+                      {faction.name}
+                    </option>
+                  ))}
               </select>
             </div>
             <div className="flex gap-x-2 items-center px-2">
@@ -314,15 +338,23 @@ function EditForm({ factions }: EditFormProps) {
                 value={state.relationships.enemies}
                 onChange={handlers.handleEnemies}
               >
-                {factions.map((faction) => (
-                  <option key={`enemies-${faction.id}`} value={faction.id}>
-                    {faction.name}
-                  </option>
-                ))}
+                {factions &&
+                  factions.map((faction) => (
+                    <option key={`enemies-${faction.id}`} value={faction.id}>
+                      {faction.name}
+                    </option>
+                  ))}
               </select>
             </div>
-            <div className="w-full flex justify-end items-center p-2 h-11">
-              <SubmitButton isFetching={isFetching}>save</SubmitButton>
+            <div className="w-full flex justify-between items-center p-2 h-11">
+              <span className={clsx(mutation.isError && 'text-red-600')}>
+                {mutation.isLoading && 'Updating faction...'}
+                {mutation.isError && `${error.response.data.message}`}
+                {mutation.isSuccess && 'Faction updated!'}
+              </span>
+              <SubmitButton isFetching={mutation.isLoading}>
+                {mutation.isError ? 'reset' : 'save'}
+              </SubmitButton>
             </div>
           </div>
         )}

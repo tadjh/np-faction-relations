@@ -1,5 +1,6 @@
 import {
   INIT,
+  SET_ALL,
   SET_ACTIVE,
   SET_ALLIES,
   SET_ASSOCIATES,
@@ -15,9 +16,9 @@ import {
   SET_NAME,
   SET_ORDER,
 } from '../config/constants';
-import { FactionProps } from '../types';
+import { HydratedFactionProps } from '../types';
 
-export const initialState: FactionProps = {
+export const initialState: HydratedFactionProps = {
   active: true,
   attributes: {
     benchCount: 0,
@@ -25,7 +26,9 @@ export const initialState: FactionProps = {
     hasLab: false,
     labCount: 0,
   },
+  created: null,
   displayName: '',
+  id: '',
   name: '',
   order: 0,
   relationships: {
@@ -36,12 +39,14 @@ export const initialState: FactionProps = {
     friends: [],
     hotWar: [],
   },
+  updated: null,
 };
 
 // TODO Timestamp
 
 export type FactionAction =
   | { type: typeof INIT }
+  | { type: typeof SET_ALL; payload: HydratedFactionProps }
   | { type: typeof SET_ACTIVE }
   | { type: typeof SET_DISPLAY_NAME; payload: string }
   | { type: typeof SET_NAME; payload: string }
@@ -58,12 +63,14 @@ export type FactionAction =
   | { type: typeof SET_HOT_WAR; payload: string[] };
 
 export function reducer(
-  state: FactionProps,
+  state: HydratedFactionProps,
   action: FactionAction
-): FactionProps {
+): HydratedFactionProps {
   switch (action.type) {
     case INIT:
       return { ...state, ...initialState };
+    case SET_ALL:
+      return { ...state, ...action.payload };
     case SET_ACTIVE:
       return { ...state, active: !state.active };
     case SET_DISPLAY_NAME:

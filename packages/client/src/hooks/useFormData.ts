@@ -3,6 +3,7 @@ import { ChangeEventHandler, MouseEventHandler, useReducer } from 'react';
 import {
   INIT,
   SET_ACTIVE,
+  SET_ALL,
   SET_ALLIES,
   SET_ASSOCIATES,
   SET_BENCH_COUNT,
@@ -18,12 +19,14 @@ import {
   SET_ORDER,
 } from '../config/constants';
 import { initialState, reducer } from '../reducers/formData.reducer';
-import { FactionProps } from '../types';
+import { HydratedFactionProps } from '../types';
 
-export function useFormData(props?: FactionProps) {
+export function useFormData(props?: HydratedFactionProps) {
   const [state, dispatch] = useReducer(reducer, props || initialState);
 
   // handlers
+  const handleSetAll = (data: HydratedFactionProps) =>
+    dispatch({ type: SET_ALL, payload: data });
   const handleActive: ChangeEventHandler<HTMLInputElement> = () =>
     dispatch({ type: SET_ACTIVE });
   const handleDisplayName: ChangeEventHandler<HTMLInputElement> = (event) =>
@@ -120,6 +123,7 @@ export function useFormData(props?: FactionProps) {
   return {
     state,
     handlers: {
+      handleSetAll,
       handleActive,
       handleDisplayName,
       handleName,

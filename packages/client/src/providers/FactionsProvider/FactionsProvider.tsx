@@ -29,7 +29,7 @@ function FactionsProvider({ children }: { children: ReactNode }) {
       (querySnapshot) => {
         let factionsArray: HydratedFactionProps[] = [];
         querySnapshot.forEach((doc) => {
-          factionsArray = [...factionsArray, doc.data()];
+          factionsArray = [...factionsArray, { ...doc.data(), id: doc.id }];
         });
         setFactions(factionsArray);
       },
@@ -45,7 +45,9 @@ function FactionsProvider({ children }: { children: ReactNode }) {
     console.log(factions);
   });
 
-  let value = { factions };
+  let value = {
+    factions,
+  };
   return (
     <FactionsContext.Provider value={value}>
       {children}

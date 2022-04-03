@@ -1,13 +1,23 @@
-import { addDoc, collection, Timestamp } from 'firebase/firestore';
+import {
+  addDoc,
+  collection,
+  doc,
+  serverTimestamp,
+  updateDoc,
+} from 'firebase/firestore';
 import { COLLECTION_FACTIONS, db } from '../config/firebase';
-import { FactionProps, TimestampedFactionProps } from '../types';
+import {
+  FactionProps,
+  HydratedFactionProps,
+  TimestampedFactionProps,
+} from '../types';
 
 export function useApi() {
   const createFaction = async (data: FactionProps) => {
     const newDoc: TimestampedFactionProps = {
       ...data,
-      createdAt: Timestamp.now(),
-      updatedAt: Timestamp.now(),
+      created: serverTimestamp(),
+      updated: serverTimestamp(),
     };
     try {
       const docRef = await addDoc(collection(db, COLLECTION_FACTIONS), newDoc);
@@ -19,5 +29,22 @@ export function useApi() {
     }
   };
 
-  return { createFaction };
+  const editFaction = async ({ id, ...data }: HydratedFactionProps) => {
+    const nextDoc: TimestampedFactionProps = {
+      ...data,
+      updated: serverTimestamp(),
+    };
+    try {
+      const docRef = await updateDoc(doc(db, COLLECTION_FACTIONS, id), {
+        ...nextDoc,
+      });
+      console.log('Document edited with ID: ', id);
+      return docRef;
+    } catch (error) {
+      console.error('Error editing document: ', error);
+      throw error;
+    }
+  };
+
+  return { createFaction, editFaction };
 }

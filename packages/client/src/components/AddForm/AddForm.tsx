@@ -1,9 +1,8 @@
 import clsx from 'clsx';
-import { FormEventHandler } from 'react';
+import { FormEventHandler, useEffect } from 'react';
 import Accordian from '../Accordian';
 import SubmitButton from '../SubmitButton';
 import { useMutation } from 'react-query';
-import { FactionProps } from '../../types';
 import { useApi, useFormData } from '../../hooks';
 import Input from '../Inputs/TextInput';
 import FormHeader from '../FormHeader';
@@ -14,9 +13,7 @@ function AddForm() {
   const { state, handlers } = useFormData();
   const { createFaction } = useApi();
 
-  const mutation = useMutation((faction: FactionProps) =>
-    createFaction(faction)
-  );
+  const mutation = useMutation(createFaction);
 
   const error = mutation.error as any;
 
