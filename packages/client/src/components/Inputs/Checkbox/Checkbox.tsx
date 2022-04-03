@@ -1,0 +1,26 @@
+import clsx from 'clsx';
+import { InputHTMLAttributes } from 'react';
+
+export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {}
+
+function Checkbox({
+  name,
+  checked,
+  onChange,
+  children,
+  className,
+}: InputProps) {
+  return (
+    <div className={clsx('flex gap-x-2 items-center', className)}>
+      <label htmlFor={name}>{children}</label>
+      <input
+        type="checkbox"
+        name={name}
+        checked={checked}
+        onChange={onChange}
+      />
+    </div>
+  );
+}
+
+export default Checkbox;

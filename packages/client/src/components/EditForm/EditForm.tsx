@@ -8,6 +8,10 @@ import {
 import { useFormData } from '../../hooks';
 import { HydratedFactionProps } from '../../types';
 import Accordian from '../Accordian';
+import FormHeader from '../FormHeader';
+import CheckboxCounter from '../Inputs/CheckboxCounter';
+import Counter from '../Inputs/Counter';
+import Input from '../Inputs/TextInput';
 import SubmitButton from '../SubmitButton';
 interface EditFormProps {
   factions: HydratedFactionProps[];
@@ -99,118 +103,50 @@ function EditForm({ factions }: EditFormProps) {
               'transition-all'
             )}
           >
-            <h3 className="flex items-center gap-x-2 pt-4 px-2">
-              <span>info</span>
-            </h3>
-            <hr />
-            <div className="flex gap-x-2 items-center px-2">
-              <label htmlFor="name" className="w-32">
-                name
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                className="border flex-1"
-                value={state.name}
-                onChange={handlers.handleName}
-              />
-            </div>
-            <div className="flex gap-x-2 items-center px-2">
-              <label htmlFor="displayName" className="w-32">
-                display name <span className="text-[8px]">optional</span>
-              </label>
-              <input
-                type="text"
-                id="displayName"
-                name="displayName"
-                className="border flex-1"
-                value={state.displayName}
-                onChange={handlers.handleDisplayName}
-              />
-            </div>
-            <div className="flex gap-x-2 items-center h-5 px-2">
-              <div className="flex gap-x-2 items-center w-32">
-                <label htmlFor="hasBench">has bench?</label>
-                <input
-                  type="checkbox"
-                  id="hasBench"
-                  name="hasBench"
-                  checked={state.attributes.hasBench}
-                  onChange={handlers.handleHasBench}
-                />
-              </div>
-              <label
-                htmlFor="benchCount"
-                className={clsx(
-                  !state.attributes.hasBench ? 'opacity-0' : 'opacity-100',
-                  'transition-opacity'
-                )}
-              >
-                number of benches
-              </label>
-              <input
-                type="number"
-                id="benchCount"
-                name="benchCount"
-                className={clsx(
-                  !state.attributes.hasBench ? 'opacity-0' : 'opacity-100',
-                  'border w-10 text-right',
-                  'transition-opacity'
-                )}
-                value={state.attributes.benchCount}
-                onChange={handlers.handleBenchCount}
-              />
-            </div>
-            <div className="flex gap-x-2 items-center h-5 px-2">
-              <div className="flex gap-x-2 items-center w-32">
-                <label htmlFor="hasLab">has lab?</label>
-                <input
-                  type="checkbox"
-                  id="hasLab"
-                  name="hasLab"
-                  checked={state.attributes.hasLab}
-                  onChange={handlers.handleHasLab}
-                />
-              </div>
-              <label
-                htmlFor="labCount"
-                className={clsx(
-                  !state.attributes.hasLab ? 'opacity-0' : 'opacity-100',
-                  'transition-opacity'
-                )}
-              >
-                number of labs
-              </label>
-              <input
-                type="number"
-                id="labCount"
-                name="labCount"
-                className={clsx(
-                  !state.attributes.hasLab ? 'opacity-0' : 'opacity-100',
-                  'border w-10 text-right',
-                  'transition-opacity'
-                )}
-                value={state.attributes.labCount}
-                onChange={handlers.handleLabCount}
-              />
-            </div>
-            <div className="flex gap-x-2 items-center px-2">
-              <label htmlFor="order">sort order</label>
-              <input
-                type="number"
-                id="order"
-                name="order"
-                className="border w-10 text-right"
-                min={0}
-                value={state.order}
-                onChange={handlers.handleOrder}
-              />
-            </div>
-            <h3 className="pt-4 px-2">
-              <span>relationships</span>
-            </h3>
-            <hr />
+            <FormHeader>info</FormHeader>
+            <Input
+              name="name"
+              type="text"
+              value={state.name}
+              onChange={handlers.handleName}
+            >
+              name
+            </Input>
+            <Input
+              name="displayName"
+              type="text"
+              value={state.displayName}
+              onChange={handlers.handleDisplayName}
+            >
+              display name <span className="text-[8px]">optional</span>
+            </Input>
+            <CheckboxCounter
+              name="hasBench"
+              label="has bench?"
+              checked={state.attributes.hasBench}
+              onChange={handlers.handleHasBench}
+              countLabel="number of benches"
+              count={state.attributes.benchCount}
+              onChangeCount={handlers.handleBenchCount}
+            />
+            <CheckboxCounter
+              name="hasLab"
+              label="has lab?"
+              checked={state.attributes.hasLab}
+              onChange={handlers.handleHasLab}
+              countLabel="number of labs"
+              count={state.attributes.labCount}
+              onChangeCount={handlers.handleLabCount}
+            />
+            <Counter
+              name="order"
+              min={0}
+              value={state.order}
+              onChange={handlers.handleOrder}
+            >
+              sort order
+            </Counter>
+            <FormHeader>relationships</FormHeader>
             <div className="flex gap-x-2 items-center px-2">
               <label
                 htmlFor="associates"
@@ -227,7 +163,6 @@ function EditForm({ factions }: EditFormProps) {
                 )}
               </label>
               <select
-                id="associates"
                 name="associates"
                 multiple
                 className="flex-1 border"
@@ -257,7 +192,6 @@ function EditForm({ factions }: EditFormProps) {
                 )}
               </label>
               <select
-                id="allies"
                 name="allies"
                 multiple
                 className="flex-1 border"
@@ -287,7 +221,6 @@ function EditForm({ factions }: EditFormProps) {
                 )}
               </label>
               <select
-                id="friends"
                 name="friends"
                 multiple
                 className="flex-1 border"
@@ -317,7 +250,6 @@ function EditForm({ factions }: EditFormProps) {
                 )}
               </label>
               <select
-                id="hotWar"
                 name="hotWar"
                 multiple
                 className="flex-1 border"
@@ -347,7 +279,6 @@ function EditForm({ factions }: EditFormProps) {
                 )}
               </label>
               <select
-                id="coldWar"
                 name="coldWar"
                 multiple
                 className="flex-1 border"
@@ -377,7 +308,6 @@ function EditForm({ factions }: EditFormProps) {
                 )}
               </label>
               <select
-                id="enemies"
                 name="enemies"
                 multiple
                 className="flex-1 border"
