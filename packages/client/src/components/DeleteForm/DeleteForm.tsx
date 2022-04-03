@@ -1,34 +1,40 @@
+import clsx from 'clsx';
 import {
   ChangeEventHandler,
   FormEventHandler,
-  MouseEventHandler,
+  useContext,
   useState,
 } from 'react';
-import FACTIONS from '../../config/factions';
+import { useMutation } from 'react-query';
+import FactionsContext from '../../contexts/factions.context';
+import { useApi } from '../../hooks';
 import Accordian from '../Accordian';
 import SubmitButton from '../SubmitButton';
 
 function DeleteForm() {
-  const [isFetching, setIsFetching] = useState(false);
   const [selected, setSelected] = useState('');
+  const { deleteFaction } = useApi();
+  const { factions } = useContext(FactionsContext);
+
+  const mutation = useMutation(deleteFaction);
+
+  const error = mutation.error as any;
 
   const handleSelected: ChangeEventHandler<HTMLSelectElement> = (event) => {
     setSelected(event.target.value);
+    if (mutation.isSuccess || mutation.isError || mutation.isLoading)
+      mutation.reset();
   };
 
-  const resetSelected: MouseEventHandler<HTMLSpanElement> = (event) => {
+  const resetSelected = () => {
     setSelected('');
+    if (mutation.isSuccess || mutation.isError || mutation.isLoading)
+      mutation.reset();
   };
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
-    setIsFetching(true);
-
-    // mock api call
-    const timeout: NodeJS.Timer = setTimeout(() => {
-      setIsFetching(false);
-      return clearTimeout(timeout);
-    }, 150);
+    mutation.mutate(selected);
   };
 
   return (
@@ -50,24 +56,29 @@ function DeleteForm() {
             )}
           </label>
           <select
-            id="selected"
             name="selected"
             className="flex-1 border"
             value={selected}
             onChange={handleSelected}
           >
             <option key={`selected-none`} value={''}>
-              Select faction
+              select faction
             </option>
-            {FACTIONS.map((faction) => (
-              <option key={`selected-${faction.id}`} value={faction.id}>
-                {faction.name}
-              </option>
-            ))}
+            {factions &&
+              factions.map((faction) => (
+                <option key={`selected-${faction.id}`} value={faction.id}>
+                  {faction.name}
+                </option>
+              ))}
           </select>
         </div>
-        <div className="w-full flex justify-end items-center p-2 h-11">
-          <SubmitButton isFetching={isFetching}>delete</SubmitButton>
+        <div className="w-full flex justify-between items-center p-2 h-11">
+          <span className={clsx(mutation.isError && 'text-red-600')}>
+            {mutation.isLoading && 'removing faction...'}
+            {mutation.isError && `${error.response.data.message}`}
+            {mutation.isSuccess && 'faction removed'}
+          </span>
+          <SubmitButton isFetching={mutation.isLoading}>delete</SubmitButton>
         </div>
       </form>
     </Accordian>

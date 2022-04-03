@@ -34,6 +34,8 @@ export function useApi() {
       ...data,
       updated: serverTimestamp(),
     };
+
+    // doc(db, COLLECTION_FACTIONS, option.value)
     try {
       const docRef = await updateDoc(doc(db, COLLECTION_FACTIONS, id), {
         ...nextDoc,
@@ -46,5 +48,21 @@ export function useApi() {
     }
   };
 
-  return { createFaction, editFaction };
+  const deleteFaction = async (id: string) => {
+    const nextDoc = {
+      active: false,
+      updated: serverTimestamp(),
+    };
+    try {
+      await updateDoc(doc(db, COLLECTION_FACTIONS, id), {
+        ...nextDoc,
+      });
+      console.log('Document deleted with ID: ', id);
+      return;
+    } catch (error) {
+      console.error('Error deleting document: ', error);
+      throw error;
+    }
+  };
+  return { createFaction, editFaction, deleteFaction };
 }

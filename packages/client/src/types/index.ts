@@ -1,6 +1,5 @@
 import { FieldValue } from 'firebase/firestore';
 
-// TODO createdAt, updatedAt
 export interface FactionProps {
   active: boolean;
   attributes: {

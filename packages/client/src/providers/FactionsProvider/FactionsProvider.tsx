@@ -41,10 +41,6 @@ function FactionsProvider({ children }: { children: ReactNode }) {
     return () => unsubscribe();
   }, []);
 
-  useEffect(() => {
-    console.log(factions);
-  });
-
   let value = {
     factions,
   };

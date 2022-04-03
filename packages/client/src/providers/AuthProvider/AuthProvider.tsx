@@ -20,8 +20,6 @@ function AuthProvider({ children }: { children: ReactNode }) {
     return () => unsubscribe();
   }, []);
 
-  useEffect(() => console.log('status:', user ? 'logged in' : 'logged out'));
-
   const isSignedIn = !!user;
 
   let value = { user, isSignedIn, signIn, signOut };

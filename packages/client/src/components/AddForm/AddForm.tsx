@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { FormEventHandler, useEffect } from 'react';
+import { FormEventHandler } from 'react';
 import Accordian from '../Accordian';
 import SubmitButton from '../SubmitButton';
 import { useMutation } from 'react-query';
@@ -76,9 +76,9 @@ function AddForm() {
         </Counter>
         <div className="w-full flex justify-between items-center p-2 h-11">
           <span className={clsx(mutation.isError && 'text-red-600')}>
-            {mutation.isLoading && 'Adding faction...'}
+            {mutation.isLoading && 'adding faction...'}
             {mutation.isError && `${error.response.data.message}`}
-            {mutation.isSuccess && 'Faction added!'}
+            {mutation.isSuccess && 'faction added'}
           </span>
           <SubmitButton isFetching={mutation.isLoading}>
             {mutation.isSuccess || mutation.isError ? 'reset' : 'save'}
