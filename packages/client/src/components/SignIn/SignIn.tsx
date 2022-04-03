@@ -1,4 +1,4 @@
-import { ChangeEventHandler, useState } from 'react';
+import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks';
 import SubmitButton from '../SubmitButton';
@@ -8,17 +8,17 @@ function SignIn() {
   let location = useLocation();
   let { signIn } = useAuth();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  // const [email, setEmail] = useState('');
+  // const [password, setPassword] = useState('');
   const [isFetching, setIsFetching] = useState(false);
 
-  const handleEmail: ChangeEventHandler<HTMLInputElement> = (event) => {
-    setEmail(event.target.value);
-  };
+  // const handleEmail: ChangeEventHandler<HTMLInputElement> = (event) => {
+  //   setEmail(event.target.value);
+  // };
 
-  const handlePassword: ChangeEventHandler<HTMLInputElement> = (event) => {
-    setPassword(event.target.value);
-  };
+  // const handlePassword: ChangeEventHandler<HTMLInputElement> = (event) => {
+  //   setPassword(event.target.value);
+  // };
 
   const state = location.state as any;
 
@@ -29,12 +29,12 @@ function SignIn() {
     setIsFetching(true);
 
     try {
-      await signIn(email, password);
+      await signIn();
+      setIsFetching(false);
       navigate(from, { replace: true });
     } catch (error) {
-      console.error(error);
-    } finally {
       setIsFetching(false);
+      console.error(error);
     }
   };
 
@@ -49,7 +49,7 @@ function SignIn() {
         className="text-xs border-l border-b border-r w-full gap-y-2 flex flex-col"
         onSubmit={handleSubmit}
       >
-        <div className="flex gap-x-2 items-center px-2 pt-2">
+        {/* <div className="flex gap-x-2 items-center px-2 pt-2">
           <label htmlFor="email" className="w-32">
             email:
           </label>
@@ -74,6 +74,9 @@ function SignIn() {
             value={password}
             onChange={handlePassword}
           />
+        </div> */}
+        <div className="px-2 pt-2">
+          You do not have permission to edit this page. Please sign in.
         </div>
         <div className="w-full flex justify-end items-center p-2 h-11">
           <SubmitButton isFetching={isFetching}>sign in</SubmitButton>

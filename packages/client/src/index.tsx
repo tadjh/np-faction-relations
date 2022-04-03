@@ -10,7 +10,7 @@ const queryClient = new QueryClient();
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/np-faction-relations">
       <QueryClientProvider client={queryClient}>
         <App />
       </QueryClientProvider>

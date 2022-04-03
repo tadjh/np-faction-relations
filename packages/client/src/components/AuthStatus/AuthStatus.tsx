@@ -11,7 +11,7 @@ function AuthStatus({ onClose }: AuthStatusProps) {
 
   const handleClose = () => {
     onClose();
-    navigate(-1);
+    navigate('/');
   };
 
   const handleSignOut = async () => {
@@ -21,7 +21,7 @@ function AuthStatus({ onClose }: AuthStatusProps) {
 
   const back = () => onClose();
 
-  if (isSignedIn()) {
+  if (isSignedIn) {
     return (
       <div className="text-[8px] flex justify-between items-center">
         <div className="flex items-center gap-x-2">
@@ -37,11 +37,8 @@ function AuthStatus({ onClose }: AuthStatusProps) {
 
   return (
     <div className="text-[8px] flex justify-between items-center">
-      <Link
-        className="text-[8px] hover:underline"
-        to="/np-faction-relations/admin"
-      >
-        admin
+      <Link className="text-[8px] hover:underline" to="/admin">
+        edit
       </Link>
       <button onClick={handleClose} className="text-base">
         &#x2716;

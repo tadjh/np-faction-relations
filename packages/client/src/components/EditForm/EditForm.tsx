@@ -5,26 +5,18 @@ import {
   MouseEventHandler,
   useState,
 } from 'react';
-import FACTIONS from '../../config/factions';
-import { FactionProps } from '../../types';
+import { useFormData } from '../../hooks';
+import { HydratedFactionProps } from '../../types';
 import Accordian from '../Accordian';
 import SubmitButton from '../SubmitButton';
-
-function EditForm(props: FactionProps) {
+interface EditFormProps {
+  factions: HydratedFactionProps[];
+}
+function EditForm({ factions }: EditFormProps) {
   const [isFetching, setIsFetching] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [selected, setSelected] = useState('');
-  const [name, setName] = useState(props.name);
-  const [nickname, setNickname] = useState(props.nickname);
-  const [hasBench, setHasBench] = useState(props.hasBench);
-  const [benchCount, setBenchCount] = useState(props.benchCount);
-  const [associates, setAssociates] = useState<string[]>(props.associates);
-  const [allies, setAllies] = useState<string[]>(props.allies);
-  const [friends, setFriends] = useState<string[]>(props.friends);
-  const [hotWar, setHotWar] = useState<string[]>(props.hotWar);
-  const [coldWar, setColdWar] = useState<string[]>(props.coldWar);
-  const [enemies, setEnemies] = useState<string[]>(props.enemies);
-  const [order, setOrder] = useState<number>(props.order);
+  const { state, handlers } = useFormData();
 
   const handleSelected: ChangeEventHandler<HTMLSelectElement> = (event) => {
     const data = selected;
@@ -38,101 +30,12 @@ function EditForm(props: FactionProps) {
     }
   };
 
-  const handleName: ChangeEventHandler<HTMLInputElement> = (event) => {
-    setName(event.target.value);
-  };
-
-  const handleNickname: ChangeEventHandler<HTMLInputElement> = (event) => {
-    setNickname(event.target.value);
-  };
-
-  const handleHasBench: ChangeEventHandler<HTMLInputElement> = (event) => {
-    setHasBench((prevState) => !prevState);
-  };
-
-  const handleBenchCount: ChangeEventHandler<HTMLInputElement> = (event) => {
-    setBenchCount(parseInt(event.target.value));
-  };
-
-  const handleAssociates: ChangeEventHandler<HTMLSelectElement> = (event) => {
-    const value = Array.from(
-      event.target.selectedOptions,
-      (option) => option.value
-    );
-    setAssociates(value);
-  };
-
-  const handleAllies: ChangeEventHandler<HTMLSelectElement> = (event) => {
-    const value = Array.from(
-      event.target.selectedOptions,
-      (option) => option.value
-    );
-    setAllies(value);
-  };
-
-  const handleFriends: ChangeEventHandler<HTMLSelectElement> = (event) => {
-    const value = Array.from(
-      event.target.selectedOptions,
-      (option) => option.value
-    );
-    setFriends(value);
-  };
-
-  const handleHotWar: ChangeEventHandler<HTMLSelectElement> = (event) => {
-    const value = Array.from(
-      event.target.selectedOptions,
-      (option) => option.value
-    );
-    setHotWar(value);
-  };
-
-  const handleColdWar: ChangeEventHandler<HTMLSelectElement> = (event) => {
-    const value = Array.from(
-      event.target.selectedOptions,
-      (option) => option.value
-    );
-    setColdWar(value);
-  };
-
-  const handleEnemies: ChangeEventHandler<HTMLSelectElement> = (event) => {
-    const value = Array.from(
-      event.target.selectedOptions,
-      (option) => option.value
-    );
-    setEnemies(value);
-  };
-
-  const handleOrder: ChangeEventHandler<HTMLInputElement> = (event) => {
-    setOrder(Number(event.target.value));
-  };
-
   const resetSelected: MouseEventHandler<HTMLSpanElement> = (event) => {
     setIsAnimating(false);
     const timeout = setTimeout(() => {
       setSelected('');
       clearTimeout(timeout);
     }, 150);
-  };
-
-  const resetAssociates: MouseEventHandler<HTMLSpanElement> = (event) => {
-    setAssociates(props.associates);
-  };
-
-  const resetAllies: MouseEventHandler<HTMLSpanElement> = (event) => {
-    setAllies(props.allies);
-  };
-
-  const resetFriends: MouseEventHandler<HTMLSpanElement> = (event) => {
-    setFriends(props.friends);
-  };
-  const resetHotWar: MouseEventHandler<HTMLSpanElement> = (event) => {
-    setHotWar(props.hotWar);
-  };
-  const resetColdWar: MouseEventHandler<HTMLSpanElement> = (event) => {
-    setColdWar(props.coldWar);
-  };
-  const resetEnemies: MouseEventHandler<HTMLSpanElement> = (event) => {
-    setEnemies(props.enemies);
   };
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
@@ -179,7 +82,7 @@ function EditForm(props: FactionProps) {
             <option key={`selected-none`} value={''}>
               Select faction
             </option>
-            {FACTIONS.map((faction) => (
+            {factions.map((faction) => (
               <option key={`selected-${faction.id}`} value={faction.id}>
                 {faction.name}
               </option>
@@ -209,21 +112,21 @@ function EditForm(props: FactionProps) {
                 id="name"
                 name="name"
                 className="border flex-1"
-                value={name}
-                onChange={handleName}
+                value={state.name}
+                onChange={handlers.handleName}
               />
             </div>
             <div className="flex gap-x-2 items-center px-2">
-              <label htmlFor="nickname" className="w-32">
-                nickname <span className="text-[8px]">optional</span>
+              <label htmlFor="displayName" className="w-32">
+                display name <span className="text-[8px]">optional</span>
               </label>
               <input
                 type="text"
-                id="nickname"
-                name="nickname"
+                id="displayName"
+                name="displayName"
                 className="border flex-1"
-                value={nickname}
-                onChange={handleNickname}
+                value={state.displayName}
+                onChange={handlers.handleDisplayName}
               />
             </div>
             <div className="flex gap-x-2 items-center h-5 px-2">
@@ -233,14 +136,14 @@ function EditForm(props: FactionProps) {
                   type="checkbox"
                   id="hasBench"
                   name="hasBench"
-                  checked={hasBench}
-                  onChange={handleHasBench}
+                  checked={state.attributes.hasBench}
+                  onChange={handlers.handleHasBench}
                 />
               </div>
               <label
                 htmlFor="benchCount"
                 className={clsx(
-                  !hasBench ? 'opacity-0' : 'opacity-100',
+                  !state.attributes.hasBench ? 'opacity-0' : 'opacity-100',
                   'transition-opacity'
                 )}
               >
@@ -251,12 +154,57 @@ function EditForm(props: FactionProps) {
                 id="benchCount"
                 name="benchCount"
                 className={clsx(
-                  !hasBench ? 'opacity-0' : 'opacity-100',
+                  !state.attributes.hasBench ? 'opacity-0' : 'opacity-100',
                   'border w-10 text-right',
                   'transition-opacity'
                 )}
-                value={benchCount}
-                onChange={handleBenchCount}
+                value={state.attributes.benchCount}
+                onChange={handlers.handleBenchCount}
+              />
+            </div>
+            <div className="flex gap-x-2 items-center h-5 px-2">
+              <div className="flex gap-x-2 items-center w-32">
+                <label htmlFor="hasLab">has lab?</label>
+                <input
+                  type="checkbox"
+                  id="hasLab"
+                  name="hasLab"
+                  checked={state.attributes.hasLab}
+                  onChange={handlers.handleHasLab}
+                />
+              </div>
+              <label
+                htmlFor="labCount"
+                className={clsx(
+                  !state.attributes.hasLab ? 'opacity-0' : 'opacity-100',
+                  'transition-opacity'
+                )}
+              >
+                number of labs
+              </label>
+              <input
+                type="number"
+                id="labCount"
+                name="labCount"
+                className={clsx(
+                  !state.attributes.hasLab ? 'opacity-0' : 'opacity-100',
+                  'border w-10 text-right',
+                  'transition-opacity'
+                )}
+                value={state.attributes.labCount}
+                onChange={handlers.handleLabCount}
+              />
+            </div>
+            <div className="flex gap-x-2 items-center px-2">
+              <label htmlFor="order">sort order</label>
+              <input
+                type="number"
+                id="order"
+                name="order"
+                className="border w-10 text-right"
+                min={0}
+                value={state.order}
+                onChange={handlers.handleOrder}
               />
             </div>
             <h3 className="pt-4 px-2">
@@ -269,10 +217,10 @@ function EditForm(props: FactionProps) {
                 className="w-32 flex items-center gap-x-2"
               >
                 associates
-                {associates.length !== 0 && (
+                {state.relationships.associates.length !== 0 && (
                   <span
                     className="text-base hover:cursor-pointer"
-                    onClick={resetAssociates}
+                    onClick={handlers.resetAssociates}
                   >
                     &#8635;
                   </span>
@@ -283,10 +231,10 @@ function EditForm(props: FactionProps) {
                 name="associates"
                 multiple
                 className="flex-1 border"
-                value={associates}
-                onChange={handleAssociates}
+                value={state.relationships.associates}
+                onChange={handlers.handleAssociates}
               >
-                {FACTIONS.map((faction) => (
+                {factions.map((faction) => (
                   <option key={`associates-${faction.id}`} value={faction.id}>
                     {faction.name}
                   </option>
@@ -299,10 +247,10 @@ function EditForm(props: FactionProps) {
                 className="w-32 flex items-center gap-x-2"
               >
                 allies
-                {allies.length !== 0 && (
+                {state.relationships.allies.length !== 0 && (
                   <span
                     className="text-base hover:cursor-pointer"
-                    onClick={resetAllies}
+                    onClick={handlers.resetAllies}
                   >
                     &#8635;
                   </span>
@@ -313,10 +261,10 @@ function EditForm(props: FactionProps) {
                 name="allies"
                 multiple
                 className="flex-1 border"
-                value={allies}
-                onChange={handleAllies}
+                value={state.relationships.allies}
+                onChange={handlers.handleAllies}
               >
-                {FACTIONS.map((faction) => (
+                {factions.map((faction) => (
                   <option key={`allies-${faction.id}`} value={faction.id}>
                     {faction.name}
                   </option>
@@ -329,10 +277,10 @@ function EditForm(props: FactionProps) {
                 className="w-32 flex items-center gap-x-2"
               >
                 friends
-                {friends.length !== 0 && (
+                {state.relationships.friends.length !== 0 && (
                   <span
                     className="text-base hover:cursor-pointer"
-                    onClick={resetFriends}
+                    onClick={handlers.resetFriends}
                   >
                     &#8635;
                   </span>
@@ -343,10 +291,10 @@ function EditForm(props: FactionProps) {
                 name="friends"
                 multiple
                 className="flex-1 border"
-                value={friends}
-                onChange={handleFriends}
+                value={state.relationships.friends}
+                onChange={handlers.handleFriends}
               >
-                {FACTIONS.map((faction) => (
+                {factions.map((faction) => (
                   <option key={`friends-${faction.id}`} value={faction.id}>
                     {faction.name}
                   </option>
@@ -359,10 +307,10 @@ function EditForm(props: FactionProps) {
                 className="w-32 flex items-center gap-x-2"
               >
                 hot war
-                {hotWar.length !== 0 && (
+                {state.relationships.hotWar.length !== 0 && (
                   <span
                     className="text-base hover:cursor-pointer"
-                    onClick={resetHotWar}
+                    onClick={handlers.resetHotWar}
                   >
                     &#8635;
                   </span>
@@ -373,10 +321,10 @@ function EditForm(props: FactionProps) {
                 name="hotWar"
                 multiple
                 className="flex-1 border"
-                value={hotWar}
-                onChange={handleHotWar}
+                value={state.relationships.hotWar}
+                onChange={handlers.handleHotWar}
               >
-                {FACTIONS.map((faction) => (
+                {factions.map((faction) => (
                   <option key={`hotWar-${faction.id}`} value={faction.id}>
                     {faction.name}
                   </option>
@@ -389,10 +337,10 @@ function EditForm(props: FactionProps) {
                 className="w-32 flex items-center gap-x-2"
               >
                 cold war
-                {coldWar.length !== 0 && (
+                {state.relationships.coldWar.length !== 0 && (
                   <span
                     className="text-base hover:cursor-pointer"
-                    onClick={resetColdWar}
+                    onClick={handlers.resetColdWar}
                   >
                     &#8635;
                   </span>
@@ -403,10 +351,10 @@ function EditForm(props: FactionProps) {
                 name="coldWar"
                 multiple
                 className="flex-1 border"
-                value={coldWar}
-                onChange={handleColdWar}
+                value={state.relationships.coldWar}
+                onChange={handlers.handleColdWar}
               >
-                {FACTIONS.map((faction) => (
+                {factions.map((faction) => (
                   <option key={`coldWar-${faction.id}`} value={faction.id}>
                     {faction.name}
                   </option>
@@ -419,10 +367,10 @@ function EditForm(props: FactionProps) {
                 className="w-32 flex items-center gap-x-2"
               >
                 enemies
-                {enemies.length !== 0 && (
+                {state.relationships.enemies.length !== 0 && (
                   <span
                     className="text-base hover:cursor-pointer"
-                    onClick={resetEnemies}
+                    onClick={handlers.resetEnemies}
                   >
                     &#8635;
                   </span>
@@ -433,27 +381,15 @@ function EditForm(props: FactionProps) {
                 name="enemies"
                 multiple
                 className="flex-1 border"
-                value={enemies}
-                onChange={handleEnemies}
+                value={state.relationships.enemies}
+                onChange={handlers.handleEnemies}
               >
-                {FACTIONS.map((faction) => (
+                {factions.map((faction) => (
                   <option key={`enemies-${faction.id}`} value={faction.id}>
                     {faction.name}
                   </option>
                 ))}
               </select>
-            </div>
-            <div className="flex gap-x-2 items-center px-2">
-              <label htmlFor="order">sort order</label>
-              <input
-                type="number"
-                id="order"
-                name="order"
-                className="border w-10 text-right"
-                min={0}
-                value={order}
-                onChange={handleOrder}
-              />
             </div>
             <div className="w-full flex justify-end items-center p-2 h-11">
               <SubmitButton isFetching={isFetching}>save</SubmitButton>

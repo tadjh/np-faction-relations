@@ -2,8 +2,8 @@ import { Schema, Types, model } from 'mongoose';
 
 export interface Faction {
   name: string;
-  nickname: string;
-  hasBench: boolean;
+  nickname: string; //  TODO rename: displayName
+  hasBench: boolean; // TODO rename: bench
   benchCount: number;
   associates: Types.ObjectId[];
   allies: Types.ObjectId[];

@@ -5,15 +5,9 @@ function RequireAuth({ children }: { children: JSX.Element }) {
   let { isSignedIn } = useAuth();
   let location = useLocation();
 
-  if (isSignedIn()) return children;
+  if (isSignedIn) return children;
 
-  return (
-    <Navigate
-      to="/np-faction-relations/login"
-      state={{ from: location }}
-      replace
-    />
-  );
+  return <Navigate to="/login" state={{ from: location }} replace />;
 }
 
 export default RequireAuth;
