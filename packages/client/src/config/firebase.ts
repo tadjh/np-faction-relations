@@ -2,10 +2,11 @@ import { initializeApp } from 'firebase/app';
 import {
   connectAuthEmulator,
   getAuth,
-  signInWithEmailAndPassword,
-  signOut,
+  signOut as signOutUser,
   GoogleAuthProvider,
+  signInWithPopup,
 } from 'firebase/auth';
+import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
 
 const apiKey = process.env.REACT_APP_FIREBASE_API_KEY;
 const authDomain = process.env.REACT_APP_FIREBASE_AUTH_DOMAIN;
@@ -14,9 +15,10 @@ const storageBucket = process.env.REACT_APP_FIREBASE_STORAGE_BUCKET;
 const messagingSenderId = process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID;
 const appId = process.env.REACT_APP_FIREBASE_APP_ID;
 const measurementId = process.env.REACT_APP_FIREBASE_MEASUREMENT_ID;
-const emulatorDomain = process.env.REACT_APP_FIREBASE_EMULATOR_DOMAIN || '';
 
-const firebaseApp = initializeApp({
+export const COLLECTION_FACTIONS = 'factions';
+
+const firebaseConfig = {
   apiKey,
   authDomain,
   projectId,
@@ -24,53 +26,54 @@ const firebaseApp = initializeApp({
   messagingSenderId,
   appId,
   measurementId,
-});
-
-export const auth = getAuth(firebaseApp);
-
-connectAuthEmulator(auth, emulatorDomain, { disableWarnings: true });
-
-export const signInUser = async (username: string, password: string) => {
-  try {
-    const userCredential = await signInWithEmailAndPassword(
-      auth,
-      username,
-      password
-    );
-    return (
-      userCredential.user.displayName ||
-      userCredential.user.email ||
-      userCredential.user.uid
-    );
-  } catch (error) {
-    throw error;
-  }
 };
 
-export const signOutUser = async () => {
-  try {
-    await signOut(auth);
-  } catch (error) {
-    throw error;
-  }
-};
+const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
+export const db = getFirestore(app);
 
-// onAuthStateChanged(auth, (user) => {
-//   if (user) {
-//     console.log('logged in');
-//     console.log(user);
-//   } else {
-//     console.log('logged out');
+auth.useDeviceLanguage();
+connectAuthEmulator(auth, 'http://localhost:9099', { disableWarnings: true });
+connectFirestoreEmulator(db, 'localhost', 8080);
+
+// TODO Scope? https://developers.google.com/identity/protocols/googlescopes?authuser=0
+const provider = new GoogleAuthProvider();
+
+// export const signInUser = async (username: string, password: string) => {
+//   try {
+//     const userCredential = await signInWithEmailAndPassword(
+//       auth,
+//       username,
+//       password
+//     );
+//     return (
+//       userCredential.user.displayName ||
+//       userCredential.user.email ||
+//       userCredential.user.uid
+//     );
+//   } catch (error) {
+//     throw error;
 //   }
-// });
-
-// const uiConfig = {
-//   signInOptions: [
-//     auth.GoogleAuthProvider.PROVIDER_ID,
-//     auth.EmailAuthProvider.PROVIDER_ID,
-//   ],
 // };
 
-// const ui = new firebaseui.auth.AuthUI(auth);
+export const signOut = async () => await signOutUser(auth);
 
-// ui.start('#firebaseui-auth-container', uiConfig);
+export const signIn = async () => {
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    const token =
+      credential && credential.accessToken ? credential.accessToken : ''; // TODO Do something with this?
+    const user = result.user;
+    return user.displayName || user.email || user.uid;
+  } catch (error) {
+    throw error;
+    // Handle Errors here.
+    // const errorCode = error.code;
+    // const errorMessage = error.message;
+    // The email of the user's account used.
+    // const email = error.email;
+    // The AuthCredential type that was used.
+    // const credential = GoogleAuthProvider.credentialFromError(error);
+  }
+};
