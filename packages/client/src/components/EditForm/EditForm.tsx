@@ -1,13 +1,7 @@
 import clsx from 'clsx';
-import {
-  ChangeEventHandler,
-  FormEventHandler,
-  useContext,
-  useState,
-} from 'react';
+import { ChangeEventHandler, FormEventHandler, useState } from 'react';
 import { useMutation } from 'react-query';
-import FactionsContext from '../../contexts/factions.context';
-import { useApi, useFormData } from '../../hooks';
+import { useApi, useFactions, useFormData } from '../../hooks';
 import Accordian from '../Accordian';
 import FormHeader from '../FormHeader';
 import CheckboxCounter from '../Inputs/CheckboxCounter';
@@ -18,7 +12,7 @@ import SubmitButton from '../SubmitButton';
 function EditForm() {
   const [selected, setSelected] = useState('');
   const { state, handlers } = useFormData();
-  const { factions } = useContext(FactionsContext);
+  const { factions } = useFactions();
   const { editFaction } = useApi();
 
   const mutation = useMutation(editFaction);

@@ -43,6 +43,7 @@ function FactionsProvider({ children }: { children: ReactNode }) {
 
   let value = {
     factions,
+    length: factions?.length,
   };
   return (
     <FactionsContext.Provider value={value}>

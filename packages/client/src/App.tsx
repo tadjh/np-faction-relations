@@ -1,8 +1,5 @@
-import { Fragment, useMemo, useState } from 'react';
+import { Fragment, useState } from 'react';
 import clsx from 'clsx';
-import FACTIONS from './config/factions';
-import { backgroundColor, headerColor } from './config/styles';
-import Legend from './components/Legend';
 import Grid from './components/Grid';
 import Notes from './components/Notes';
 import logo from './assets/np-logo-dark.png';
@@ -17,10 +14,6 @@ import FactionsProvider from './providers/FactionsProvider';
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
-  const GENERATOR = useMemo(
-    () => new Array<boolean>(FACTIONS.length).fill(true),
-    []
-  );
 
   const handleOpen = () => setIsOpen(true);
 
@@ -72,55 +65,7 @@ function App() {
               </div>
               <div />
             </div>
-            <Grid size={FACTIONS.length}>
-              <Legend />
-              {FACTIONS.map((gang, x) => (
-                <div
-                  key={`row1col${x + 2}`}
-                  className={clsx(
-                    'border text-center flex items-center justify-center',
-                    headerColor(x),
-                    'border-t-stone-900 border-b-stone-900',
-                    x === FACTIONS.length - 1 && 'border-r-stone-900'
-                  )}
-                >
-                  <span className="-rotate-90">
-                    {gang.nickname || gang.name}
-                  </span>
-                </div>
-              ))}
-              {GENERATOR.map((_, y) => (
-                <Fragment key={FACTIONS[y].id}>
-                  <div
-                    key={`row${y + 2}col1`}
-                    className={clsx(
-                      'border text-center flex items-center justify-center border-l-stone-900 border-r-stone-900',
-                      y === FACTIONS.length - 1 && 'border-b-stone-900',
-                      headerColor(y)
-                    )}
-                  >
-                    {FACTIONS[y].nickname || FACTIONS[y].name}
-                  </div>
-                  {GENERATOR.map((_, x) => (
-                    <div
-                      key={`row${y + 2}col${x + 2}`}
-                      className={clsx(
-                        'border text-center flex justify-center items-center',
-                        backgroundColor(FACTIONS, x, y),
-                        y === FACTIONS.length - 1 && 'border-b-stone-900',
-                        x === FACTIONS.length - 1 && 'border-r-stone-900'
-                      )}
-                    >
-                      {x === y && FACTIONS[y].benchCount > 1 && (
-                        <span className="text-xs text-amber-100">
-                          {FACTIONS[y].benchCount}
-                        </span>
-                      )}
-                    </div>
-                  ))}
-                </Fragment>
-              ))}
-            </Grid>
+            <Grid />
             <div className="flex gap-x-2 text-[8px] p-2 w-full justify-between">
               <div />
               <div>{DATE}</div>

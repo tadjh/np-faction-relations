@@ -1,4 +1,4 @@
-import { RelationalFaction } from '../classes';
+import { HydratedFactionProps } from '../types';
 import {
   COLOR_ALLY,
   COLOR_ASSOCIATE,
@@ -15,42 +15,42 @@ export const headerColor = (index = 1) =>
   index % 2 ? COLOR_BACKGROUND_ALT : undefined;
 
 export const backgroundColor = (
-  FACTIONS: RelationalFaction[],
+  FACTIONS: HydratedFactionProps[],
   x: number,
   y: number
 ): string => {
   if (x === y) {
-    if (FACTIONS[x].hasBench === true) return COLOR_HAS_BENCH;
+    if (FACTIONS[x].attributes.hasBench === true) return COLOR_HAS_BENCH;
     return 'diagonal-line';
   }
 
-  for (let associate of FACTIONS[y].associates) {
-    if (associate.id !== FACTIONS[x].id) continue;
+  for (let associate of FACTIONS[y].relationships.associates) {
+    if (associate !== FACTIONS[x].id) continue;
     return COLOR_ASSOCIATE;
   }
 
-  for (let ally of FACTIONS[y].allies) {
-    if (ally.id !== FACTIONS[x].id) continue;
+  for (let ally of FACTIONS[y].relationships.allies) {
+    if (ally !== FACTIONS[x].id) continue;
     return COLOR_ALLY;
   }
 
-  for (let friend of FACTIONS[y].friends) {
-    if (friend.id !== FACTIONS[x].id) continue;
+  for (let friend of FACTIONS[y].relationships.friends) {
+    if (friend !== FACTIONS[x].id) continue;
     return COLOR_FRIEND;
   }
 
-  for (let hot of FACTIONS[y].hotWar) {
-    if (hot.id !== FACTIONS[x].id) continue;
+  for (let hot of FACTIONS[y].relationships.hotWar) {
+    if (hot !== FACTIONS[x].id) continue;
     return COLOR_HOT_WAR;
   }
 
-  for (let cold of FACTIONS[y].coldWar) {
-    if (cold.id !== FACTIONS[x].id) continue;
+  for (let cold of FACTIONS[y].relationships.coldWar) {
+    if (cold !== FACTIONS[x].id) continue;
     return COLOR_COLD_WAR;
   }
 
-  for (let enemy of FACTIONS[y].enemies) {
-    if (enemy.id !== FACTIONS[x].id) continue;
+  for (let enemy of FACTIONS[y].relationships.enemies) {
+    if (enemy !== FACTIONS[x].id) continue;
     return COLOR_ENEMY;
   }
 

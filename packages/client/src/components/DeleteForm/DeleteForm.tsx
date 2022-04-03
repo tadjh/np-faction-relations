@@ -1,20 +1,14 @@
 import clsx from 'clsx';
-import {
-  ChangeEventHandler,
-  FormEventHandler,
-  useContext,
-  useState,
-} from 'react';
+import { ChangeEventHandler, FormEventHandler, useState } from 'react';
 import { useMutation } from 'react-query';
-import FactionsContext from '../../contexts/factions.context';
-import { useApi } from '../../hooks';
+import { useApi, useFactions } from '../../hooks';
 import Accordian from '../Accordian';
 import SubmitButton from '../SubmitButton';
 
 function DeleteForm() {
   const [selected, setSelected] = useState('');
   const { deleteFaction } = useApi();
-  const { factions } = useContext(FactionsContext);
+  const { factions } = useFactions();
 
   const mutation = useMutation(deleteFaction);
 
