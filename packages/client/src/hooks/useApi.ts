@@ -1,26 +1,23 @@
+import { addDoc, serverTimestamp, updateDoc } from 'firebase/firestore';
 import {
-  addDoc,
-  collection,
-  doc,
-  serverTimestamp,
-  updateDoc,
-} from 'firebase/firestore';
-import { COLLECTION_FACTIONS, db } from '../config/firebase';
+  factionDocumentReference,
+  FACTION_COLLECTION_REFERENCE,
+} from '../config/firebase';
 import {
   FactionProps,
   HydratedFactionProps,
-  TimestampedFactionProps,
+  ServerTimeFactionProps,
 } from '../types';
 
 export function useApi() {
   const createFaction = async (data: FactionProps) => {
-    const newDoc: TimestampedFactionProps = {
+    const newDoc: ServerTimeFactionProps = {
       ...data,
       created: serverTimestamp(),
       updated: serverTimestamp(),
     };
     try {
-      const docRef = await addDoc(collection(db, COLLECTION_FACTIONS), newDoc);
+      const docRef = await addDoc(FACTION_COLLECTION_REFERENCE, newDoc);
       console.log('Document written with ID: ', docRef.id);
       return docRef;
     } catch (error) {
@@ -30,13 +27,13 @@ export function useApi() {
   };
 
   const editFaction = async ({ id, ...data }: HydratedFactionProps) => {
-    const nextDoc: TimestampedFactionProps = {
+    const nextDoc: ServerTimeFactionProps = {
       ...data,
       updated: serverTimestamp(),
     };
 
     try {
-      const docRef = await updateDoc(doc(db, COLLECTION_FACTIONS, id), {
+      const docRef = await updateDoc(factionDocumentReference(id), {
         ...nextDoc,
       });
       console.log('Document edited with ID: ', id);
@@ -53,7 +50,7 @@ export function useApi() {
       updated: serverTimestamp(),
     };
     try {
-      await updateDoc(doc(db, COLLECTION_FACTIONS, id), {
+      await updateDoc(factionDocumentReference(id), {
         ...nextDoc,
       });
       console.log('Document deleted with ID: ', id);

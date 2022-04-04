@@ -6,7 +6,14 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from 'firebase/auth';
-import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
+import {
+  collection,
+  CollectionReference,
+  connectFirestoreEmulator,
+  doc,
+  getFirestore,
+} from 'firebase/firestore';
+import { TimestampedFactionProps } from '../types';
 
 const apiKey = process.env.REACT_APP_FIREBASE_API_KEY;
 const authDomain = process.env.REACT_APP_FIREBASE_AUTH_DOMAIN;
@@ -15,8 +22,6 @@ const storageBucket = process.env.REACT_APP_FIREBASE_STORAGE_BUCKET;
 const messagingSenderId = process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID;
 const appId = process.env.REACT_APP_FIREBASE_APP_ID;
 const measurementId = process.env.REACT_APP_FIREBASE_MEASUREMENT_ID;
-
-export const COLLECTION_FACTIONS = 'factions';
 
 const firebaseConfig = {
   apiKey,
@@ -33,6 +38,7 @@ export const auth = getAuth(app);
 export const db = getFirestore(app);
 
 auth.useDeviceLanguage();
+
 connectAuthEmulator(auth, 'http://localhost:9099', { disableWarnings: true });
 connectFirestoreEmulator(db, 'localhost', 8080);
 
@@ -77,3 +83,13 @@ export const signIn = async () => {
     // const credential = GoogleAuthProvider.credentialFromError(error);
   }
 };
+
+export const COLLECTION_FACTIONS = 'factions';
+
+export const FACTION_COLLECTION_REFERENCE = collection(
+  db,
+  COLLECTION_FACTIONS
+) as CollectionReference<TimestampedFactionProps>;
+
+export const factionDocumentReference = (id: string) =>
+  doc(db, COLLECTION_FACTIONS, id);

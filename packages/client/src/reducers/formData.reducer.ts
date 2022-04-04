@@ -1,3 +1,4 @@
+import { Timestamp } from 'firebase/firestore';
 import {
   INIT,
   SET_ALL,
@@ -26,6 +27,7 @@ export const initialState: HydratedFactionProps = {
     hasLab: false,
     labCount: 0,
   },
+  created: new Timestamp(0, 0),
   displayName: '',
   id: '',
   name: '',
@@ -38,6 +40,7 @@ export const initialState: HydratedFactionProps = {
     friends: { type: 'friends', data: [] },
     hotWar: { type: 'hotWar', data: [] },
   },
+  updated: new Timestamp(0, 0),
 };
 
 export type FactionAction =

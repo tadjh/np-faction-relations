@@ -6,8 +6,6 @@ export const HEADER_SIZE = 92;
 
 export const SITE_HEADER_TEXT = 'faction relational chart';
 export const LOGO_ALT_TEXT = 'nopixel logo';
-export const DATE =
-  'Last updated on Sat Mar 26 2022 04:01:13 GMT-0700 (Pacific Daylight Time)';
 
 export const COLOR_ASSOCIATE = 'bg-lime-900';
 export const COLOR_ALLY = 'bg-lime-600';

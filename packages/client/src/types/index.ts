@@ -1,4 +1,4 @@
-import { FieldValue } from 'firebase/firestore';
+import { FieldValue, Timestamp } from 'firebase/firestore';
 
 export interface FactionProps {
   active: boolean;
@@ -22,8 +22,13 @@ export interface FactionProps {
 }
 
 export interface TimestampedFactionProps extends FactionProps {
-  created?: FieldValue;
-  updated?: FieldValue;
+  created: Timestamp;
+  updated: Timestamp;
+}
+
+export interface ServerTimeFactionProps extends FactionProps {
+  created: FieldValue;
+  updated: FieldValue;
 }
 
 export interface HydratedFactionProps extends TimestampedFactionProps {
