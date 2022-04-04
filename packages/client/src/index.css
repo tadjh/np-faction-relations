@@ -12,7 +12,3 @@
     rgba(0, 0, 0, 0) 100%
   );
 }
-
-.grid-template-cols-grow {
-  grid-template-columns: 1fr auto 1fr;
-}

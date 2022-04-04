@@ -5,7 +5,10 @@ import { LOGO_ALT_TEXT, SITE_HEADER_TEXT } from '../../config/constants';
 
 function Header({ onClick }: HTMLAttributes<HTMLAnchorElement>) {
   return (
-    <div className="grid grid-template-cols-grow w-full">
+    <div
+      className="grid w-full"
+      style={{ gridTemplateColumns: '1fr auto 1fr' }}
+    >
       <Link
         to="/edit"
         onClick={onClick}
