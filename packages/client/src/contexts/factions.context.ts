@@ -1,9 +1,9 @@
 import { createContext } from 'react';
-import { HydratedFactionProps } from '../types';
+import { AssociativeFactionProps } from '../types';
 
 export interface FactionsContextType {
-  factions: HydratedFactionProps[] | null;
-  length?: number;
+  factions: AssociativeFactionProps | null;
+  length: number;
   updated: string;
 }
 

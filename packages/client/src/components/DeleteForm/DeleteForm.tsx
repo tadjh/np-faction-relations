@@ -59,9 +59,9 @@ function DeleteForm() {
               select faction
             </option>
             {factions &&
-              factions.map((faction) => (
-                <option key={`selected-${faction.id}`} value={faction.id}>
-                  {faction.name}
+              Object.keys(factions).map((id) => (
+                <option key={`selected-${id}`} value={id}>
+                  {factions[id].name}
                 </option>
               ))}
           </select>

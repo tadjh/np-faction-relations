@@ -1,5 +1,13 @@
 import { FieldValue, Timestamp } from 'firebase/firestore';
 
+export type Relationship =
+  | 'allies'
+  | 'associates'
+  | 'coldWar'
+  | 'enemies'
+  | 'friends'
+  | 'hotWar';
+
 export interface FactionProps {
   active: boolean;
   attributes: {
@@ -12,12 +20,10 @@ export interface FactionProps {
   name: string;
   order: number;
   relationships: {
-    allies: { type: 'allies'; data: string[] };
-    associates: { type: 'associates'; data: string[] };
-    coldWar: { type: 'coldWar'; data: string[] };
-    enemies: { type: 'enemies'; data: string[] };
-    friends: { type: 'friends'; data: string[] };
-    hotWar: { type: 'hotWar'; data: string[] };
+    [key in Relationship]: {
+      type: Relationship;
+      data: string[];
+    };
   };
 }
 
@@ -31,6 +37,10 @@ export interface ServerTimeFactionProps extends FactionProps {
   updated: FieldValue;
 }
 
-export interface HydratedFactionProps extends TimestampedFactionProps {
-  id: string;
+export interface AssociativeFactionProps {
+  [id: string]: TimestampedFactionProps;
+}
+
+export interface ServerAssociativeFactionProps {
+  [id: string]: ServerTimeFactionProps;
 }

@@ -4,7 +4,7 @@ import Grid from './components/Grid';
 import Notes from './components/Notes';
 import AuthProvider from './providers/AuthProvider';
 import RequireAuth from './components/RequireAuth';
-import { Route, Routes } from 'react-router-dom';
+import { Link, Route, Routes } from 'react-router-dom';
 import SignIn from './components/SignIn';
 import Admin from './components/Admin';
 import Edit from './components/Edit';
@@ -50,9 +50,20 @@ function App() {
           style={{ gridTemplateColumns: '1fr auto 1fr' }}
         >
           <div className="flex flex-col gap-y-4"></div>
-          <div className="flex h-full justify-center items-center flex-col">
-            <Header onClick={handleOpen} />
-            <Grid />
+          <div className="flex min-h-full items-center flex-col">
+            <Header />
+            <div className="flex flex-col flex-1 justify-center">
+              <Link
+                to="/edit"
+                onClick={handleOpen}
+                className="hover:underline text-[8px]"
+              >
+                edit
+              </Link>
+              <div>
+                <Grid />
+              </div>
+            </div>
             <Footer />
           </div>
           <div className="flex items-center flex-col justify-center gap-y-4">

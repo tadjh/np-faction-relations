@@ -1,4 +1,4 @@
-import { HydratedFactionProps } from '../types';
+import { AssociativeFactionProps, TimestampedFactionProps } from '../types';
 import {
   COLOR_ALLY,
   COLOR_ASSOCIATE,
@@ -15,42 +15,43 @@ export const headerColor = (index = 1) =>
   index % 2 ? COLOR_BACKGROUND_ALT : undefined;
 
 export const backgroundColor = (
-  factions: HydratedFactionProps[],
+  faction: TimestampedFactionProps,
   x: number,
-  y: number
+  y: number,
+  xId: string
 ): string => {
   if (x === y) {
-    if (factions[x].attributes.hasBench === true) return COLOR_HAS_BENCH;
+    if (faction.attributes.hasBench === true) return COLOR_HAS_BENCH;
     return 'diagonal-line';
   }
 
-  for (let associate of factions[y].relationships.associates.data) {
-    if (associate !== factions[x].id) continue;
+  for (let associate of faction.relationships.associates.data) {
+    if (associate !== xId) continue;
     return COLOR_ASSOCIATE;
   }
 
-  for (let ally of factions[y].relationships.allies.data) {
-    if (ally !== factions[x].id) continue;
+  for (let ally of faction.relationships.allies.data) {
+    if (ally !== xId) continue;
     return COLOR_ALLY;
   }
 
-  for (let friend of factions[y].relationships.friends.data) {
-    if (friend !== factions[x].id) continue;
+  for (let friend of faction.relationships.friends.data) {
+    if (friend !== xId) continue;
     return COLOR_FRIEND;
   }
 
-  for (let hot of factions[y].relationships.hotWar.data) {
-    if (hot !== factions[x].id) continue;
+  for (let hot of faction.relationships.hotWar.data) {
+    if (hot !== xId) continue;
     return COLOR_HOT_WAR;
   }
 
-  for (let cold of factions[y].relationships.coldWar.data) {
-    if (cold !== factions[x].id) continue;
+  for (let cold of faction.relationships.coldWar.data) {
+    if (cold !== xId) continue;
     return COLOR_COLD_WAR;
   }
 
-  for (let enemy of factions[y].relationships.enemies.data) {
-    if (enemy !== factions[x].id) continue;
+  for (let enemy of faction.relationships.enemies.data) {
+    if (enemy !== xId) continue;
     return COLOR_ENEMY;
   }
 

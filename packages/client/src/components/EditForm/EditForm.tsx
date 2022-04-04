@@ -1,5 +1,6 @@
 import clsx from 'clsx';
-import { ChangeEventHandler, FormEventHandler, useState } from 'react';
+import { useState } from 'react';
+import { ChangeEventHandler, FormEventHandler } from 'react';
 import { useMutation } from 'react-query';
 import { useApi, useFactions, useFormData } from '../../hooks';
 import Accordian from '../Accordian';
@@ -10,9 +11,9 @@ import Input from '../Inputs/TextInput';
 import SubmitButton from '../SubmitButton';
 
 function EditForm() {
-  const [selected, setSelected] = useState('');
   const { state, handlers } = useFormData();
   const { factions } = useFactions();
+  const [selected, setSelected] = useState('');
   const { editFaction } = useApi();
 
   const mutation = useMutation(editFaction);
@@ -20,27 +21,51 @@ function EditForm() {
   const error = mutation.error as any;
 
   const handleSelected: ChangeEventHandler<HTMLSelectElement> = (event) => {
-    setSelected(event.target.value);
-
+    if (event.target.value === '') return handleReset();
+    const id = event.target.value;
     if (factions) {
-      const doc = factions.find((doc) => doc.id === event.target.value);
+      const doc = factions[id];
       doc && handlers.handleSetAll(doc);
+      setSelected(id);
     }
   };
 
-  const resetSelected = () => setSelected('');
+  const handleReset = () => {
+    handlers.resetState();
+    setSelected('');
+    mutation.reset();
+  };
 
   // TODO Debounce
   const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
 
-    if (mutation.isError) {
-      handlers.resetState();
-      resetSelected();
-      return mutation.reset();
-    }
+    if (mutation.isError) return handleReset();
 
-    mutation.mutate(state);
+    if (factions) {
+      const prev = factions[selected];
+      prev &&
+        mutation.mutate({
+          id: selected,
+          next: state,
+          prev: factions[selected],
+          factions,
+        });
+    }
+  };
+
+  const handleRelationshipMap = (
+    type: string,
+    factionId: string,
+    name: string,
+    currentId: string
+  ) => {
+    if (factionId === currentId) return null;
+    return (
+      <option key={`${type}-${factionId}`} value={factionId}>
+        {name}
+      </option>
+    );
   };
 
   return (
@@ -55,7 +80,7 @@ function EditForm() {
             {selected !== '' && (
               <span
                 className="text-base hover:cursor-pointer"
-                onClick={resetSelected}
+                onClick={handleReset}
               >
                 &#8635;
               </span>
@@ -72,9 +97,9 @@ function EditForm() {
               select faction
             </option>
             {factions &&
-              factions.map((faction) => (
-                <option key={`selected-${faction.id}`} value={faction.id}>
-                  {faction.name}
+              Object.keys(factions).map((id) => (
+                <option key={`selected-${id}`} value={id}>
+                  {factions[id].name}
                 </option>
               ))}
           </select>
@@ -155,11 +180,14 @@ function EditForm() {
               onChange={handlers.handleAssociates}
             >
               {factions &&
-                factions.map((faction) => (
-                  <option key={`associates-${faction.id}`} value={faction.id}>
-                    {faction.name}
-                  </option>
-                ))}
+                Object.keys(factions).map((id) =>
+                  handleRelationshipMap(
+                    'associates',
+                    id,
+                    factions[id].name,
+                    selected
+                  )
+                )}
             </select>
           </div>
           <div className="flex gap-x-2 items-center px-2">
@@ -182,11 +210,14 @@ function EditForm() {
               onChange={handlers.handleAllies}
             >
               {factions &&
-                factions.map((faction) => (
-                  <option key={`allies-${faction.id}`} value={faction.id}>
-                    {faction.name}
-                  </option>
-                ))}
+                Object.keys(factions).map((id) =>
+                  handleRelationshipMap(
+                    'allies',
+                    id,
+                    factions[id].name,
+                    selected
+                  )
+                )}
             </select>
           </div>
           <div className="flex gap-x-2 items-center px-2">
@@ -209,11 +240,14 @@ function EditForm() {
               onChange={handlers.handleFriends}
             >
               {factions &&
-                factions.map((faction) => (
-                  <option key={`friends-${faction.id}`} value={faction.id}>
-                    {faction.name}
-                  </option>
-                ))}
+                Object.keys(factions).map((id) =>
+                  handleRelationshipMap(
+                    'friends',
+                    id,
+                    factions[id].name,
+                    selected
+                  )
+                )}
             </select>
           </div>
           <div className="flex gap-x-2 items-center px-2">
@@ -236,11 +270,14 @@ function EditForm() {
               onChange={handlers.handleHotWar}
             >
               {factions &&
-                factions.map((faction) => (
-                  <option key={`hotWar-${faction.id}`} value={faction.id}>
-                    {faction.name}
-                  </option>
-                ))}
+                Object.keys(factions).map((id) =>
+                  handleRelationshipMap(
+                    'hotWar',
+                    id,
+                    factions[id].name,
+                    selected
+                  )
+                )}
             </select>
           </div>
           <div className="flex gap-x-2 items-center px-2">
@@ -263,11 +300,14 @@ function EditForm() {
               onChange={handlers.handleColdWar}
             >
               {factions &&
-                factions.map((faction) => (
-                  <option key={`coldWar-${faction.id}`} value={faction.id}>
-                    {faction.name}
-                  </option>
-                ))}
+                Object.keys(factions).map((id) =>
+                  handleRelationshipMap(
+                    'coldWar',
+                    id,
+                    factions[id].name,
+                    selected
+                  )
+                )}
             </select>
           </div>
           <div className="flex gap-x-2 items-center px-2">
@@ -290,11 +330,14 @@ function EditForm() {
               onChange={handlers.handleEnemies}
             >
               {factions &&
-                factions.map((faction) => (
-                  <option key={`enemies-${faction.id}`} value={faction.id}>
-                    {faction.name}
-                  </option>
-                ))}
+                Object.keys(factions).map((id) =>
+                  handleRelationshipMap(
+                    'enemies',
+                    id,
+                    factions[id].name,
+                    selected
+                  )
+                )}
             </select>
           </div>
           <div className="w-full flex justify-between items-center p-2 h-11">

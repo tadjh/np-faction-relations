@@ -1,11 +1,14 @@
 import { query, where, orderBy, onSnapshot } from 'firebase/firestore';
 import { ReactNode, useEffect, useState } from 'react';
+import { unstable_batchedUpdates } from 'react-dom';
 import { FACTION_COLLECTION_REFERENCE } from '../../config/firebase';
 import FactionsContext from '../../contexts/factions.context';
-import { HydratedFactionProps, TimestampedFactionProps } from '../../types';
+import { AssociativeFactionProps, TimestampedFactionProps } from '../../types';
 
 function FactionsProvider({ children }: { children: ReactNode }) {
-  const [factions, setFactions] = useState<HydratedFactionProps[] | null>(null);
+  const [factions, setFactions] = useState<AssociativeFactionProps | null>(
+    null
+  );
   const [updated, setUpdated] = useState('');
   useEffect(() => {
     const q = query<TimestampedFactionProps>(
@@ -17,18 +20,22 @@ function FactionsProvider({ children }: { children: ReactNode }) {
     const unsubscribe = onSnapshot<TimestampedFactionProps>(
       q,
       (querySnapshot) => {
-        let factionsArray: HydratedFactionProps[] = [];
+        let newFactions: AssociativeFactionProps;
         let time = 0;
         querySnapshot.forEach((doc) => {
-          factionsArray = [...factionsArray, { ...doc.data(), id: doc.id }];
-          time =
-            doc.data().updated.seconds > time
-              ? doc.data().updated.seconds
-              : time;
+          newFactions = { ...newFactions, [doc.id]: doc.data() };
+          doc.data().updated &&
+            (time =
+              doc.data().updated.seconds > time
+                ? doc.data().updated.seconds
+                : time);
         });
 
-        setFactions(factionsArray);
-        setUpdated(new Date(time * 1000).toString());
+        // TODO Remove for React 18
+        unstable_batchedUpdates(() => {
+          setFactions(newFactions);
+          setUpdated(new Date(time * 1000).toString());
+        });
       },
       (error) => {
         throw error;
@@ -40,7 +47,7 @@ function FactionsProvider({ children }: { children: ReactNode }) {
 
   let value = {
     factions,
-    length: factions?.length,
+    length: factions ? Object.keys(factions).length : 0,
     updated,
   };
 

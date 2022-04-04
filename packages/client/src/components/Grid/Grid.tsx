@@ -17,55 +17,53 @@ function Grid() {
     >
       <Legend />
       {factions &&
-        factions.map((gang, x) => (
+        Object.keys(factions).map((id, x, array) => (
           <div
             key={`row1col${x + 2}`}
             className={clsx(
               'border text-center flex items-center justify-center',
               headerColor(x),
               'border-t-stone-900 border-b-stone-900',
-              x === factions.length - 1 && 'border-r-stone-900'
+              x === length - 1 && 'border-r-stone-900'
             )}
           >
-            <span className="-rotate-90">{gang.displayName || gang.name}</span>
+            <span className="-rotate-90">
+              {factions[id].displayName || factions[id].name}
+            </span>
           </div>
         ))}
       {factions &&
-        Array<boolean>(factions.length)
-          .fill(true)
-          .map((_, y) => (
-            <Fragment key={factions[y].id}>
+        Object.keys(factions).map((id, y) => (
+          <Fragment key={`y-${id}`}>
+            <div
+              key={`row${y + 2}col1`}
+              className={clsx(
+                'border text-center flex items-center justify-center border-l-stone-900 border-r-stone-900',
+                y === length - 1 && 'border-b-stone-900',
+                headerColor(y)
+              )}
+            >
+              {factions[id].displayName || factions[id].name}
+            </div>
+            {Object.keys(factions).map((xId, x) => (
               <div
-                key={`row${y + 2}col1`}
+                key={`row${y + 2}col${x + 2}`}
                 className={clsx(
-                  'border text-center flex items-center justify-center border-l-stone-900 border-r-stone-900',
-                  y === factions.length - 1 && 'border-b-stone-900',
-                  headerColor(y)
+                  'border text-center flex justify-center items-center',
+                  backgroundColor(factions[id], x, y, xId),
+                  y === length - 1 && 'border-b-stone-900',
+                  x === length - 1 && 'border-r-stone-900'
                 )}
               >
-                {factions[y].displayName || factions[y].name}
+                {x === y && factions[id].attributes.benchCount > 1 && (
+                  <span className="text-xs text-amber-100">
+                    {factions[id].attributes.benchCount}
+                  </span>
+                )}
               </div>
-              {Array<boolean>(factions.length)
-                .fill(true)
-                .map((_, x) => (
-                  <div
-                    key={`row${y + 2}col${x + 2}`}
-                    className={clsx(
-                      'border text-center flex justify-center items-center',
-                      backgroundColor(factions, x, y),
-                      y === factions.length - 1 && 'border-b-stone-900',
-                      x === factions.length - 1 && 'border-r-stone-900'
-                    )}
-                  >
-                    {x === y && factions[y].attributes.benchCount > 1 && (
-                      <span className="text-xs text-amber-100">
-                        {factions[y].attributes.benchCount}
-                      </span>
-                    )}
-                  </div>
-                ))}
-            </Fragment>
-          ))}
+            ))}
+          </Fragment>
+        ))}
     </div>
   );
 }

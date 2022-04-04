@@ -19,13 +19,13 @@ import {
   SET_ORDER,
 } from '../config/constants';
 import { initialState, reducer } from '../reducers/formData.reducer';
-import { HydratedFactionProps } from '../types';
+import { TimestampedFactionProps } from '../types';
 
-export function useFormData(props?: HydratedFactionProps) {
+export function useFormData(props?: TimestampedFactionProps) {
   const [state, dispatch] = useReducer(reducer, props || initialState);
 
   // handlers
-  const handleSetAll = (data: HydratedFactionProps) =>
+  const handleSetAll = (data: TimestampedFactionProps) =>
     dispatch({ type: SET_ALL, payload: data });
   const handleActive: ChangeEventHandler<HTMLInputElement> = () =>
     dispatch({ type: SET_ACTIVE });
@@ -48,50 +48,45 @@ export function useFormData(props?: HydratedFactionProps) {
       payload: parseFloat(event.target.value),
     });
 
-  const handleAllies: ChangeEventHandler<HTMLSelectElement> = (event) => {
-    const value = Array.from(
-      event.target.selectedOptions,
-      (option) => option.value
-    );
-    dispatch({ type: SET_ALLIES, payload: value });
-  };
-  const handleAssociates: ChangeEventHandler<HTMLSelectElement> = (event) => {
-    const value = Array.from(
-      event.target.selectedOptions,
-      (option) => option.value
-    );
-    dispatch({ type: SET_ASSOCIATES, payload: value });
-  };
-  const handleColdWar: ChangeEventHandler<HTMLSelectElement> = (event) => {
-    const value = Array.from(
-      event.target.selectedOptions,
-      (option) => option.value
-    );
-    dispatch({ type: SET_COLD_WAR, payload: value });
-  };
-  const handleEnemies: ChangeEventHandler<HTMLSelectElement> = (event) => {
-    const value = Array.from(
-      event.target.selectedOptions,
-      (option) => option.value
-    );
-    dispatch({ type: SET_ENEMIES, payload: value });
-  };
+  const formatRelationshipSet = (
+    selectedOptions: HTMLCollectionOf<HTMLOptionElement>
+  ) => Array.from(selectedOptions, (option) => option.value);
 
-  const handleFriends: ChangeEventHandler<HTMLSelectElement> = (event) => {
-    const value = Array.from(
-      event.target.selectedOptions,
-      (option) => option.value
-    );
-    dispatch({ type: SET_FRIENDS, payload: value });
-  };
+  const handleAllies: ChangeEventHandler<HTMLSelectElement> = (event) =>
+    dispatch({
+      type: SET_ALLIES,
+      payload: formatRelationshipSet(event.target.selectedOptions),
+    });
 
-  const handleHotWar: ChangeEventHandler<HTMLSelectElement> = (event) => {
-    const value = Array.from(
-      event.target.selectedOptions,
-      (option) => option.value
-    );
-    dispatch({ type: SET_HOT_WAR, payload: value });
-  };
+  const handleAssociates: ChangeEventHandler<HTMLSelectElement> = (event) =>
+    dispatch({
+      type: SET_ASSOCIATES,
+      payload: formatRelationshipSet(event.target.selectedOptions),
+    });
+
+  const handleColdWar: ChangeEventHandler<HTMLSelectElement> = (event) =>
+    dispatch({
+      type: SET_COLD_WAR,
+      payload: formatRelationshipSet(event.target.selectedOptions),
+    });
+
+  const handleEnemies: ChangeEventHandler<HTMLSelectElement> = (event) =>
+    dispatch({
+      type: SET_ENEMIES,
+      payload: formatRelationshipSet(event.target.selectedOptions),
+    });
+
+  const handleFriends: ChangeEventHandler<HTMLSelectElement> = (event) =>
+    dispatch({
+      type: SET_FRIENDS,
+      payload: formatRelationshipSet(event.target.selectedOptions),
+    });
+
+  const handleHotWar: ChangeEventHandler<HTMLSelectElement> = (event) =>
+    dispatch({
+      type: SET_HOT_WAR,
+      payload: formatRelationshipSet(event.target.selectedOptions),
+    });
 
   // resets
   const resetState = () => dispatch({ type: INIT });
