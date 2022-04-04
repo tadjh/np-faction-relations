@@ -1,16 +1,16 @@
-import { Fragment, useState } from 'react';
+import { useState } from 'react';
 import clsx from 'clsx';
 import Grid from './components/Grid';
 import Notes from './components/Notes';
-import logo from './assets/np-logo-dark.png';
-import { DATE, LOGO_ALT_TEXT, SITE_HEADER_TEXT } from './config/constants';
 import AuthProvider from './providers/AuthProvider';
 import RequireAuth from './components/RequireAuth';
-import { Link, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import SignIn from './components/SignIn';
 import Admin from './components/Admin';
 import Edit from './components/Edit';
 import FactionsProvider from './providers/FactionsProvider';
+import Footer from './components/Footer';
+import Header from './components/Header';
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -51,25 +51,9 @@ function App() {
         >
           <div className="flex flex-col gap-y-4"></div>
           <div className="flex h-full justify-center items-center flex-col">
-            <div className="grid grid-template-cols-grow w-full">
-              <Link
-                to="/edit"
-                onClick={handleOpen}
-                className="hover:underline text-[8px] self-end"
-              >
-                edit
-              </Link>
-              <div className="flex items-center justify-center gap-x-2 p-2">
-                <img src={logo} alt={LOGO_ALT_TEXT} width={160} />
-                <span>{SITE_HEADER_TEXT}</span>
-              </div>
-              <div />
-            </div>
+            <Header onClick={handleOpen} />
             <Grid />
-            <div className="flex gap-x-2 text-[8px] p-2 w-full justify-between">
-              <div />
-              <div>{DATE}</div>
-            </div>
+            <Footer />
           </div>
           <div className="flex items-center flex-col justify-center gap-y-4">
             <Notes />
