@@ -4,7 +4,7 @@ import { HydratedFactionProps } from '../types';
 export interface FactionsContextType {
   factions: HydratedFactionProps[] | null;
   length?: number;
-  updated: number;
+  updated: string;
 }
 
 let FactionsContext = createContext<FactionsContextType>(null!);
