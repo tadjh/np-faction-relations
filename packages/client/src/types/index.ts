@@ -12,18 +12,18 @@ export interface FactionProps {
   name: string;
   order: number;
   relationships: {
-    allies: string[];
-    associates: string[];
-    coldWar: string[];
-    enemies: string[];
-    friends: string[];
-    hotWar: string[];
+    allies: { type: 'allies'; data: string[] };
+    associates: { type: 'associates'; data: string[] };
+    coldWar: { type: 'coldWar'; data: string[] };
+    enemies: { type: 'enemies'; data: string[] };
+    friends: { type: 'friends'; data: string[] };
+    hotWar: { type: 'hotWar'; data: string[] };
   };
 }
 
 export interface TimestampedFactionProps extends FactionProps {
-  created: FieldValue | null;
-  updated: FieldValue | null;
+  created?: FieldValue;
+  updated?: FieldValue;
 }
 
 export interface HydratedFactionProps extends TimestampedFactionProps {

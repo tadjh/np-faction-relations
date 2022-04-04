@@ -12,7 +12,8 @@ import FactionsContext from '../../contexts/factions.context';
 import { HydratedFactionProps } from '../../types';
 
 function FactionsProvider({ children }: { children: ReactNode }) {
-  let [factions, setFactions] = useState<HydratedFactionProps[] | null>(null);
+  const [factions, setFactions] = useState<HydratedFactionProps[] | null>(null);
+  const [updated, setUpdated] = useState(0);
 
   useEffect(() => {
     const q = query<HydratedFactionProps>(
@@ -31,7 +32,20 @@ function FactionsProvider({ children }: { children: ReactNode }) {
         querySnapshot.forEach((doc) => {
           factionsArray = [...factionsArray, { ...doc.data(), id: doc.id }];
         });
+        // const updatedDate = [...factionsArray].sort((a, b) => {
+        //   const c: any = a.updated;
+        //   const d: any = b.updated;
+        //   return c.seconds - d.seconds;
+        // });
+        // const mostRecent: any = updatedDate[0].updated;
+
         setFactions(factionsArray);
+
+        // console.log('sorted', updatedDate);
+
+        // console.log('seconds', mostRecent.seconds);
+
+        // setUpdated(mostRecent.seconds);
       },
       (error) => {
         throw error;
@@ -44,7 +58,9 @@ function FactionsProvider({ children }: { children: ReactNode }) {
   let value = {
     factions,
     length: factions?.length,
+    updated: 0,
   };
+
   return (
     <FactionsContext.Provider value={value}>
       {children}

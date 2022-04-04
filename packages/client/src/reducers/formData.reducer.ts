@@ -26,23 +26,19 @@ export const initialState: HydratedFactionProps = {
     hasLab: false,
     labCount: 0,
   },
-  created: null,
   displayName: '',
   id: '',
   name: '',
   order: 0,
   relationships: {
-    allies: [],
-    associates: [],
-    coldWar: [],
-    enemies: [],
-    friends: [],
-    hotWar: [],
+    allies: { type: 'allies', data: [] },
+    associates: { type: 'associates', data: [] },
+    coldWar: { type: 'coldWar', data: [] },
+    enemies: { type: 'enemies', data: [] },
+    friends: { type: 'friends', data: [] },
+    hotWar: { type: 'hotWar', data: [] },
   },
-  updated: null,
 };
-
-// TODO Timestamp
 
 export type FactionAction =
   | { type: typeof INIT }
@@ -116,32 +112,53 @@ export function reducer(
     case SET_ALLIES:
       return {
         ...state,
-        relationships: { ...state.relationships, allies: action.payload },
+        relationships: {
+          ...state.relationships,
+          allies: { ...state.relationships.allies, data: action.payload },
+        },
       };
     case SET_ASSOCIATES:
       return {
         ...state,
-        relationships: { ...state.relationships, associates: action.payload },
+        relationships: {
+          ...state.relationships,
+          associates: {
+            ...state.relationships.associates,
+            data: action.payload,
+          },
+        },
       };
     case SET_COLD_WAR:
       return {
         ...state,
-        relationships: { ...state.relationships, coldWar: action.payload },
+        relationships: {
+          ...state.relationships,
+          coldWar: { ...state.relationships.coldWar, data: action.payload },
+        },
       };
     case SET_ENEMIES:
       return {
         ...state,
-        relationships: { ...state.relationships, enemies: action.payload },
+        relationships: {
+          ...state.relationships,
+          enemies: { ...state.relationships.enemies, data: action.payload },
+        },
       };
     case SET_FRIENDS:
       return {
         ...state,
-        relationships: { ...state.relationships, friends: action.payload },
+        relationships: {
+          ...state.relationships,
+          friends: { ...state.relationships.friends, data: action.payload },
+        },
       };
     case SET_HOT_WAR:
       return {
         ...state,
-        relationships: { ...state.relationships, hotWar: action.payload },
+        relationships: {
+          ...state.relationships,
+          hotWar: { ...state.relationships.hotWar, data: action.payload },
+        },
       };
     default:
       throw new Error('Invalid dispatch action in Form Data reducer');

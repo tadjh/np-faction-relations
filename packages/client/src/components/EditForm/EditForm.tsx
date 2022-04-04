@@ -23,8 +23,8 @@ function EditForm() {
     setSelected(event.target.value);
 
     if (factions) {
-      const doc = factions.filter((doc) => doc.id === event.target.value)[0];
-      handlers.handleSetAll(doc);
+      const doc = factions.find((doc) => doc.id === event.target.value);
+      doc && handlers.handleSetAll(doc);
     }
   };
 
@@ -138,7 +138,7 @@ function EditForm() {
               className="w-32 flex items-center gap-x-2"
             >
               associates
-              {state.relationships.associates.length !== 0 && (
+              {state.relationships.associates.data.length !== 0 && (
                 <span
                   className="text-base hover:cursor-pointer"
                   onClick={handlers.resetAssociates}
@@ -151,7 +151,7 @@ function EditForm() {
               name="associates"
               multiple
               className="flex-1 border"
-              value={state.relationships.associates}
+              value={state.relationships.associates.data}
               onChange={handlers.handleAssociates}
             >
               {factions &&
@@ -165,7 +165,7 @@ function EditForm() {
           <div className="flex gap-x-2 items-center px-2">
             <label htmlFor="allies" className="w-32 flex items-center gap-x-2">
               allies
-              {state.relationships.allies.length !== 0 && (
+              {state.relationships.allies.data.length !== 0 && (
                 <span
                   className="text-base hover:cursor-pointer"
                   onClick={handlers.resetAllies}
@@ -178,7 +178,7 @@ function EditForm() {
               name="allies"
               multiple
               className="flex-1 border"
-              value={state.relationships.allies}
+              value={state.relationships.allies.data}
               onChange={handlers.handleAllies}
             >
               {factions &&
@@ -192,7 +192,7 @@ function EditForm() {
           <div className="flex gap-x-2 items-center px-2">
             <label htmlFor="friends" className="w-32 flex items-center gap-x-2">
               friends
-              {state.relationships.friends.length !== 0 && (
+              {state.relationships.friends.data.length !== 0 && (
                 <span
                   className="text-base hover:cursor-pointer"
                   onClick={handlers.resetFriends}
@@ -205,7 +205,7 @@ function EditForm() {
               name="friends"
               multiple
               className="flex-1 border"
-              value={state.relationships.friends}
+              value={state.relationships.friends.data}
               onChange={handlers.handleFriends}
             >
               {factions &&
@@ -219,7 +219,7 @@ function EditForm() {
           <div className="flex gap-x-2 items-center px-2">
             <label htmlFor="hotWar" className="w-32 flex items-center gap-x-2">
               hot war
-              {state.relationships.hotWar.length !== 0 && (
+              {state.relationships.hotWar.data.length !== 0 && (
                 <span
                   className="text-base hover:cursor-pointer"
                   onClick={handlers.resetHotWar}
@@ -232,7 +232,7 @@ function EditForm() {
               name="hotWar"
               multiple
               className="flex-1 border"
-              value={state.relationships.hotWar}
+              value={state.relationships.hotWar.data}
               onChange={handlers.handleHotWar}
             >
               {factions &&
@@ -246,7 +246,7 @@ function EditForm() {
           <div className="flex gap-x-2 items-center px-2">
             <label htmlFor="coldWar" className="w-32 flex items-center gap-x-2">
               cold war
-              {state.relationships.coldWar.length !== 0 && (
+              {state.relationships.coldWar.data.length !== 0 && (
                 <span
                   className="text-base hover:cursor-pointer"
                   onClick={handlers.resetColdWar}
@@ -259,7 +259,7 @@ function EditForm() {
               name="coldWar"
               multiple
               className="flex-1 border"
-              value={state.relationships.coldWar}
+              value={state.relationships.coldWar.data}
               onChange={handlers.handleColdWar}
             >
               {factions &&
@@ -273,7 +273,7 @@ function EditForm() {
           <div className="flex gap-x-2 items-center px-2">
             <label htmlFor="enemies" className="w-32 flex items-center gap-x-2">
               enemies
-              {state.relationships.enemies.length !== 0 && (
+              {state.relationships.enemies.data.length !== 0 && (
                 <span
                   className="text-base hover:cursor-pointer"
                   onClick={handlers.resetEnemies}
@@ -286,7 +286,7 @@ function EditForm() {
               name="enemies"
               multiple
               className="flex-1 border"
-              value={state.relationships.enemies}
+              value={state.relationships.enemies.data}
               onChange={handlers.handleEnemies}
             >
               {factions &&

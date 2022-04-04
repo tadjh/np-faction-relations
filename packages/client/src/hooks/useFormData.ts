@@ -96,29 +96,35 @@ export function useFormData(props?: HydratedFactionProps) {
   // resets
   const resetState = () => dispatch({ type: INIT });
   const resetAllies: MouseEventHandler<HTMLSpanElement> = () =>
-    dispatch({ type: SET_ALLIES, payload: props?.relationships.allies || [] });
+    dispatch({
+      type: SET_ALLIES,
+      payload: props?.relationships.allies.data || [],
+    });
   const resetAssociates: MouseEventHandler<HTMLSpanElement> = () =>
     dispatch({
       type: SET_ASSOCIATES,
-      payload: props?.relationships.associates || [],
+      payload: props?.relationships.associates.data || [],
     });
   const resetColdWar: MouseEventHandler<HTMLSpanElement> = () =>
     dispatch({
       type: SET_COLD_WAR,
-      payload: props?.relationships.coldWar || [],
+      payload: props?.relationships.coldWar.data || [],
     });
   const resetEnemies: MouseEventHandler<HTMLSpanElement> = () =>
     dispatch({
       type: SET_ENEMIES,
-      payload: props?.relationships.enemies || [],
+      payload: props?.relationships.enemies.data || [],
     });
   const resetFriends: MouseEventHandler<HTMLSpanElement> = () =>
     dispatch({
       type: SET_FRIENDS,
-      payload: props?.relationships.friends || [],
+      payload: props?.relationships.friends.data || [],
     });
   const resetHotWar: MouseEventHandler<HTMLSpanElement> = () =>
-    dispatch({ type: SET_HOT_WAR, payload: props?.relationships.hotWar || [] });
+    dispatch({
+      type: SET_HOT_WAR,
+      payload: props?.relationships.hotWar.data || [],
+    });
 
   return {
     state,
