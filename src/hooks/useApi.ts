@@ -189,8 +189,8 @@ export function useApi() {
   };
 
   const deleteFaction = async (id: string) => {
-    const nextDoc = {
-      active: false,
+    const nextDoc: Partial<ServerTimeFactionProps> = {
+      visibility: 'private',
       updated: serverTimestamp(),
     };
     try {
