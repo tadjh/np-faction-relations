@@ -32,7 +32,9 @@
     "eject": "react-scripts eject",
     "emulators": "firebase emulators:start",
     "preview": "firebase hosting:channel:deploy",
-    "deploy": "firebase deploy --only hosting,firestore"
+    "predeploy": "yarn install --frozen-lockfile && yarn build",
+    "deploy": "firebase deploy -P default --only hosting,firestore",
+    "deploy:dev": "firebase deploy -P development --only hosting,firestore"
   },
   "eslintConfig": {
     "extends": [
@@ -65,5 +67,15 @@
     "postcss": "^8.4.12",
     "prettier": "^2.6.1",
     "tailwindcss": "^3.0.23"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --write"
+    ]
   }
 }
