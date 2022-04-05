@@ -89,7 +89,7 @@ export function useFormData(props?: Partial<TimestampedFactionProps>) {
     });
 
   // resets
-  const resetState = () => dispatch({ type: INIT });
+  const resetState = () => dispatch({ type: INIT, payload: props });
   const resetAllies: MouseEventHandler<HTMLSpanElement> = () =>
     dispatch({
       type: SET_ALLIES,

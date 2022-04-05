@@ -43,7 +43,7 @@ export const initialState: TimestampedFactionProps = {
 };
 
 export type FactionAction =
-  | { type: typeof INIT }
+  | { type: typeof INIT; payload: Partial<TimestampedFactionProps> }
   | { type: typeof SET_ALL; payload: TimestampedFactionProps }
   | { type: typeof SET_ACTIVE }
   | { type: typeof SET_DISPLAY_NAME; payload: string }
@@ -66,7 +66,7 @@ export function reducer(
 ): TimestampedFactionProps {
   switch (action.type) {
     case INIT:
-      return { ...state, ...initialState };
+      return { ...state, ...initialState, ...action.payload };
     case SET_ALL:
       return { ...state, ...action.payload };
     case SET_ACTIVE:
