@@ -43,36 +43,6 @@ export function useApi() {
     factions: AssociativeFactionProps;
   }
 
-  const updateRelationships = (
-    type: Relationship,
-    diff: string[],
-    siblingId: string,
-    factions: AssociativeFactionProps[],
-    operation: 'add' | 'delete',
-    batch: WriteBatch
-  ) => {
-    // for (let diffId of diff) {
-    //   let next = factions.find((faction) => faction.id === diffId);
-    //   if (next === undefined) continue;
-    //   let data = new Set(next.relationships[type].data);
-    //   if (operation === 'add') {
-    //     data.add(siblingId);
-    //   } else if (operation === 'delete') {
-    //     data.delete(siblingId);
-    //   }
-    //   next = {
-    //     ...next,
-    //     relationships: {
-    //       ...next.relationships,
-    //       [type]: { ...next.relationships[type], data: Array.from(data) },
-    //     },
-    //   };
-    //   const { id, ...nextDoc } = next;
-    //   console.log('updating');
-    //   console.log('Faction', nextDoc.name, 'batched');
-    // }
-  };
-
   function difference(setA: Set<string>, setB: Set<string>) {
     let _difference = new Set(setA);
     setB.forEach((elem) => _difference.delete(elem));
