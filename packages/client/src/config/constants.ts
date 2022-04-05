@@ -2,7 +2,7 @@ const BASE_NUMBER = 4;
 const MULTIPLIER = 8;
 export const CELL_SIZE_X = BASE_NUMBER * MULTIPLIER;
 export const CELL_SIZE_Y = BASE_NUMBER * (MULTIPLIER - 1);
-export const HEADER_SIZE = 92;
+export const HEADER_SIZE = '92px';
 
 export const SITE_HEADER_TEXT = 'faction relational chart';
 export const LOGO_ALT_TEXT = 'nopixel logo';

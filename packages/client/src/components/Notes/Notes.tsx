@@ -89,7 +89,7 @@ function Notes() {
 
   return (
     <div
-      className="flex items-center flex-col justify-center shadow min-w-[360px]"
+      className="flex items-center flex-col justify-center shadow min-w-[360px] max-w-[460px]"
       onMouseEnter={handleOnMouseEnter}
       onMouseLeave={handleOnMouseLeave}
     >

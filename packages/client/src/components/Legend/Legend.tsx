@@ -14,6 +14,7 @@ import {
   RELATION_ENEMIES,
   COLOR_HAS_BENCH,
   RELATION_HAS_BENCH,
+  HEADER_SIZE,
 } from '../../config/constants';
 import { headerColor } from '../../config/styles';
 
@@ -24,6 +25,7 @@ function Legend() {
         'flex justify-center items-center border text-center border-stone-900',
         headerColor()
       )}
+      style={{ width: HEADER_SIZE, height: HEADER_SIZE }}
     >
       <ul>
         <li className="flex gap-x-1 items-center">

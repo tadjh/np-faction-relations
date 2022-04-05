@@ -11,8 +11,8 @@ function Grid() {
     <div
       className="grid relative text-[8px]"
       style={{
-        gridTemplateColumns: `${HEADER_SIZE}px repeat(${length},${CELL_SIZE_X}px)`,
-        gridTemplateRows: `${HEADER_SIZE}px repeat(${length},${CELL_SIZE_Y}px)`,
+        gridTemplateColumns: `${HEADER_SIZE} repeat(${length},${CELL_SIZE_X}px)`,
+        gridTemplateRows: `${HEADER_SIZE} repeat(${length},${CELL_SIZE_Y}px)`,
       }}
     >
       <Legend />
