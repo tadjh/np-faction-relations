@@ -20,7 +20,7 @@ import {
 import { TimestampedFactionProps } from '../types';
 
 export const initialState: TimestampedFactionProps = {
-  active: true,
+  visibility: 'public',
   attributes: {
     benchCount: 0,
     hasBench: false,
@@ -70,7 +70,10 @@ export function reducer(
     case SET_ALL:
       return { ...state, ...action.payload };
     case SET_ACTIVE:
-      return { ...state, active: !state.active };
+      return {
+        ...state,
+        visibility: state.visibility === 'public' ? 'private' : 'public',
+      };
     case SET_DISPLAY_NAME:
       return { ...state, displayName: action.payload };
     case SET_NAME:

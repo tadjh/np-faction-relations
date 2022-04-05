@@ -9,7 +9,7 @@ export type Relationship =
   | 'hotWar';
 
 export interface FactionProps {
-  active: boolean;
+  visibility: 'public' | 'private';
   attributes: {
     benchCount: number;
     hasBench: boolean;

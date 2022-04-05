@@ -13,7 +13,7 @@ function FactionsProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const q = query<TimestampedFactionProps>(
       FACTION_COLLECTION_REFERENCE,
-      where('active', '==', true),
+      where('visibility', '==', 'public'),
       orderBy('order')
     );
 
