@@ -251,36 +251,6 @@ function EditForm() {
             </select>
           </div>
           <div className="flex gap-x-2 items-center px-2">
-            <label htmlFor="hotWar" className="w-32 flex items-center gap-x-2">
-              hot war
-              {state.relationships.hotWar.data.length !== 0 && (
-                <span
-                  className="text-base hover:cursor-pointer"
-                  onClick={handlers.resetHotWar}
-                >
-                  &#8635;
-                </span>
-              )}
-            </label>
-            <select
-              name="hotWar"
-              multiple
-              className="flex-1 border"
-              value={state.relationships.hotWar.data}
-              onChange={handlers.handleHotWar}
-            >
-              {factions &&
-                Object.keys(factions).map((id) =>
-                  handleRelationshipMap(
-                    'hotWar',
-                    id,
-                    factions[id].name,
-                    selected
-                  )
-                )}
-            </select>
-          </div>
-          <div className="flex gap-x-2 items-center px-2">
             <label htmlFor="coldWar" className="w-32 flex items-center gap-x-2">
               cold war
               {state.relationships.coldWar.data.length !== 0 && (
@@ -303,6 +273,36 @@ function EditForm() {
                 Object.keys(factions).map((id) =>
                   handleRelationshipMap(
                     'coldWar',
+                    id,
+                    factions[id].name,
+                    selected
+                  )
+                )}
+            </select>
+          </div>
+          <div className="flex gap-x-2 items-center px-2">
+            <label htmlFor="hotWar" className="w-32 flex items-center gap-x-2">
+              hot war
+              {state.relationships.hotWar.data.length !== 0 && (
+                <span
+                  className="text-base hover:cursor-pointer"
+                  onClick={handlers.resetHotWar}
+                >
+                  &#8635;
+                </span>
+              )}
+            </label>
+            <select
+              name="hotWar"
+              multiple
+              className="flex-1 border"
+              value={state.relationships.hotWar.data}
+              onChange={handlers.handleHotWar}
+            >
+              {factions &&
+                Object.keys(factions).map((id) =>
+                  handleRelationshipMap(
+                    'hotWar',
                     id,
                     factions[id].name,
                     selected

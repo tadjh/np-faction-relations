@@ -14,7 +14,7 @@ const scalar = 10000 / duration;
 const text = [
   "This chart is made from an HOA viewer's perspective with help from the nopixel wiki which may be outdated.",
   "I loosely placed common allies near one another. In doing so, it revealed that alliances seem to congregate around weapons benches. In hindsight this should've been obvoius to me.",
-  "Interestingly Speedy's students Siz (HOA) and Benji (SS) both have similar looking heat maps to ESV, branching wide across many factions. These three group also hold the record for most active allies. HOA: 9, ESV: 8, SS: 7.",
+  "Interestingly Speedy's students Siz (HOA) and Benji (SS) both have similar looking heat maps to ESV, branching wide across many factions. These three group also hold the record for most active allies. HOA: 10, ESV: 9, SS: 7.",
   'By contrast CG & CB members have multiple sub-groups within their main factions creating strong internal alliances.',
   'SS appears to be putting in the most ground work involving the newer up and coming factions ie. JustUs, Ballas (This faction is not SSB or ESB).',
   'The CG x HOA alliance has proven to be the most dense region of the chart. This may change as SS is slowly being pulled into the Cerebus x CB x ESV orbit.',
