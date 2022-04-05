@@ -8,9 +8,11 @@ import { QueryClientProvider, QueryClient } from 'react-query';
 
 const queryClient = new QueryClient();
 
+// basename="/np-faction-relations"
+
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter basename="/np-faction-relations">
+    <BrowserRouter>
       <QueryClientProvider client={queryClient}>
         <App />
       </QueryClientProvider>

@@ -2,7 +2,6 @@ import {
   addDoc,
   serverTimestamp,
   updateDoc,
-  WriteBatch,
   writeBatch,
 } from 'firebase/firestore';
 import {

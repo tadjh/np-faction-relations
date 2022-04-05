@@ -67,9 +67,9 @@ export const signOut = async () => await signOutUser(auth);
 export const signIn = async () => {
   try {
     const result = await signInWithPopup(auth, provider);
-    const credential = GoogleAuthProvider.credentialFromResult(result);
-    const token =
-      credential && credential.accessToken ? credential.accessToken : ''; // TODO Do something with this?
+    // const credential = GoogleAuthProvider.credentialFromResult(result);
+    // const token =
+    //   credential && credential.accessToken ? credential.accessToken : ''; // TODO Do something with this?
     const user = result.user;
     return user.displayName || user.email || user.uid;
   } catch (error) {

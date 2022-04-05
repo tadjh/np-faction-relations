@@ -2,7 +2,7 @@
   "name": "@np-faction-relations/client",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://tadjh.github.io/np-faction-relations",
+  "homepage": ".",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.3",
     "@testing-library/react": "^12.1.4",
@@ -26,13 +26,13 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "predeploy": "yarn build",
-    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "emulators": "firebase emulators:start"
+    "emulators": "firebase emulators:start",
+    "preview": "firebase hosting:channel:deploy",
+    "deploy": "firebase deploy"
   },
   "eslintConfig": {
     "extends": [
@@ -65,15 +65,5 @@
     "postcss": "^8.4.12",
     "prettier": "^2.6.1",
     "tailwindcss": "^3.0.23"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
-      "prettier --write"
-    ]
   }
 }

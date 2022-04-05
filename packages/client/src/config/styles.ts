@@ -1,4 +1,4 @@
-import { AssociativeFactionProps, TimestampedFactionProps } from '../types';
+import { TimestampedFactionProps } from '../types';
 import {
   COLOR_ALLY,
   COLOR_ASSOCIATE,

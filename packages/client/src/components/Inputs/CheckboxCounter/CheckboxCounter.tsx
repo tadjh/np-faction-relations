@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import { InputHTMLAttributes } from 'react';
 import Checkbox from '../Checkbox';
 import Counter from '../Counter';
