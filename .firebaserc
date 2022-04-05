@@ -1,0 +1,7 @@
+{
+  "projects": {
+    "default": "np-faction-relations",
+    "development": "np-faction-relations-dev"
+  },
+  "targets": {}
+}
