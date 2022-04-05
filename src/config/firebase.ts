@@ -14,7 +14,7 @@ import {
   getFirestore,
 } from 'firebase/firestore';
 import { getAnalytics, logEvent } from 'firebase/analytics';
-import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
+// import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
 import { TimestampedFactionProps } from '../types';
 import { IS_DEVELOPMENT } from './constants';
 
@@ -25,7 +25,7 @@ const storageBucket = process.env.REACT_APP_FIREBASE_STORAGE_BUCKET;
 const messagingSenderId = process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID;
 const appId = process.env.REACT_APP_FIREBASE_APP_ID;
 const measurementId = process.env.REACT_APP_FIREBASE_MEASUREMENT_ID;
-const recaptchaKey = process.env.REACT_APP_FIREBASE_RECAPTCHA || '';
+// const recaptchaKey = process.env.REACT_APP_FIREBASE_RECAPTCHA || '';
 
 const firebaseConfig = {
   apiKey,
@@ -41,10 +41,10 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const analytics = getAnalytics(app);
-const appCheck = initializeAppCheck(app, {
-  provider: new ReCaptchaV3Provider(recaptchaKey),
-  isTokenAutoRefreshEnabled: true,
-});
+// const appCheck = initializeAppCheck(app, {
+//   provider: new ReCaptchaV3Provider(recaptchaKey),
+//   isTokenAutoRefreshEnabled: true,
+// });
 
 auth.useDeviceLanguage();
 
