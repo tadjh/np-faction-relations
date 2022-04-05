@@ -21,8 +21,8 @@ import {
 import { initialState, reducer } from '../reducers/formData.reducer';
 import { TimestampedFactionProps } from '../types';
 
-export function useFormData(props?: TimestampedFactionProps) {
-  const [state, dispatch] = useReducer(reducer, props || initialState);
+export function useFormData(props?: Partial<TimestampedFactionProps>) {
+  const [state, dispatch] = useReducer(reducer, { ...initialState, ...props });
 
   // handlers
   const handleSetAll = (data: TimestampedFactionProps) =>
@@ -93,32 +93,32 @@ export function useFormData(props?: TimestampedFactionProps) {
   const resetAllies: MouseEventHandler<HTMLSpanElement> = () =>
     dispatch({
       type: SET_ALLIES,
-      payload: props?.relationships.allies.data || [],
+      payload: props?.relationships?.allies.data || [],
     });
   const resetAssociates: MouseEventHandler<HTMLSpanElement> = () =>
     dispatch({
       type: SET_ASSOCIATES,
-      payload: props?.relationships.associates.data || [],
+      payload: props?.relationships?.associates.data || [],
     });
   const resetColdWar: MouseEventHandler<HTMLSpanElement> = () =>
     dispatch({
       type: SET_COLD_WAR,
-      payload: props?.relationships.coldWar.data || [],
+      payload: props?.relationships?.coldWar.data || [],
     });
   const resetEnemies: MouseEventHandler<HTMLSpanElement> = () =>
     dispatch({
       type: SET_ENEMIES,
-      payload: props?.relationships.enemies.data || [],
+      payload: props?.relationships?.enemies.data || [],
     });
   const resetFriends: MouseEventHandler<HTMLSpanElement> = () =>
     dispatch({
       type: SET_FRIENDS,
-      payload: props?.relationships.friends.data || [],
+      payload: props?.relationships?.friends.data || [],
     });
   const resetHotWar: MouseEventHandler<HTMLSpanElement> = () =>
     dispatch({
       type: SET_HOT_WAR,
-      payload: props?.relationships.hotWar.data || [],
+      payload: props?.relationships?.hotWar.data || [],
     });
 
   return {

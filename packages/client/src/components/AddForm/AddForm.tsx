@@ -3,14 +3,15 @@ import { FormEventHandler } from 'react';
 import Accordian from '../Accordian';
 import SubmitButton from '../SubmitButton';
 import { useMutation } from 'react-query';
-import { useApi, useFormData } from '../../hooks';
+import { useApi, useFactions, useFormData } from '../../hooks';
 import Input from '../Inputs/TextInput';
 import FormHeader from '../FormHeader';
 import CheckboxCounter from '../Inputs/CheckboxCounter';
 import Counter from '../Inputs/Counter';
 
 function AddForm() {
-  const { state, handlers } = useFormData();
+  const { length } = useFactions();
+  const { state, handlers } = useFormData({ order: length });
   const { createFaction } = useApi();
 
   const mutation = useMutation(createFaction);
