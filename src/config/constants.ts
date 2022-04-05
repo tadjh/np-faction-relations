@@ -1,3 +1,5 @@
+export const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
+
 const BASE_NUMBER = 4;
 const MULTIPLIER = 8;
 export const CELL_SIZE_X = BASE_NUMBER * MULTIPLIER;

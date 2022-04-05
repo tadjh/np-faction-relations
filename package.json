@@ -32,7 +32,7 @@
     "eject": "react-scripts eject",
     "emulators": "firebase emulators:start",
     "preview": "firebase hosting:channel:deploy",
-    "deploy": "firebase deploy"
+    "deploy": "firebase deploy --only hosting,firestore"
   },
   "eslintConfig": {
     "extends": [

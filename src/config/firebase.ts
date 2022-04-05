@@ -14,6 +14,7 @@ import {
   getFirestore,
 } from 'firebase/firestore';
 import { TimestampedFactionProps } from '../types';
+import { IS_DEVELOPMENT } from './constants';
 
 const apiKey = process.env.REACT_APP_FIREBASE_API_KEY;
 const authDomain = process.env.REACT_APP_FIREBASE_AUTH_DOMAIN;
@@ -39,28 +40,12 @@ export const db = getFirestore(app);
 
 auth.useDeviceLanguage();
 
-connectAuthEmulator(auth, 'http://localhost:9099', { disableWarnings: true });
-connectFirestoreEmulator(db, 'localhost', 8080);
+if (IS_DEVELOPMENT)
+  connectAuthEmulator(auth, 'http://localhost:9099', { disableWarnings: true });
+if (IS_DEVELOPMENT) connectFirestoreEmulator(db, 'localhost', 8080);
 
 // TODO Scope? https://developers.google.com/identity/protocols/googlescopes?authuser=0
 const provider = new GoogleAuthProvider();
-
-// export const signInUser = async (username: string, password: string) => {
-//   try {
-//     const userCredential = await signInWithEmailAndPassword(
-//       auth,
-//       username,
-//       password
-//     );
-//     return (
-//       userCredential.user.displayName ||
-//       userCredential.user.email ||
-//       userCredential.user.uid
-//     );
-//   } catch (error) {
-//     throw error;
-//   }
-// };
 
 export const signOut = async () => await signOutUser(auth);
 
