@@ -1,25 +1,27 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { MouseEventHandler } from 'react';
+import { useNavigate } from 'react-router-dom';
+import CloseIcon from '../../assets/Icons';
 import { useAuth } from '../../hooks';
 
 export interface AuthStatusProps {
-  onClose: () => void;
+  onClose: MouseEventHandler<HTMLElement>;
 }
 
 function AuthStatus({ onClose }: AuthStatusProps) {
   let { user, signOut, isSignedIn } = useAuth();
   let navigate = useNavigate();
 
-  const handleClose = () => {
-    onClose();
+  const handleClose: MouseEventHandler<HTMLElement> = (event) => {
+    onClose(event);
     navigate('/');
   };
 
   const handleSignOut = async () => {
     signOut();
-    handleClose();
+    // handleClose();
   };
 
-  const back = () => onClose();
+  const back: MouseEventHandler<HTMLElement> = (event) => onClose(event);
 
   if (isSignedIn) {
     return (
@@ -28,7 +30,7 @@ function AuthStatus({ onClose }: AuthStatusProps) {
           <i onClick={back} className="text-base cursor-pointer">
             &#x25C0;
           </i>
-          <span>{user}</span>
+          <span>{user?.displayName || user?.uid}</span>
         </div>
         <button onClick={handleSignOut}>sign out</button>
       </div>
@@ -37,11 +39,9 @@ function AuthStatus({ onClose }: AuthStatusProps) {
 
   return (
     <div className="text-[8px] flex justify-between items-center">
-      <Link className="text-[8px] hover:underline" to="/admin">
-        edit
-      </Link>
+      <span>edit</span>
       <button onClick={handleClose} className="text-base">
-        &#x2716;
+        <CloseIcon />
       </button>
     </div>
   );

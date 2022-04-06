@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { AnimatePresence, motion } from 'framer-motion';
 import {
   MouseEventHandler,
   useCallback,
@@ -6,7 +7,7 @@ import {
   useRef,
   useState,
 } from 'react';
-import { Transition, TransitionGroup } from 'react-transition-group';
+import CloseIcon from '../../assets/Icons';
 
 const duration = 15000;
 const scalar = 10000 / duration;
@@ -26,7 +27,25 @@ const text = [
 
 const transitionDuration = 150;
 
+const variants = {
+  enter: {
+    x: 500,
+    opacity: 0,
+  },
+  center: {
+    zIndex: 1,
+    x: 0,
+    opacity: 1,
+  },
+  exit: {
+    zIndex: 0,
+    x: -500,
+    opacity: 0,
+  },
+};
+
 function Notes() {
+  const [isVisible, setIsVisible] = useState(true);
   const [slide, setSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -87,40 +106,66 @@ function Notes() {
     setIsPaused(false);
   };
 
+  const handleOpen = () => setIsVisible(true);
+  const handleClose = () => setIsVisible(false);
+
   return (
-    <div
-      className="flex items-center flex-col justify-center shadow min-w-[360px] max-w-[460px]"
-      onMouseEnter={handleOnMouseEnter}
-      onMouseLeave={handleOnMouseLeave}
-    >
-      <div className="bg-stone-700 text-white w-full">
-        <div className="flex justify-between items-center p-2">
-          <span>notes</span>
-          <span className="text-xs">{`${slide + 1} of ${text.length}`}</span>
-        </div>
+    <>
+      <div
+        className={clsx(
+          'absolute p-4 top-0 right-0 text-[8px] underline',
+          isVisible ? 'opacity-0' : 'opacity-100 cursor-pointer'
+        )}
+        onClick={handleOpen}
+      >
+        notes
+      </div>
+      {isVisible && (
         <div
-          className="h-1 bg-stone-500"
-          style={{ width: `${progress}%` }}
-        ></div>
-      </div>
-      <div className="text-xs border-l border-b border-r w-full">
-        <TransitionGroup component={null}>
-          {text.map((item, i) => (
-            <Transition key={i} timeout={transitionDuration}>
-              <div
-                className={clsx(
-                  'p-1.5 transition-all',
-                  `duration-${transitionDuration}`,
-                  slide === i ? 'opacity-100 relative' : 'opacity-0 absolute'
-                )}
+          className="max-w-md min-w-md w-full fixed top-3 right-3 flex flex-col items-center"
+          onMouseEnter={handleOnMouseEnter}
+          onMouseLeave={handleOnMouseLeave}
+        >
+          <div className="bg-stone-700 text-white w-full cursor-pointer">
+            <div className="flex justify-between items-center p-2">
+              <span className="flex-1 flex justify-start">notes</span>
+              <span className="text-xs flex flex-1 justify-center">{`${
+                slide + 1
+              } of ${text.length}`}</span>
+              <button
+                onClick={handleClose}
+                className="text-base text-white flex-1 flex justify-end"
               >
-                {item}
-              </div>
-            </Transition>
-          ))}
-        </TransitionGroup>
-      </div>
-    </div>
+                <CloseIcon />
+              </button>
+            </div>
+            <div
+              className="h-1 bg-stone-500"
+              style={{ width: `${progress}%` }}
+            ></div>
+          </div>
+          <div className="relative h-28 w-[452px] overflow-hidden flex justify-center">
+            <AnimatePresence initial={false}>
+              <motion.div
+                key={slide}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                variants={variants}
+                transition={{
+                  x: { type: 'spring', stiffness: 300, damping: 30 },
+                  opacity: { duration: 0.2 },
+                  duration: 2,
+                }}
+                className="text-xs absolute max-w-md w-[448px] border-l border-b border-r p-2 shadow"
+              >
+                {text[slide]}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 

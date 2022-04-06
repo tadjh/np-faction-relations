@@ -1,5 +1,17 @@
 import { FieldValue, Timestamp } from 'firebase/firestore';
 
+export type Role = 'subscriber' | 'editor' | 'admin';
+
+export type Roles = {
+  [key in Role]: boolean;
+};
+
+export interface User {
+  uid: string;
+  displayName: string | null;
+  roles?: Roles;
+}
+
 export type Relationship =
   | 'allies'
   | 'associates'

@@ -21,7 +21,9 @@ export const backgroundColor = (
   xId: string
 ): string => {
   if (x === y) {
-    if (faction.attributes.hasBench === true) return COLOR_HAS_BENCH;
+    if (faction.attributes.hasBench && faction.attributes.hasLab)
+      return 'diagonal-solid';
+    if (faction.attributes.hasBench) return COLOR_HAS_BENCH;
     return 'diagonal-line';
   }
 

@@ -12,3 +12,14 @@
     rgba(0, 0, 0, 0) 100%
   );
 }
+
+.diagonal-solid {
+  background: linear-gradient(
+    to top right,
+    rgba(217, 119, 6, 1) 0%,
+    rgba(217, 119, 6, 1) calc(50% - 0.8px),
+    rgba(0, 0, 0, 0.2) 50%,
+    rgba(252, 165, 165, 1) calc(50% + 0.8px),
+    rgba(252, 165, 165, 1) 100%
+  );
+}
