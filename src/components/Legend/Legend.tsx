@@ -6,18 +6,20 @@ import {
   COLOR_COLD_WAR,
   COLOR_HOT_WAR,
   COLOR_ENEMY,
+  COLOR_HAS_BENCH,
+  HEADER_SIZE,
+  COLOR_HAS_LAB,
+} from '../../config/constants';
+import {
   RELATION_ASSOCIATES,
   RELATION_ALLIES,
   RELATION_FRIENDS,
   RELATION_COLD_WAR,
   RELATION_HOT_WAR,
   RELATION_ENEMIES,
-  COLOR_HAS_BENCH,
   RELATION_HAS_BENCH,
-  HEADER_SIZE,
   RELATION_HAS_LAB,
-  COLOR_HAS_LAB,
-} from '../../config/constants';
+} from '../../config/strings';
 import { headerColor } from '../../config/styles';
 
 function Legend() {

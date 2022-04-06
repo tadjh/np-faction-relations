@@ -5,6 +5,7 @@ import Widgets from '../Widgets';
 import RequireAuth from '../RequireAuth';
 import SignIn from '../SignIn';
 import { MouseEventHandler } from 'react';
+import { PATH_EDIT, PATH_SIGN_IN } from '../../config/strings';
 
 export interface EditPanelProps {
   isOpen: boolean;
@@ -22,9 +23,9 @@ function EditPanel({ isOpen, onClose }: EditPanelProps) {
     >
       <Routes>
         <Route path="/" element={<Admin onClose={onClose} />}>
-          <Route path="login" element={<SignIn />} />
+          <Route path={PATH_SIGN_IN} element={<SignIn />} />
           <Route
-            path="edit"
+            path={PATH_EDIT}
             element={
               <RequireAuth>
                 <Widgets />

@@ -17,17 +17,20 @@ import {
 } from 'firebase/firestore';
 import { getAnalytics, logEvent } from 'firebase/analytics';
 import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
+import { getPerformance } from 'firebase/performance';
 import { TimestampedFactionProps } from '../types';
-import { IS_DEVELOPMENT, IS_PRODUCTION } from './constants';
-
-const FIREBASE_API_KEY = process.env.REACT_APP_FIREBASE_API_KEY;
-const FIREBASE_AUTH_DOMAIN = process.env.REACT_APP_FIREBASE_AUTH_DOMAIN;
-const PROJECT_ID = process.env.REACT_APP_FIREBASE_PROJECT_ID;
-const STORAGE_BUCKET = process.env.REACT_APP_FIREBASE_STORAGE_BUCKET;
-const MESSAGING_SENDER_ID = process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID;
-const FIREBASE_APP_ID = process.env.REACT_APP_FIREBASE_APP_ID;
-const MEASUREMENT_ID = process.env.REACT_APP_FIREBASE_MEASUREMENT_ID;
-const RECAPTCHA_KEY = process.env.REACT_APP_FIREBASE_RECAPTCHA;
+import {
+  FIREBASE_API_KEY,
+  FIREBASE_APP_ID,
+  FIREBASE_AUTH_DOMAIN,
+  IS_DEVELOPMENT,
+  IS_PRODUCTION,
+  MEASUREMENT_ID,
+  MESSAGING_SENDER_ID,
+  PROJECT_ID,
+  RECAPTCHA_KEY,
+  STORAGE_BUCKET,
+} from './environment';
 
 if (IS_DEVELOPMENT) console.log(PROJECT_ID);
 
@@ -45,6 +48,7 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 const analytics = getAnalytics(app);
+export const perf = getPerformance(app);
 export const appCheck = initializeAppCheck(app, {
   provider: new ReCaptchaV3Provider(RECAPTCHA_KEY!),
   isTokenAutoRefreshEnabled: true,
@@ -62,6 +66,7 @@ const provider = new GoogleAuthProvider();
 export const signIn = async () => {
   try {
     const result = await signInWithPopup(auth, provider);
+    console.log(result.user.metadata.creationTime);
     if (IS_PRODUCTION) logEvent(analytics, 'login');
 
     const userRef = doc(db, 'users', result.user.uid);

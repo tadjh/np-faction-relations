@@ -9,8 +9,6 @@ import FactionsProvider from './providers/FactionsProvider';
 
 const queryClient = new QueryClient();
 
-// basename="/np-faction-relations"
-
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>

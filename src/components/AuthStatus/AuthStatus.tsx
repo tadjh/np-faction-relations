@@ -1,6 +1,7 @@
 import { MouseEventHandler } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CloseIcon from '../../assets/Icons';
+import { EVENT_TEXT_EDIT, EVENT_TEXT_SIGN_OUT } from '../../config/strings';
 import { useAuth } from '../../hooks';
 
 export interface AuthStatusProps {
@@ -16,10 +17,7 @@ function AuthStatus({ onClose }: AuthStatusProps) {
     navigate('/');
   };
 
-  const handleSignOut = async () => {
-    signOut();
-    // handleClose();
-  };
+  const handleSignOut = () => signOut();
 
   const back: MouseEventHandler<HTMLElement> = (event) => onClose(event);
 
@@ -32,14 +30,14 @@ function AuthStatus({ onClose }: AuthStatusProps) {
           </i>
           <span>{user?.displayName || user?.uid}</span>
         </div>
-        <button onClick={handleSignOut}>sign out</button>
+        <button onClick={handleSignOut}>{EVENT_TEXT_SIGN_OUT}</button>
       </div>
     );
   }
 
   return (
     <div className="text-[8px] flex justify-between items-center">
-      <span>edit</span>
+      <span>{EVENT_TEXT_EDIT}</span>
       <button onClick={handleClose} className="text-base">
         <CloseIcon />
       </button>

@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { ERROR_TEXT_WIDGETS_PERMISSION_DENIED } from '../../config/strings';
 import { useAuth } from '../../hooks';
 import AddForm from '../AddForm';
 import DeleteForm from '../DeleteForm';
@@ -18,7 +19,7 @@ function Widgets() {
       {showDelete && <DeleteForm />}
       {nothing && (
         <span className="text-xs text-center">
-          you don't have permission to access this widget
+          {ERROR_TEXT_WIDGETS_PERMISSION_DENIED}
         </span>
       )}
     </>

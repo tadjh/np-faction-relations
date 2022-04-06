@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import logo from '../../assets/np-logo-dark.png';
-import { LOGO_ALT_TEXT, SITE_HEADER_TEXT } from '../../config/constants';
+import { LOGO_ALT_TEXT, SITE_HEADER_TEXT } from '../../config/strings';
 
 function Header() {
   return (

@@ -2,6 +2,29 @@ import clsx from 'clsx';
 import { useState } from 'react';
 import { ChangeEventHandler, FormEventHandler } from 'react';
 import { useMutation } from 'react-query';
+import {
+  EVENT_TEXT_RESET,
+  EVENT_TEXT_UPDATE,
+  LABEL_TEXT_ALLIES,
+  LABEL_TEXT_ASSOCIATES,
+  LABEL_TEXT_BENCH_COUNT,
+  LABEL_TEXT_COLD_WAR,
+  LABEL_TEXT_DISPLAY_NAME,
+  LABEL_TEXT_ENEMIES,
+  LABEL_TEXT_FRIENDS,
+  LABEL_TEXT_HAS_BENCH,
+  LABEL_TEXT_HAS_LAB,
+  LABEL_TEXT_HOT_WAR,
+  LABEL_TEXT_INFO,
+  LABEL_TEXT_LAB_COUNT,
+  LABEL_TEXT_NAME,
+  LABEL_TEXT_OPTIONAL,
+  LABEL_TEXT_RELATIONSHIPS,
+  LABEL_TEXT_SELECT_FACTION,
+  LABEL_TEXT_SORT_ORDER,
+  TEXT_IS_LOADING_UPDATE,
+  TEXT_IS_SUCCESS_UPDATE,
+} from '../../config/strings';
 import { useApi, useFactions, useFormData } from '../../hooks';
 import Accordian from '../Accordian';
 import FormHeader from '../FormHeader';
@@ -73,10 +96,10 @@ function EditForm() {
       <form onSubmit={handleSubmit} className="gap-y-2 flex flex-col">
         <div className="flex gap-x-2 items-center px-2 pt-4">
           <label
-            htmlFor="selected"
+            htmlFor="updateFaction"
             className="w-32 h-8 flex items-center gap-x-2"
           >
-            select faction
+            {LABEL_TEXT_SELECT_FACTION}
             {selected !== '' && (
               <span
                 className="text-base hover:cursor-pointer"
@@ -87,18 +110,17 @@ function EditForm() {
             )}
           </label>
           <select
-            id="selected"
-            name="selected"
+            name="updateFaction"
             className="flex-1 border"
             value={selected}
             onChange={handleSelected}
           >
-            <option key={`selected-none`} value={''}>
-              select faction
+            <option key="updateFaction-none" value={''}>
+              {LABEL_TEXT_SELECT_FACTION}
             </option>
             {factions &&
               Object.keys(factions).map((id) => (
-                <option key={`selected-${id}`} value={id}>
+                <option key={`updateFaction-${id}`} value={id}>
                   {factions[id].name}
                 </option>
               ))}
@@ -113,14 +135,14 @@ function EditForm() {
             'transition-all'
           )}
         >
-          <FormHeader>info</FormHeader>
+          <FormHeader>{LABEL_TEXT_INFO}</FormHeader>
           <Input
-            name="name"
+            name={LABEL_TEXT_NAME}
             type="text"
             value={state.name}
             onChange={handlers.handleName}
           >
-            name
+            {LABEL_TEXT_NAME}
           </Input>
           <Input
             name="displayName"
@@ -128,41 +150,42 @@ function EditForm() {
             value={state.displayName}
             onChange={handlers.handleDisplayName}
           >
-            display name <span className="text-[8px]">optional</span>
+            {LABEL_TEXT_DISPLAY_NAME}{' '}
+            <span className="text-[8px]">{LABEL_TEXT_OPTIONAL}</span>
           </Input>
           <CheckboxCounter
             name="hasBench"
-            label="has bench?"
+            label={LABEL_TEXT_HAS_BENCH}
             checked={state.attributes.hasBench}
             onChange={handlers.handleHasBench}
-            countLabel="number of benches"
+            countLabel={LABEL_TEXT_BENCH_COUNT}
             count={state.attributes.benchCount}
             onChangeCount={handlers.handleBenchCount}
           />
           <CheckboxCounter
             name="hasLab"
-            label="has lab?"
+            label={LABEL_TEXT_HAS_LAB}
             checked={state.attributes.hasLab}
             onChange={handlers.handleHasLab}
-            countLabel="number of labs"
+            countLabel={LABEL_TEXT_LAB_COUNT}
             count={state.attributes.labCount}
             onChangeCount={handlers.handleLabCount}
           />
           <Counter
-            name="order"
+            name="sortOrder"
             min={0}
             value={state.order}
             onChange={handlers.handleOrder}
           >
-            sort order
+            {LABEL_TEXT_SORT_ORDER}
           </Counter>
-          <FormHeader>relationships</FormHeader>
+          <FormHeader>{LABEL_TEXT_RELATIONSHIPS}</FormHeader>
           <div className="flex gap-x-2 items-center px-2">
             <label
               htmlFor="associates"
               className="w-32 flex items-center gap-x-2"
             >
-              associates
+              {LABEL_TEXT_ASSOCIATES}
               {state.relationships.associates.data.length !== 0 && (
                 <span
                   className="text-base hover:cursor-pointer"
@@ -192,7 +215,7 @@ function EditForm() {
           </div>
           <div className="flex gap-x-2 items-center px-2">
             <label htmlFor="allies" className="w-32 flex items-center gap-x-2">
-              allies
+              {LABEL_TEXT_ALLIES}
               {state.relationships.allies.data.length !== 0 && (
                 <span
                   className="text-base hover:cursor-pointer"
@@ -222,7 +245,7 @@ function EditForm() {
           </div>
           <div className="flex gap-x-2 items-center px-2">
             <label htmlFor="friends" className="w-32 flex items-center gap-x-2">
-              friends
+              {LABEL_TEXT_FRIENDS}
               {state.relationships.friends.data.length !== 0 && (
                 <span
                   className="text-base hover:cursor-pointer"
@@ -252,7 +275,7 @@ function EditForm() {
           </div>
           <div className="flex gap-x-2 items-center px-2">
             <label htmlFor="coldWar" className="w-32 flex items-center gap-x-2">
-              cold war
+              {LABEL_TEXT_COLD_WAR}
               {state.relationships.coldWar.data.length !== 0 && (
                 <span
                   className="text-base hover:cursor-pointer"
@@ -282,7 +305,7 @@ function EditForm() {
           </div>
           <div className="flex gap-x-2 items-center px-2">
             <label htmlFor="hotWar" className="w-32 flex items-center gap-x-2">
-              hot war
+              {LABEL_TEXT_HOT_WAR}
               {state.relationships.hotWar.data.length !== 0 && (
                 <span
                   className="text-base hover:cursor-pointer"
@@ -312,7 +335,7 @@ function EditForm() {
           </div>
           <div className="flex gap-x-2 items-center px-2">
             <label htmlFor="enemies" className="w-32 flex items-center gap-x-2">
-              enemies
+              {LABEL_TEXT_ENEMIES}
               {state.relationships.enemies.data.length !== 0 && (
                 <span
                   className="text-base hover:cursor-pointer"
@@ -342,12 +365,12 @@ function EditForm() {
           </div>
           <div className="w-full flex justify-between items-center p-2 h-11">
             <span className={clsx(mutation.isError && 'text-red-600')}>
-              {mutation.isLoading && 'updating faction...'}
+              {mutation.isLoading && TEXT_IS_LOADING_UPDATE}
               {mutation.isError && `${error.response.data.message}`}
-              {mutation.isSuccess && 'faction updated'}
+              {mutation.isSuccess && TEXT_IS_SUCCESS_UPDATE}
             </span>
             <SubmitButton isFetching={mutation.isLoading}>
-              {mutation.isError ? 'reset' : 'save'}
+              {mutation.isError ? EVENT_TEXT_RESET : EVENT_TEXT_UPDATE}
             </SubmitButton>
           </div>
         </div>

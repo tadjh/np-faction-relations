@@ -1,6 +1,12 @@
 import clsx from 'clsx';
 import { ChangeEventHandler, FormEventHandler, useState } from 'react';
 import { useMutation } from 'react-query';
+import {
+  EVENT_TEXT_DELETE,
+  LABEL_TEXT_SELECT_FACTION,
+  TEXT_IS_LOADING_DELETE,
+  TEXT_IS_SUCCESS_DELETE,
+} from '../../config/strings';
 import { useApi, useFactions } from '../../hooks';
 import Accordian from '../Accordian';
 import SubmitButton from '../SubmitButton';
@@ -36,10 +42,10 @@ function DeleteForm() {
       <form onSubmit={handleSubmit} className="gap-y-2 flex flex-col pt-4">
         <div className="flex gap-x-2 items-center px-2">
           <label
-            htmlFor="selected"
+            htmlFor="deleteFaction"
             className="w-32 h-8 flex items-center gap-x-2"
           >
-            select faction
+            {LABEL_TEXT_SELECT_FACTION}
             {selected !== '' && (
               <span
                 className="text-base hover:cursor-pointer"
@@ -50,17 +56,17 @@ function DeleteForm() {
             )}
           </label>
           <select
-            name="selected"
+            name="deleteFaction"
             className="flex-1 border"
             value={selected}
             onChange={handleSelected}
           >
-            <option key={`selected-none`} value={''}>
-              select faction
+            <option key={`deleteFaction-none`} value={''}>
+              {LABEL_TEXT_SELECT_FACTION}
             </option>
             {factions &&
               Object.keys(factions).map((id) => (
-                <option key={`selected-${id}`} value={id}>
+                <option key={`deleteFaction-${id}`} value={id}>
                   {factions[id].name}
                 </option>
               ))}
@@ -68,11 +74,13 @@ function DeleteForm() {
         </div>
         <div className="w-full flex justify-between items-center p-2 h-11">
           <span className={clsx(mutation.isError && 'text-red-600')}>
-            {mutation.isLoading && 'removing faction...'}
+            {mutation.isLoading && TEXT_IS_LOADING_DELETE}
             {mutation.isError && `${error.response.data.message}`}
-            {mutation.isSuccess && 'faction removed'}
+            {mutation.isSuccess && TEXT_IS_SUCCESS_DELETE}
           </span>
-          <SubmitButton isFetching={mutation.isLoading}>delete</SubmitButton>
+          <SubmitButton isFetching={mutation.isLoading}>
+            {EVENT_TEXT_DELETE}
+          </SubmitButton>
         </div>
       </form>
     </Accordian>
