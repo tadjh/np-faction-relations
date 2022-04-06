@@ -113,7 +113,7 @@ function Notes() {
     <>
       <div
         className={clsx(
-          'absolute p-4 top-0 right-0 text-[8px] underline',
+          'absolute p-4 top-0 right-0 text-[8px] hover:underline',
           isVisible ? 'opacity-0' : 'opacity-100 cursor-pointer'
         )}
         onClick={handleOpen}
@@ -155,7 +155,6 @@ function Notes() {
                 transition={{
                   x: { type: 'spring', stiffness: 300, damping: 30 },
                   opacity: { duration: 0.2 },
-                  duration: 2,
                 }}
                 className="text-xs absolute max-w-md w-[448px] border-l border-b border-r p-2 shadow bg-white"
               >
