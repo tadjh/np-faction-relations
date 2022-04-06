@@ -8,6 +8,7 @@ import {
   COLOR_ENEMY,
   COLOR_FRIEND,
   COLOR_HAS_BENCH,
+  COLOR_HAS_LAB,
   COLOR_HOT_WAR,
 } from './constants';
 
@@ -24,6 +25,7 @@ export const backgroundColor = (
     if (faction.attributes.hasBench && faction.attributes.hasLab)
       return 'diagonal-solid';
     if (faction.attributes.hasBench) return COLOR_HAS_BENCH;
+    if (faction.attributes.hasLab) return COLOR_HAS_LAB;
     return 'diagonal-line';
   }
 

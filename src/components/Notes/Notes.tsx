@@ -157,7 +157,7 @@ function Notes() {
                   opacity: { duration: 0.2 },
                   duration: 2,
                 }}
-                className="text-xs absolute max-w-md w-[448px] border-l border-b border-r p-2 shadow"
+                className="text-xs absolute max-w-md w-[448px] border-l border-b border-r p-2 shadow bg-white"
               >
                 {text[slide]}
               </motion.div>
