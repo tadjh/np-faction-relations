@@ -4,7 +4,7 @@ import { AssociativeFactionProps } from '../types';
 export interface FactionsContextType {
   factions: AssociativeFactionProps | null;
   length: number;
-  updated: string;
+  updated: number;
 }
 
 let FactionsContext = createContext<FactionsContextType>(null!);

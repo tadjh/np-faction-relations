@@ -1,6 +1,6 @@
 {
   "name": "@np-faction-relations/client",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "homepage": ".",
   "dependencies": {
@@ -15,6 +15,7 @@
     "clsx": "^1.1.1",
     "dompurify": "^2.3.6",
     "firebase": "^9.6.10",
+    "framer-motion": "^6.2.8",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-query": "^3.34.19",
@@ -28,13 +29,14 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build:dev": "env-cmd -f .env.development yarn build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "emulators": "firebase emulators:start",
     "preview": "firebase hosting:channel:deploy",
     "predeploy": "yarn install --frozen-lockfile && yarn build",
     "deploy": "firebase deploy -P default --only hosting,firestore",
-    "deploy:dev": "firebase deploy -P development --only hosting,firestore"
+    "deploy:dev": "yarn build:dev && firebase deploy -P development --only hosting,firestore"
   },
   "eslintConfig": {
     "extends": [
@@ -59,6 +61,7 @@
     "@types/react-transition-group": "^4.4.4",
     "@types/uuid": "^8.3.4",
     "autoprefixer": "^10.4.4",
+    "env-cmd": "^10.1.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
     "gh-pages": "^3.2.3",

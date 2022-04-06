@@ -1,4 +1,5 @@
 export const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
+export const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
 const BASE_NUMBER = 4;
 const MULTIPLIER = 8;
@@ -16,17 +17,19 @@ export const COLOR_HOT_WAR = 'bg-red-600';
 export const COLOR_COLD_WAR = 'bg-cyan-500';
 export const COLOR_ENEMY = 'bg-stone-700';
 export const COLOR_HAS_BENCH = 'bg-amber-600';
+export const COLOR_HAS_LAB = 'bg-red-300';
 
 export const COLOR_BACKGROUND = 'bg-white';
 export const COLOR_BACKGROUND_ALT = 'bg-stone-50';
 
-export const RELATION_ASSOCIATES = 'Associates';
-export const RELATION_ALLIES = 'Allies';
-export const RELATION_FRIENDS = 'Friends';
-export const RELATION_HOT_WAR = 'Hot War';
-export const RELATION_COLD_WAR = 'Cold War';
-export const RELATION_ENEMIES = 'Enemies';
-export const RELATION_HAS_BENCH = 'Has Bench';
+export const RELATION_ASSOCIATES = 'associates';
+export const RELATION_ALLIES = 'allies';
+export const RELATION_FRIENDS = 'friends';
+export const RELATION_HOT_WAR = 'hot War';
+export const RELATION_COLD_WAR = 'cold War';
+export const RELATION_ENEMIES = 'enemies';
+export const RELATION_HAS_BENCH = 'has bench';
+export const RELATION_HAS_LAB = 'has lab';
 
 export const INIT = 'INIT';
 export const SET_ALL = 'SET ALL';

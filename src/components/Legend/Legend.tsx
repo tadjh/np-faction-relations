@@ -15,6 +15,8 @@ import {
   COLOR_HAS_BENCH,
   RELATION_HAS_BENCH,
   HEADER_SIZE,
+  RELATION_HAS_LAB,
+  COLOR_HAS_LAB,
 } from '../../config/constants';
 import { headerColor } from '../../config/styles';
 
@@ -28,7 +30,7 @@ function Legend() {
       style={{ width: HEADER_SIZE, height: HEADER_SIZE }}
     >
       <ul>
-        <li className="flex gap-x-1 items-center">
+        <li className="flex gap-x-1 items-center h-2.5">
           <span
             className={clsx(
               'block border border-stone-900 w-4 h-2',
@@ -37,7 +39,7 @@ function Legend() {
           ></span>
           {RELATION_ASSOCIATES}
         </li>
-        <li className="flex gap-x-1 items-center">
+        <li className="flex gap-x-1 items-center h-2.5">
           <span
             className={clsx(
               'block border border-stone-900 w-4 h-2',
@@ -46,7 +48,7 @@ function Legend() {
           ></span>
           {RELATION_ALLIES}
         </li>
-        <li className="flex gap-x-1 items-center">
+        <li className="flex gap-x-1 items-center h-2.5">
           <span
             className={clsx(
               'block border border-stone-900 w-4 h-2',
@@ -55,7 +57,7 @@ function Legend() {
           ></span>
           {RELATION_FRIENDS}
         </li>
-        <li className="flex gap-x-1 items-center">
+        <li className="flex gap-x-1 items-center h-2.5">
           <span
             className={clsx(
               'block border border-stone-900 w-4 h-2',
@@ -64,7 +66,7 @@ function Legend() {
           ></span>
           {RELATION_COLD_WAR}
         </li>
-        <li className="flex gap-x-1 items-center">
+        <li className="flex gap-x-1 items-center h-2.5">
           <span
             className={clsx(
               'block border border-stone-900 w-4 h-2',
@@ -73,7 +75,7 @@ function Legend() {
           ></span>
           {RELATION_HOT_WAR}
         </li>
-        <li className="flex gap-x-1 items-center">
+        <li className="flex gap-x-1 items-center h-2.5">
           <span
             className={clsx(
               'block border border-stone-900 w-4 h-2',
@@ -82,7 +84,7 @@ function Legend() {
           ></span>
           {RELATION_ENEMIES}
         </li>
-        <li className="flex gap-x-1 items-center">
+        <li className="flex gap-x-1 items-center h-2.5">
           <span
             className={clsx(
               'block border border-stone-900 w-4 h-2',
@@ -90,6 +92,15 @@ function Legend() {
             )}
           ></span>
           {RELATION_HAS_BENCH}
+        </li>
+        <li className="flex gap-x-1 items-center h-2.5">
+          <span
+            className={clsx(
+              'block border border-stone-900 w-4 h-2',
+              COLOR_HAS_LAB
+            )}
+          ></span>
+          {RELATION_HAS_LAB}
         </li>
       </ul>
     </div>

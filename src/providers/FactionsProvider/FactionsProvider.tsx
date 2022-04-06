@@ -9,7 +9,7 @@ function FactionsProvider({ children }: { children: ReactNode }) {
   const [factions, setFactions] = useState<AssociativeFactionProps | null>(
     null
   );
-  const [updated, setUpdated] = useState('');
+  const [updated, setUpdated] = useState(0);
   useEffect(() => {
     const q = query<TimestampedFactionProps>(
       FACTION_COLLECTION_REFERENCE,
@@ -34,7 +34,7 @@ function FactionsProvider({ children }: { children: ReactNode }) {
         // TODO Remove for React 18
         unstable_batchedUpdates(() => {
           setFactions(newFactions);
-          setUpdated(new Date(time * 1000).toString());
+          setUpdated(time * 1000);
         });
       },
       (error) => {
