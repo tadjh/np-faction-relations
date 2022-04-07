@@ -41,7 +41,7 @@ export interface FactionProps {
 
 export interface TimestampedFactionProps extends FactionProps {
   created: Timestamp;
-  updated: Timestamp;
+  updated: Timestamp | null;
 }
 
 export interface ServerTimeFactionProps extends FactionProps {

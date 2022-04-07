@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import { ChangeEventHandler, FormEventHandler, useState } from 'react';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
+import { COLLECTION_FACTIONS } from '../../config/environment';
 import {
   EVENT_TEXT_DELETE,
   LABEL_TEXT_SELECT_FACTION,
@@ -15,8 +16,14 @@ function DeleteForm() {
   const [selected, setSelected] = useState('');
   const { deleteFaction } = useApi();
   const { factions } = useFactions();
+  const queryClient = useQueryClient();
 
-  const mutation = useMutation(deleteFaction);
+  const mutation = useMutation(deleteFaction, {
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries(COLLECTION_FACTIONS);
+    },
+  });
 
   const error = mutation.error as any;
 

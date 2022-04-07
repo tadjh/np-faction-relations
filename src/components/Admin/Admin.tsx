@@ -1,9 +1,8 @@
-import { MouseEventHandler } from 'react';
 import { Outlet } from 'react-router-dom';
 import AuthStatus from '../AuthStatus';
 
 export interface AdminProps {
-  onClose: MouseEventHandler<HTMLElement>;
+  onClose: () => void;
 }
 
 function Admin({ onClose }: AdminProps) {

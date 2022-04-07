@@ -4,6 +4,8 @@ import {
   COLOR_ASSOCIATE,
   COLOR_BACKGROUND,
   COLOR_BACKGROUND_ALT,
+  COLOR_BACKGROUND_LINE,
+  COLOR_BACKGROUND_SPLIT,
   COLOR_COLD_WAR,
   COLOR_ENEMY,
   COLOR_FRIEND,
@@ -23,10 +25,10 @@ export const backgroundColor = (
 ): string => {
   if (x === y) {
     if (faction.attributes.hasBench && faction.attributes.hasLab)
-      return 'diagonal-solid';
+      return COLOR_BACKGROUND_SPLIT;
     if (faction.attributes.hasBench) return COLOR_HAS_BENCH;
     if (faction.attributes.hasLab) return COLOR_HAS_LAB;
-    return 'diagonal-line';
+    return COLOR_BACKGROUND_LINE;
   }
 
   for (let associate of faction.relationships.associates.data) {
@@ -44,14 +46,14 @@ export const backgroundColor = (
     return COLOR_FRIEND;
   }
 
-  for (let hot of faction.relationships.hotWar.data) {
-    if (hot !== xId) continue;
-    return COLOR_HOT_WAR;
-  }
-
   for (let cold of faction.relationships.coldWar.data) {
     if (cold !== xId) continue;
     return COLOR_COLD_WAR;
+  }
+
+  for (let hot of faction.relationships.hotWar.data) {
+    if (hot !== xId) continue;
+    return COLOR_HOT_WAR;
   }
 
   for (let enemy of faction.relationships.enemies.data) {

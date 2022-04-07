@@ -9,7 +9,7 @@ import Legend from '../Legend';
 function Grid() {
   const { factions, length } = useFactions();
 
-  if (!factions) return null;
+  if (!factions || factions === {}) return null;
   return (
     <AnimatePresence>
       {factions && (

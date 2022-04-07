@@ -16,6 +16,9 @@ export const COLOR_HAS_LAB = 'bg-red-300';
 export const COLOR_BACKGROUND = 'bg-white';
 export const COLOR_BACKGROUND_ALT = 'bg-stone-50';
 
+export const COLOR_BACKGROUND_LINE = 'diagonal-line';
+export const COLOR_BACKGROUND_SPLIT = 'diagonal-solid';
+
 export const INIT = 'INIT';
 export const SET_ALL = 'SET ALL';
 export const SET_ACTIVE = 'SET ACTIVE';

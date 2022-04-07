@@ -21,7 +21,6 @@ function SignIn() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsFetching(true);
-
     try {
       await signIn();
       setIsFetching(false);
@@ -36,7 +35,7 @@ function SignIn() {
     <div className="flex items-center flex-col justify-center shadow w-full bg-white">
       <div className="bg-stone-700 text-white text-opacity-90 w-full">
         <div className="flex justify-between items-center p-2 group">
-          <span>sign in</span>
+          <span>{EVENT_TEXT_SIGN_IN}</span>
         </div>
       </div>
       <form

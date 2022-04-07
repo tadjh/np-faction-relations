@@ -1,7 +1,8 @@
 import clsx from 'clsx';
 import { useState } from 'react';
 import { ChangeEventHandler, FormEventHandler } from 'react';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
+import { COLLECTION_FACTIONS } from '../../config/environment';
 import {
   EVENT_TEXT_RESET,
   EVENT_TEXT_UPDATE,
@@ -38,8 +39,14 @@ function EditForm() {
   const { factions } = useFactions();
   const [selected, setSelected] = useState('');
   const { editFaction } = useApi();
+  const queryClient = useQueryClient();
 
-  const mutation = useMutation(editFaction);
+  const mutation = useMutation(editFaction, {
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries(COLLECTION_FACTIONS);
+    },
+  });
 
   const error = mutation.error as any;
 

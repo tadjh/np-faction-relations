@@ -21,11 +21,6 @@ export const EVENT_TEXT_UPDATE = 'update';
 export const EVENT_TEXT_RESET = 'reset';
 export const EVENT_TEXT_DELETE = 'delete';
 
-// paths
-export const PATH_EDIT = EVENT_TEXT_EDIT;
-export const PATH_SIGN_OUT = 'signout';
-export const PATH_SIGN_IN = 'signin';
-
 // errors
 export const ERROR_TEXT_EDIT_PERMISSION_DENIED =
   'You do not have permission to edit this page. Please sign in.';

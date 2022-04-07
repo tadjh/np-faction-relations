@@ -5,6 +5,7 @@ import {
   signOut as signOutUser,
   GoogleAuthProvider,
   signInWithPopup,
+  getAdditionalUserInfo,
 } from 'firebase/auth';
 import {
   collection,
@@ -12,8 +13,10 @@ import {
   connectFirestoreEmulator,
   doc,
   getFirestore,
-  serverTimestamp,
+  orderBy,
+  query,
   setDoc,
+  where,
 } from 'firebase/firestore';
 import { getAnalytics, logEvent } from 'firebase/analytics';
 import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
@@ -23,6 +26,7 @@ import {
   FIREBASE_API_KEY,
   FIREBASE_APP_ID,
   FIREBASE_AUTH_DOMAIN,
+  AUTH_EMULATOR_URL,
   IS_DEVELOPMENT,
   IS_PRODUCTION,
   MEASUREMENT_ID,
@@ -30,6 +34,10 @@ import {
   PROJECT_ID,
   RECAPTCHA_KEY,
   STORAGE_BUCKET,
+  FIRESTORE_EMULATOR_HOST,
+  FIRESTORE_EMULATOR_PORT,
+  COLLECTION_FACTIONS,
+  COLLECTION_USERS,
 } from './environment';
 
 if (IS_DEVELOPMENT) console.log(PROJECT_ID);
@@ -44,42 +52,65 @@ const firebaseConfig = {
   measurementId: MEASUREMENT_ID,
 };
 
+// setup
 const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
-export const db = getFirestore(app);
-const analytics = getAnalytics(app);
-export const perf = getPerformance(app);
 export const appCheck = initializeAppCheck(app, {
   provider: new ReCaptchaV3Provider(RECAPTCHA_KEY!),
   isTokenAutoRefreshEnabled: true,
 });
-
+const analytics = getAnalytics(app);
+export const perf = getPerformance(app);
+export const auth = getAuth(app);
+export const db = getFirestore(app);
 auth.useDeviceLanguage();
 
+// emluators (development only)
 if (IS_DEVELOPMENT)
-  connectAuthEmulator(auth, 'http://localhost:9099', { disableWarnings: true });
-if (IS_DEVELOPMENT) connectFirestoreEmulator(db, 'localhost', 8080);
+  connectAuthEmulator(auth, AUTH_EMULATOR_URL, { disableWarnings: true });
+if (IS_DEVELOPMENT)
+  connectFirestoreEmulator(
+    db,
+    FIRESTORE_EMULATOR_HOST,
+    FIRESTORE_EMULATOR_PORT
+  );
 
-// TODO Scope? https://developers.google.com/identity/protocols/googlescopes?authuser=0
-const provider = new GoogleAuthProvider();
+// collection references
+export const FACTION_COLLECTION_REFERENCE = collection(
+  db,
+  COLLECTION_FACTIONS
+) as CollectionReference<TimestampedFactionProps>;
+
+// doc references
+export const factionDocumentReference = (id: string) =>
+  doc(db, COLLECTION_FACTIONS, id);
+
+export const userDocumentReference = (id: string) =>
+  doc(db, COLLECTION_USERS, id);
+
+// queries
+export const FACTION_COLLECTION_QUERY = query<TimestampedFactionProps>(
+  FACTION_COLLECTION_REFERENCE,
+  where('visibility', '==', 'public'),
+  orderBy('order')
+);
 
 export const signIn = async () => {
+  // TODO Scope? https://developers.google.com/identity/protocols/googlescopes?authuser=0
+  const provider = new GoogleAuthProvider();
+
   try {
     const result = await signInWithPopup(auth, provider);
-    console.log(result.user.metadata.creationTime);
     if (IS_PRODUCTION) logEvent(analytics, 'login');
 
-    const userRef = doc(db, 'users', result.user.uid);
-    // TODO doesn't show in onAuthChanged, happens after
-    await setDoc(
-      userRef,
-      {
-        lastLogin: serverTimestamp(),
+    const IS_NEW_USER = getAdditionalUserInfo(result)?.isNewUser;
+
+    if (IS_NEW_USER) {
+      await setDoc(userDocumentReference(result.user.uid), {
         displayName: result.user.displayName,
         email: result.user.email,
-      },
-      { merge: true }
-    );
+        roles: { admin: false, editor: false },
+      });
+    }
 
     // const credential = GoogleAuthProvider.credentialFromResult(result);
     // const token = credential && credential.accessToken; // TODO Do something with this?
@@ -98,15 +129,3 @@ export const signIn = async () => {
 };
 
 export const signOut = async () => await signOutUser(auth);
-
-// references
-export const COLLECTION_FACTIONS = 'factions';
-export const COLLECTION_USERS = 'users';
-export const FACTION_COLLECTION_REFERENCE = collection(
-  db,
-  COLLECTION_FACTIONS
-) as CollectionReference<TimestampedFactionProps>;
-export const factionDocumentReference = (id: string) =>
-  doc(db, COLLECTION_FACTIONS, id);
-export const userDocumentReference = (id: string) =>
-  doc(db, COLLECTION_USERS, id);

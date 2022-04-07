@@ -9,7 +9,6 @@ import {
 import { useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { Role, User } from '../../types';
-import { useCallback } from 'react';
 import { DocumentSnapshot, getDoc } from 'firebase/firestore';
 
 function AuthProvider({ children }: { children: ReactNode }) {
@@ -22,15 +21,14 @@ function AuthProvider({ children }: { children: ReactNode }) {
           const doc = (await getDoc(
             userDocumentReference(user.uid)
           )) as DocumentSnapshot<User>;
-
-          const data = doc.data();
-
           setUser({
             uid: user.uid,
             displayName: user.displayName,
-            roles: data?.roles,
+            roles: doc.data()?.roles,
           });
-        } catch (error) {}
+        } catch (error) {
+          throw error;
+        }
       } else {
         setUser(null);
       }
@@ -38,59 +36,40 @@ function AuthProvider({ children }: { children: ReactNode }) {
     return () => unsubscribe();
   }, []);
 
-  const isSignedIn = !!user;
+  const checkAuthorization = (user: User, allowed: Role[]): boolean => {
+    // if (!user) return false;
+    if (!user.roles) return false;
+    for (let role of allowed) {
+      if (user.roles[role]) return true;
+    }
+    return false;
+  };
 
-  const checkAuthorization = useCallback(
-    (user: User, allowed: Role[]): boolean => {
-      // if (!user) return false;
-      if (!user.roles) return false;
-      for (let role of allowed) {
-        if (user.roles[role]) return true;
-      }
-      return false;
-    },
-    []
-  );
+  const canCreate = (user: User | null): boolean => {
+    if (!user) return false;
+    const allowed: Role[] = ['admin'];
+    return checkAuthorization(user, allowed);
+  };
 
-  const canCreate = useCallback(
-    (user: User | null): boolean => {
-      if (!user) return false;
-      const allowed: Role[] = ['admin'];
-      return checkAuthorization(user, allowed);
-    },
-    [checkAuthorization]
-  );
+  const canRead = (user: User | null): boolean => {
+    if (!user) return false;
+    const allowed: Role[] = ['admin', 'editor', 'subscriber'];
+    return checkAuthorization(user, allowed);
+  };
+  const canEdit = (user: User | null): boolean => {
+    if (!user) return false;
+    const allowed: Role[] = ['admin', 'editor'];
+    return checkAuthorization(user, allowed);
+  };
 
-  const canRead = useCallback(
-    (user: User | null): boolean => {
-      if (!user) return false;
-      const allowed: Role[] = ['admin', 'editor', 'subscriber'];
-      return checkAuthorization(user, allowed);
-    },
-    [checkAuthorization]
-  );
-
-  const canEdit = useCallback(
-    (user: User | null): boolean => {
-      if (!user) return false;
-      const allowed: Role[] = ['admin', 'editor'];
-      return checkAuthorization(user, allowed);
-    },
-    [checkAuthorization]
-  );
-
-  const canDelete = useCallback(
-    (user: User | null): boolean => {
-      if (!user) return false;
-      const allowed: Role[] = ['admin'];
-      return checkAuthorization(user, allowed);
-    },
-    [checkAuthorization]
-  );
+  const canDelete = (user: User | null): boolean => {
+    if (!user) return false;
+    const allowed: Role[] = ['admin'];
+    return checkAuthorization(user, allowed);
+  };
 
   let value = {
     user,
-    isSignedIn,
     signIn,
     signOut,
     canCreate,

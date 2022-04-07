@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { FormEventHandler } from 'react';
 import Accordian from '../Accordian';
 import SubmitButton from '../SubmitButton';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { useApi, useFactions, useFormData } from '../../hooks';
 import Input from '../Inputs/TextInput';
 import FormHeader from '../FormHeader';
@@ -23,13 +23,20 @@ import {
   LABEL_TEXT_HAS_LAB,
   EVENT_TEXT_ADD,
 } from '../../config/strings';
+import { COLLECTION_FACTIONS } from '../../config/environment';
 
 function AddForm() {
   const { length } = useFactions();
   const { state, handlers } = useFormData({ order: length });
   const { createFaction } = useApi();
+  const queryClient = useQueryClient();
 
-  const mutation = useMutation(createFaction);
+  const mutation = useMutation(createFaction, {
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries(COLLECTION_FACTIONS);
+    },
+  });
 
   const error = mutation.error as any;
 

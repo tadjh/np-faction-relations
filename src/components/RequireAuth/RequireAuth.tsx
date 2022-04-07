@@ -1,16 +1,13 @@
 import { Navigate, useLocation } from 'react-router-dom';
-import { PATH_SIGN_IN } from '../../config/strings';
 import { useAuth } from '../../hooks';
 
 function RequireAuth({ children }: { children: JSX.Element }) {
-  let { isSignedIn } = useAuth();
+  let { user } = useAuth();
   let location = useLocation();
 
-  if (isSignedIn) return children;
+  if (!!user) return children;
 
-  return (
-    <Navigate to={`/${PATH_SIGN_IN}`} state={{ from: location }} replace />
-  );
+  return <Navigate to="/signin" state={{ from: location }} replace />;
 }
 
 export default RequireAuth;

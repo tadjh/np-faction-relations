@@ -1,14 +1,18 @@
 import {
   addDoc,
+  getDocs,
   serverTimestamp,
   updateDoc,
   writeBatch,
 } from 'firebase/firestore';
+import { IS_DEVELOPMENT } from '../config/environment';
 import {
   db,
   factionDocumentReference,
+  FACTION_COLLECTION_QUERY,
   FACTION_COLLECTION_REFERENCE,
 } from '../config/firebase';
+import { FactionsContextType } from '../contexts/factions.context';
 import {
   FactionProps,
   AssociativeFactionProps,
@@ -27,7 +31,7 @@ export function useApi() {
     };
     try {
       const docRef = await addDoc(FACTION_COLLECTION_REFERENCE, newDoc);
-      console.log('Document written with ID: ', docRef.id);
+      if (IS_DEVELOPMENT) console.log('Document written with ID: ', docRef.id);
       return docRef;
     } catch (error) {
       console.error('Error adding document: ', error);
@@ -141,13 +145,14 @@ export function useApi() {
       batch.update(factionDocumentReference(id), {
         ...nextDocs[id],
       });
-      console.log(
-        '%cFaction:',
-        'font-weight: bold',
-        nextDocs[id].name,
-        `[${id}]`,
-        'edited'
-      );
+      if (IS_DEVELOPMENT)
+        console.log(
+          '%cFaction:',
+          'font-weight: bold',
+          nextDocs[id].name,
+          `[${id}]`,
+          'edited'
+        );
     }
 
     try {
@@ -174,13 +179,14 @@ export function useApi() {
         await updateDoc(factionDocumentReference(id), {
           ...stampedDocs[id],
         });
-        console.log(
-          '%cFaction:',
-          'font-weight: bold',
-          stampedDocs[id].name,
-          `[${id}]`,
-          'edited'
-        );
+        if (IS_DEVELOPMENT)
+          console.log(
+            '%cFaction:',
+            'font-weight: bold',
+            stampedDocs[id].name,
+            `[${id}]`,
+            'edited'
+          );
       }
     } catch (error) {
       console.error('Error editing document: ', error);
@@ -197,12 +203,35 @@ export function useApi() {
       await updateDoc(factionDocumentReference(id), {
         ...nextDoc,
       });
-      console.log('Document deleted with ID: ', id);
+      if (IS_DEVELOPMENT) console.log('Document deleted with ID: ', id);
       return;
     } catch (error) {
       console.error('Error deleting document: ', error);
       throw error;
     }
   };
-  return { createFaction, editFaction, deleteFaction };
+
+  const getFactions = async (): Promise<FactionsContextType> => {
+    try {
+      const docs = await getDocs(FACTION_COLLECTION_QUERY);
+      let factions = {};
+      let updated = 0;
+      docs.forEach((doc) => {
+        const data = doc.data();
+        factions = { ...factions, [doc.id]: data };
+        updated =
+          data.updated && data.updated.seconds > updated
+            ? data.updated.seconds
+            : updated;
+      });
+
+      const length = Object.keys(factions).length;
+
+      return { factions, updated, length };
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  return { createFaction, editFaction, deleteFaction, getFactions };
 }

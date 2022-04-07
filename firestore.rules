@@ -1,21 +1,40 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      allow read;
+    // match /{document=**} {
+    //   allow read;
+    // }
+
+    function signedIn() {
+      return request.auth.uid != null;
+    }
+
+    function isMyDoc(userId) {
+      return request.auth.uid == userId;
     }
 
     match /users/{userId} {
-      allow read, update, delete: if request.auth != null && request.auth.uid == userId;
-      allow create: if request.auth != null;
+      allow read, update, create: if signedIn() && isMyDoc(userId);
+    }
+
+    function userDoc(uid) {
+      return get(/databases/$(database)/documents/users/$(uid));
+    }
+
+    function isAdmin(user) {
+      return user.data.roles.admin == true;
+    }
+
+    function isEditor(user) {
+      return user.data.roles.admin == true || user.data.roles.editor == true;
     }
 
     match /factions/{faction} {
-      allow list;
+      allow read;
 
-      allow create: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.roles.admin == true;
+      allow create: if signedIn() && isAdmin(userDoc(request.auth.uid));
 
-      allow update: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.roles.editor == true;
+      allow update: if signedIn() && isEditor(userDoc(request.auth.uid));
     }
   }
 }
