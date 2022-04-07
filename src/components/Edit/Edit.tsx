@@ -1,14 +1,19 @@
 import clsx from 'clsx';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import EditLink from '../EditLink';
 import EditPanel from '../EditPanel';
 
 function Edit() {
   const [isOpen, setIsOpen] = useState(false);
+  let navigate = useNavigate();
 
   const handleOpen = () => setIsOpen(true);
 
-  const handleClose = () => setIsOpen(false);
+  const handleClose = () => {
+    setIsOpen(false);
+    navigate('/');
+  };
 
   return (
     <>

@@ -9,7 +9,7 @@ export type Roles = {
 export interface User {
   uid: string;
   displayName: string | null;
-  roles?: Roles;
+  roles: Roles;
 }
 
 export type Relationship =

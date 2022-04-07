@@ -8,24 +8,21 @@ import {
 } from '../../config/firebase';
 import { useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
-import { Role, User } from '../../types';
-import { DocumentSnapshot, getDoc } from 'firebase/firestore';
+import { Role, Roles, User } from '../../types';
+import { getDoc } from 'firebase/firestore';
 
 function AuthProvider({ children }: { children: ReactNode }) {
-  let [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<Omit<User, 'roles'> | null>(null);
+  const [roles, setRoles] = useState<Roles | null>(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
+        setUser({ uid: user.uid, displayName: user.displayName });
         try {
-          const doc = (await getDoc(
-            userDocumentReference(user.uid)
-          )) as DocumentSnapshot<User>;
-          setUser({
-            uid: user.uid,
-            displayName: user.displayName,
-            roles: doc.data()?.roles,
-          });
+          const doc = await getDoc(userDocumentReference(user.uid));
+          const data = doc.data();
+          setRoles(data?.roles);
         } catch (error) {
           throw error;
         }
@@ -36,40 +33,41 @@ function AuthProvider({ children }: { children: ReactNode }) {
     return () => unsubscribe();
   }, []);
 
-  const checkAuthorization = (user: User, allowed: Role[]): boolean => {
+  const checkAuthorization = (roles: Roles, allowed: Role[]): boolean => {
     // if (!user) return false;
-    if (!user.roles) return false;
+    if (!roles) return false;
     for (let role of allowed) {
-      if (user.roles[role]) return true;
+      if (roles[role]) return true;
     }
     return false;
   };
 
-  const canCreate = (user: User | null): boolean => {
-    if (!user) return false;
+  const canCreate = (roles: Roles | null): boolean => {
+    if (!roles) return false;
     const allowed: Role[] = ['admin'];
-    return checkAuthorization(user, allowed);
+    return checkAuthorization(roles, allowed);
   };
 
-  const canRead = (user: User | null): boolean => {
-    if (!user) return false;
+  const canRead = (roles: Roles | null): boolean => {
+    if (!roles) return false;
     const allowed: Role[] = ['admin', 'editor', 'subscriber'];
-    return checkAuthorization(user, allowed);
+    return checkAuthorization(roles, allowed);
   };
-  const canEdit = (user: User | null): boolean => {
-    if (!user) return false;
+  const canEdit = (roles: Roles | null): boolean => {
+    if (!roles) return false;
     const allowed: Role[] = ['admin', 'editor'];
-    return checkAuthorization(user, allowed);
+    return checkAuthorization(roles, allowed);
   };
 
-  const canDelete = (user: User | null): boolean => {
-    if (!user) return false;
+  const canDelete = (roles: Roles | null): boolean => {
+    if (!roles) return false;
     const allowed: Role[] = ['admin'];
-    return checkAuthorization(user, allowed);
+    return checkAuthorization(roles, allowed);
   };
 
   let value = {
     user,
+    roles,
     signIn,
     signOut,
     canCreate,

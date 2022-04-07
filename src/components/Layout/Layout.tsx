@@ -1,11 +1,11 @@
 import { Outlet } from 'react-router-dom';
 import AuthStatus from '../AuthStatus';
 
-export interface AdminProps {
+export interface LayoutProps {
   onClose: () => void;
 }
 
-function Admin({ onClose }: AdminProps) {
+function Layout({ onClose }: LayoutProps) {
   return (
     <>
       <AuthStatus onClose={onClose} />
@@ -14,4 +14,4 @@ function Admin({ onClose }: AdminProps) {
   );
 }
 
-export default Admin;
+export default Layout;

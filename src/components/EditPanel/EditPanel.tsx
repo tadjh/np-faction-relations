@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { Routes, Route } from 'react-router-dom';
-import Admin from '../Admin';
+import Layout from '../Layout';
 import Widgets from '../Widgets';
 import RequireAuth from '../RequireAuth';
 import SignIn from '../SignIn';
@@ -20,10 +20,10 @@ function EditPanel({ isOpen, onClose }: EditPanelProps) {
       )}
     >
       <Routes>
-        <Route path="/" element={<Admin onClose={onClose} />}>
-          <Route path="/signin" element={<SignIn />} />
+        <Route path="/" element={<Layout onClose={onClose} />}>
+          <Route path="signin" element={<SignIn />} />
           <Route
-            path="/edit"
+            path="edit"
             element={
               <RequireAuth>
                 <Widgets />

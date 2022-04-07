@@ -111,7 +111,6 @@ export const signIn = async () => {
         roles: { admin: false, editor: false },
       });
     }
-
     // const credential = GoogleAuthProvider.credentialFromResult(result);
     // const token = credential && credential.accessToken; // TODO Do something with this?
     // const { displayName, email, uid } = result.user;
@@ -128,4 +127,11 @@ export const signIn = async () => {
   }
 };
 
-export const signOut = async () => await signOutUser(auth);
+export const signOut = async (callback: VoidFunction) => {
+  try {
+    await signOutUser(auth);
+    callback();
+  } catch (error) {
+    throw error;
+  }
+};

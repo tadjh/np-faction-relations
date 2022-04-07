@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { FormEventHandler, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
   ERROR_TEXT_EDIT_PERMISSION_DENIED,
@@ -18,7 +18,7 @@ function SignIn() {
 
   let from: string = state?.from?.pathname || '/';
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
     setIsFetching(true);
     try {

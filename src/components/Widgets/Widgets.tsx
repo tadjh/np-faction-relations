@@ -5,11 +5,11 @@ import DeleteForm from '../DeleteForm';
 import EditForm from '../EditForm';
 
 function Widgets() {
-  const { user, canCreate, canEdit, canDelete } = useAuth();
+  const { roles, canCreate, canEdit, canDelete } = useAuth();
 
-  const showAdd = canCreate(user);
-  const showEdit = canEdit(user);
-  const showDelete = canDelete(user);
+  const showAdd = canCreate(roles);
+  const showEdit = canEdit(roles);
+  const showDelete = canDelete(roles);
   const nothing = !showAdd && !showEdit && !showDelete && true;
   return (
     <>
