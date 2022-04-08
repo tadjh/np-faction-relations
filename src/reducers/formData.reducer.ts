@@ -34,10 +34,10 @@ export const initialState: TimestampedFactionProps = {
   relationships: {
     allies: { type: 'allies', data: [] },
     associates: { type: 'associates', data: [] },
-    coldWar: { type: 'coldWar', data: [] },
+    coldWars: { type: 'coldWars', data: [] },
     enemies: { type: 'enemies', data: [] },
     friends: { type: 'friends', data: [] },
-    hotWar: { type: 'hotWar', data: [] },
+    hotWars: { type: 'hotWars', data: [] },
   },
   updated: new Timestamp(0, 0),
 };
@@ -138,7 +138,7 @@ export function reducer(
         ...state,
         relationships: {
           ...state.relationships,
-          coldWar: { ...state.relationships.coldWar, data: action.payload },
+          coldWars: { ...state.relationships.coldWars, data: action.payload },
         },
       };
     case SET_ENEMIES:
@@ -162,7 +162,7 @@ export function reducer(
         ...state,
         relationships: {
           ...state.relationships,
-          hotWar: { ...state.relationships.hotWar, data: action.payload },
+          hotWars: { ...state.relationships.hotWars, data: action.payload },
         },
       };
     default:

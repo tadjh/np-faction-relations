@@ -15,10 +15,15 @@ export interface User {
 export type Relationship =
   | 'allies'
   | 'associates'
-  | 'coldWar'
+  | 'coldWars'
   | 'enemies'
   | 'friends'
-  | 'hotWar';
+  | 'hotWars';
+
+export interface RelationshipData {
+  type: Relationship;
+  data: string[];
+}
 
 export interface FactionProps {
   visibility: 'public' | 'private';
@@ -32,10 +37,7 @@ export interface FactionProps {
   name: string;
   order: number;
   relationships: {
-    [key in Relationship]: {
-      type: Relationship;
-      data: string[];
-    };
+    [key in Relationship]: RelationshipData;
   };
 }
 

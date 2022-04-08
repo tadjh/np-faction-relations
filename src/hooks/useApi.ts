@@ -20,6 +20,7 @@ import {
   ServerTimeFactionProps,
   TimestampedFactionProps,
   ServerAssociativeFactionProps,
+  RelationshipData,
 } from '../types';
 
 export function useApi() {
@@ -233,5 +234,71 @@ export function useApi() {
     }
   };
 
-  return { createFaction, editFaction, deleteFaction, getFactions };
+  const getFactionsFix = async (): Promise<FactionsContextType> => {
+    try {
+      const docs = await getDocs(FACTION_COLLECTION_QUERY);
+      let factions = {};
+      let updated = 0;
+
+      const batch = writeBatch(db);
+
+      docs.forEach((doc) => {
+        const data = doc.data() as any;
+
+        const coldWar = data.relationships.coldWar;
+        const hotWar = data.relationships.hotWar;
+
+        let coldWars: RelationshipData = { type: 'coldWars', data: [] };
+        let hotWars: RelationshipData = { type: 'hotWars', data: [] };
+
+        if (coldWar) {
+          coldWars = { ...coldWars, data: [...coldWar.data] };
+        }
+
+        if (hotWar) {
+          hotWars = { ...hotWars, data: [...hotWar.data] };
+        }
+
+        delete data.relationships.coldWar;
+        delete data.relationships.hotWar;
+
+        console.log('precommit', data);
+
+        const nextDoc = {
+          ...data,
+          relationships: { ...data.relationships, coldWars, hotWars },
+          updated: serverTimestamp(),
+        };
+        console.log('composed doc', nextDoc);
+
+        batch.set(factionDocumentReference(doc.id), { ...nextDoc });
+
+        factions = { ...factions, [doc.id]: nextDoc };
+        updated =
+          data.updated && data.updated.seconds > updated
+            ? data.updated.seconds
+            : updated;
+      });
+
+      try {
+        await batch.commit();
+      } catch (error) {
+        throw error;
+      }
+
+      const length = Object.keys(factions).length;
+
+      return { factions, updated, length };
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  return {
+    createFaction,
+    editFaction,
+    deleteFaction,
+    getFactions,
+    getFactionsFix,
+  };
 }
