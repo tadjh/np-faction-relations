@@ -85,7 +85,7 @@ function DeleteForm() {
             {mutation.isError && `${error.response.data.message}`}
             {mutation.isSuccess && TEXT_IS_SUCCESS_DELETE}
           </span>
-          <SubmitButton isFetching={mutation.isLoading}>
+          <SubmitButton isLoading={mutation.isLoading}>
             {EVENT_TEXT_DELETE}
           </SubmitButton>
         </div>

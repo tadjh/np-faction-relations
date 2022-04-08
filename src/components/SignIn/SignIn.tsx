@@ -44,7 +44,7 @@ function SignIn() {
       >
         <div className="px-2 pt-2">{ERROR_TEXT_EDIT_PERMISSION_DENIED}</div>
         <div className="w-full flex justify-end items-center p-2 h-11">
-          <SubmitButton isFetching={isFetching}>
+          <SubmitButton isLoading={isFetching}>
             {EVENT_TEXT_SIGN_IN}
           </SubmitButton>
         </div>

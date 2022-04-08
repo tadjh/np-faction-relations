@@ -104,7 +104,7 @@ function AddForm() {
             {mutation.isError && `${error.response.data.message}`}
             {mutation.isSuccess && TEXT_IS_SUCCESS_ADD}
           </span>
-          <SubmitButton isFetching={mutation.isLoading}>
+          <SubmitButton isLoading={mutation.isLoading}>
             {mutation.isSuccess || mutation.isError
               ? EVENT_TEXT_RESET
               : EVENT_TEXT_ADD}

@@ -1,4 +1,4 @@
-function CloseIcon() {
+export function CloseIcon() {
   return (
     <svg
       fill="currentColor"
@@ -10,5 +10,3 @@ function CloseIcon() {
     </svg>
   );
 }
-
-export default CloseIcon;

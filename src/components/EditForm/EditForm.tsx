@@ -376,7 +376,7 @@ function EditForm() {
               {mutation.isError && `${error.response.data.message}`}
               {mutation.isSuccess && TEXT_IS_SUCCESS_UPDATE}
             </span>
-            <SubmitButton isFetching={mutation.isLoading}>
+            <SubmitButton isLoading={mutation.isLoading}>
               {mutation.isError ? EVENT_TEXT_RESET : EVENT_TEXT_UPDATE}
             </SubmitButton>
           </div>
