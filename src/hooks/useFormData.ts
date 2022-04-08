@@ -19,14 +19,53 @@ import {
   SET_ORDER,
 } from '../config/constants';
 import { initialState, reducer } from '../reducers/formData.reducer';
-import { TimestampedFactionProps } from '../types';
+import { Relationship, TimestampedFactionProps } from '../types';
 
-export function useFormData(props?: Partial<TimestampedFactionProps>) {
+export interface FormDataHandlers {
+  handleSetAll: (data: TimestampedFactionProps | null) => void;
+  handleActive: ChangeEventHandler<HTMLInputElement>;
+  handleDisplayName: ChangeEventHandler<HTMLInputElement>;
+  handleName: ChangeEventHandler<HTMLInputElement>;
+  handleOrder: ChangeEventHandler<HTMLInputElement>;
+  handleBenchCount: ChangeEventHandler<HTMLInputElement>;
+  handleHasBench: ChangeEventHandler<HTMLInputElement>;
+  handleHasLab: ChangeEventHandler<HTMLInputElement>;
+  handleLabCount: ChangeEventHandler<HTMLInputElement>;
+  handleAllies: ChangeEventHandler<HTMLSelectElement>;
+  handleAssociates: ChangeEventHandler<HTMLSelectElement>;
+  handleColdWars: ChangeEventHandler<HTMLSelectElement>;
+  handleEnemies: ChangeEventHandler<HTMLSelectElement>;
+  handleFriends: ChangeEventHandler<HTMLSelectElement>;
+  handleHotWars: ChangeEventHandler<HTMLSelectElement>;
+  handleRelationship: (
+    type: Relationship
+  ) => ChangeEventHandler<HTMLSelectElement>;
+  resetState: VoidFunction;
+  resetAllies: MouseEventHandler<HTMLButtonElement>;
+  resetAssociates: MouseEventHandler<HTMLButtonElement>;
+  resetColdWars: MouseEventHandler<HTMLButtonElement>;
+  resetEnemies: MouseEventHandler<HTMLButtonElement>;
+  resetFriends: MouseEventHandler<HTMLButtonElement>;
+  resetHotWars: MouseEventHandler<HTMLButtonElement>;
+  resetRelationship: (
+    type: Relationship
+  ) => MouseEventHandler<HTMLButtonElement>;
+}
+
+export interface UseFormData {
+  state: TimestampedFactionProps;
+  handlers: FormDataHandlers;
+}
+
+export function useFormData(
+  props?: Partial<TimestampedFactionProps>
+): UseFormData {
   const [state, dispatch] = useReducer(reducer, { ...initialState, ...props });
 
-  // handlers
-  const handleSetAll = (data: TimestampedFactionProps) =>
+  const handleSetAll = (data: TimestampedFactionProps | null) => {
+    if (!data) return;
     dispatch({ type: SET_ALL, payload: data });
+  };
   const handleActive: ChangeEventHandler<HTMLInputElement> = () =>
     dispatch({ type: SET_ACTIVE });
   const handleDisplayName: ChangeEventHandler<HTMLInputElement> = (event) =>
@@ -64,7 +103,7 @@ export function useFormData(props?: Partial<TimestampedFactionProps>) {
       payload: formatRelationshipSet(event.target.selectedOptions),
     });
 
-  const handleColdWar: ChangeEventHandler<HTMLSelectElement> = (event) =>
+  const handleColdWars: ChangeEventHandler<HTMLSelectElement> = (event) =>
     dispatch({
       type: SET_COLD_WAR,
       payload: formatRelationshipSet(event.target.selectedOptions),
@@ -82,44 +121,81 @@ export function useFormData(props?: Partial<TimestampedFactionProps>) {
       payload: formatRelationshipSet(event.target.selectedOptions),
     });
 
-  const handleHotWar: ChangeEventHandler<HTMLSelectElement> = (event) =>
+  const handleHotWars: ChangeEventHandler<HTMLSelectElement> = (event) =>
     dispatch({
       type: SET_HOT_WAR,
       payload: formatRelationshipSet(event.target.selectedOptions),
     });
 
-  // resets
+  const handleRelationship = (type: Relationship) => {
+    switch (type) {
+      case 'allies':
+        return handleAllies;
+      case 'associates':
+        return handleAssociates;
+      case 'coldWars':
+        return handleColdWars;
+      case 'enemies':
+        return handleEnemies;
+      case 'friends':
+        return handleFriends;
+      case 'hotWars':
+        return handleHotWars;
+      default:
+        throw new Error('Invalid Relationship type in handleRelationship');
+    }
+  };
+
   const resetState = () => dispatch({ type: INIT, payload: props || {} });
-  const resetAllies: MouseEventHandler<HTMLSpanElement> = () =>
+  const resetAllies: MouseEventHandler<HTMLButtonElement> = () =>
     dispatch({
       type: SET_ALLIES,
       payload: props?.relationships?.allies.data || [],
     });
-  const resetAssociates: MouseEventHandler<HTMLSpanElement> = () =>
+  const resetAssociates: MouseEventHandler<HTMLButtonElement> = () =>
     dispatch({
       type: SET_ASSOCIATES,
       payload: props?.relationships?.associates.data || [],
     });
-  const resetColdWar: MouseEventHandler<HTMLSpanElement> = () =>
+  const resetColdWars: MouseEventHandler<HTMLButtonElement> = () =>
     dispatch({
       type: SET_COLD_WAR,
-      payload: props?.relationships?.coldWar.data || [],
+      payload: props?.relationships?.coldWars.data || [],
     });
-  const resetEnemies: MouseEventHandler<HTMLSpanElement> = () =>
+  const resetEnemies: MouseEventHandler<HTMLButtonElement> = () =>
     dispatch({
       type: SET_ENEMIES,
       payload: props?.relationships?.enemies.data || [],
     });
-  const resetFriends: MouseEventHandler<HTMLSpanElement> = () =>
+  const resetFriends: MouseEventHandler<HTMLButtonElement> = () =>
     dispatch({
       type: SET_FRIENDS,
       payload: props?.relationships?.friends.data || [],
     });
-  const resetHotWar: MouseEventHandler<HTMLSpanElement> = () =>
+  const resetHotWars: MouseEventHandler<HTMLButtonElement> = () =>
     dispatch({
       type: SET_HOT_WAR,
-      payload: props?.relationships?.hotWar.data || [],
+      payload: props?.relationships?.hotWars.data || [],
     });
+
+  const resetRelationship = (type: Relationship) => {
+    switch (type) {
+      case 'allies':
+        return resetAllies;
+      case 'associates':
+        return resetAssociates;
+      case 'coldWars':
+        return resetColdWars;
+      case 'enemies':
+        return resetEnemies;
+      case 'friends':
+        return resetFriends;
+      case 'hotWars':
+        return resetHotWars;
+      default:
+        throw new Error('Invalid Relationship type in resetRelationship');
+    }
+  };
 
   return {
     state,
@@ -135,17 +211,19 @@ export function useFormData(props?: Partial<TimestampedFactionProps>) {
       handleLabCount,
       handleAllies,
       handleAssociates,
-      handleColdWar,
+      handleColdWars,
       handleEnemies,
       handleFriends,
-      handleHotWar,
+      handleHotWars,
+      handleRelationship,
       resetState,
       resetAllies,
       resetAssociates,
-      resetColdWar,
+      resetColdWars,
       resetEnemies,
       resetFriends,
-      resetHotWar,
+      resetHotWars,
+      resetRelationship,
     },
   };
 }
