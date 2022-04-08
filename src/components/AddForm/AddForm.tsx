@@ -4,26 +4,15 @@ import Accordian from '../Accordian';
 import SubmitButton from '../SubmitButton';
 import { useMutation, useQueryClient } from 'react-query';
 import { useApi, useFactions, useFormData } from '../../hooks';
-import Input from '../Inputs/TextInput';
-import FormHeader from '../FormHeader';
-import CheckboxCounter from '../Inputs/CheckboxCounter';
-import Counter from '../Inputs/Counter';
 import {
-  LABEL_TEXT_DISPLAY_NAME,
-  LABEL_TEXT_INFO,
   TEXT_IS_LOADING_ADD,
   TEXT_IS_SUCCESS_ADD,
-  LABEL_TEXT_NAME,
-  LABEL_TEXT_OPTIONAL,
   EVENT_TEXT_RESET,
-  LABEL_TEXT_SORT_ORDER,
-  LABEL_TEXT_HAS_BENCH,
-  LABEL_TEXT_LAB_COUNT,
-  LABEL_TEXT_BENCH_COUNT,
-  LABEL_TEXT_HAS_LAB,
   EVENT_TEXT_ADD,
 } from '../../config/strings';
 import { COLLECTION_FACTIONS } from '../../config/environment';
+import { getErrorMessage, shouldResetMutation } from '../../utils';
+import FormInfo from '../FormInfo';
 
 function AddForm() {
   const { length } = useFactions();
@@ -33,20 +22,22 @@ function AddForm() {
 
   const mutation = useMutation(createFaction, {
     onSuccess: () => {
-      // Invalidate and refetch
       queryClient.invalidateQueries(COLLECTION_FACTIONS);
     },
   });
 
   const error = mutation.error as any;
 
+  const reset = () => {
+    handlers.resetState();
+    mutation.reset();
+  };
+
   const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
 
-    if (mutation.isSuccess || mutation.isError) {
-      handlers.resetState();
-      return mutation.reset();
-    }
+    if (shouldResetMutation(mutation.isSuccess, mutation.isError))
+      return reset();
 
     mutation.mutate(state);
   };
@@ -54,54 +45,16 @@ function AddForm() {
   return (
     <Accordian label="add faction">
       <form onSubmit={handleSubmit} className="gap-y-2 flex flex-col">
-        <FormHeader>{LABEL_TEXT_INFO}</FormHeader>
-        <Input
-          name={LABEL_TEXT_NAME}
-          type="text"
-          value={state.name}
-          onChange={handlers.handleName}
-        >
-          {LABEL_TEXT_NAME}
-        </Input>
-        <Input
-          name="displayName"
-          type="text"
-          value={state.displayName}
-          onChange={handlers.handleDisplayName}
-        >
-          {LABEL_TEXT_DISPLAY_NAME}{' '}
-          <span className="text-[8px]">{LABEL_TEXT_OPTIONAL}</span>
-        </Input>
-        <CheckboxCounter
-          name="hasBench"
-          label={LABEL_TEXT_HAS_BENCH}
-          checked={state.attributes.hasBench}
-          onChange={handlers.handleHasBench}
-          countLabel={LABEL_TEXT_BENCH_COUNT}
-          count={state.attributes.benchCount}
-          onChangeCount={handlers.handleBenchCount}
-        />
-        <CheckboxCounter
-          name="hasLab"
-          label={LABEL_TEXT_HAS_LAB}
-          checked={state.attributes.hasLab}
-          onChange={handlers.handleHasLab}
-          countLabel={LABEL_TEXT_LAB_COUNT}
-          count={state.attributes.labCount}
-          onChangeCount={handlers.handleLabCount}
-        />
-        <Counter
-          name="sortOrder"
-          min={0}
-          value={state.order}
-          onChange={handlers.handleOrder}
-        >
-          {LABEL_TEXT_SORT_ORDER}
-        </Counter>
+        <FormInfo state={state} handlers={handlers} />
         <div className="w-full flex justify-between items-center p-2 h-11">
-          <span className={clsx(mutation.isError && 'text-red-600')}>
+          <span
+            className={clsx(
+              mutation.isError && 'text-red-600',
+              mutation.isSuccess && 'text-green-500'
+            )}
+          >
             {mutation.isLoading && TEXT_IS_LOADING_ADD}
-            {mutation.isError && `${error.response.data.message}`}
+            {mutation.isError && `${getErrorMessage(error)}`}
             {mutation.isSuccess && TEXT_IS_SUCCESS_ADD}
           </span>
           <SubmitButton isLoading={mutation.isLoading}>

@@ -9,6 +9,11 @@ import {
   TEXT_IS_SUCCESS_DELETE,
 } from '../../config/strings';
 import { useApi, useFactions } from '../../hooks';
+import {
+  getErrorMessage,
+  isNotEmptyString,
+  shouldResetMutation,
+} from '../../utils';
 import Accordian from '../Accordian';
 import SubmitButton from '../SubmitButton';
 
@@ -20,7 +25,6 @@ function DeleteForm() {
 
   const mutation = useMutation(deleteFaction, {
     onSuccess: () => {
-      // Invalidate and refetch
       queryClient.invalidateQueries(COLLECTION_FACTIONS);
     },
   });
@@ -29,13 +33,25 @@ function DeleteForm() {
 
   const handleSelected: ChangeEventHandler<HTMLSelectElement> = (event) => {
     setSelected(event.target.value);
-    if (mutation.isSuccess || mutation.isError || mutation.isLoading)
+    if (
+      shouldResetMutation(
+        mutation.isSuccess,
+        mutation.isError,
+        mutation.isLoading
+      )
+    )
       mutation.reset();
   };
 
   const resetSelected = () => {
     setSelected('');
-    if (mutation.isSuccess || mutation.isError || mutation.isLoading)
+    if (
+      shouldResetMutation(
+        mutation.isSuccess,
+        mutation.isError,
+        mutation.isLoading
+      )
+    )
       mutation.reset();
   };
 
@@ -80,9 +96,14 @@ function DeleteForm() {
           </select>
         </div>
         <div className="w-full flex justify-between items-center p-2 h-11">
-          <span className={clsx(mutation.isError && 'text-red-600')}>
+          <span
+            className={clsx(
+              mutation.isError && 'text-red-600',
+              mutation.isSuccess && 'text-green-500'
+            )}
+          >
             {mutation.isLoading && TEXT_IS_LOADING_DELETE}
-            {mutation.isError && `${error.response.data.message}`}
+            {mutation.isError && `${getErrorMessage(error)}`}
             {mutation.isSuccess && TEXT_IS_SUCCESS_DELETE}
           </span>
           <SubmitButton isLoading={mutation.isLoading}>
