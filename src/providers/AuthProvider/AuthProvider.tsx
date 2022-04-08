@@ -34,8 +34,6 @@ function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const checkAuthorization = (roles: Roles, allowed: Role[]): boolean => {
-    // if (!user) return false;
-    if (!roles) return false;
     for (let role of allowed) {
       if (roles[role]) return true;
     }

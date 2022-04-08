@@ -52,7 +52,6 @@ const firebaseConfig = {
   measurementId: MEASUREMENT_ID,
 };
 
-// setup
 const app = initializeApp(firebaseConfig);
 export const appCheck = initializeAppCheck(app, {
   provider: new ReCaptchaV3Provider(RECAPTCHA_KEY!),
@@ -64,7 +63,6 @@ export const auth = getAuth(app);
 export const db = getFirestore(app);
 auth.useDeviceLanguage();
 
-// emluators (development only)
 if (IS_DEVELOPMENT)
   connectAuthEmulator(auth, AUTH_EMULATOR_URL, { disableWarnings: true });
 if (IS_DEVELOPMENT)
@@ -74,20 +72,17 @@ if (IS_DEVELOPMENT)
     FIRESTORE_EMULATOR_PORT
   );
 
-// collection references
 export const FACTION_COLLECTION_REFERENCE = collection(
   db,
   COLLECTION_FACTIONS
 ) as CollectionReference<TimestampedFactionProps>;
 
-// doc references
 export const factionDocumentReference = (id: string) =>
   doc(db, COLLECTION_FACTIONS, id);
 
 export const userDocumentReference = (id: string) =>
   doc(db, COLLECTION_USERS, id);
 
-// queries
 export const FACTION_COLLECTION_QUERY = query<TimestampedFactionProps>(
   FACTION_COLLECTION_REFERENCE,
   where('visibility', '==', 'public'),
@@ -95,7 +90,6 @@ export const FACTION_COLLECTION_QUERY = query<TimestampedFactionProps>(
 );
 
 export const signIn = async () => {
-  // TODO Scope? https://developers.google.com/identity/protocols/googlescopes?authuser=0
   const provider = new GoogleAuthProvider();
 
   try {
@@ -111,19 +105,8 @@ export const signIn = async () => {
         roles: { admin: false, editor: false },
       });
     }
-    // const credential = GoogleAuthProvider.credentialFromResult(result);
-    // const token = credential && credential.accessToken; // TODO Do something with this?
-    // const { displayName, email, uid } = result.user;
-    // return { displayName, email, uid };
   } catch (error) {
     throw error;
-    // Handle Errors here.
-    // const errorCode = error.code;
-    // const errorMessage = error.message;
-    // The email of the user's account used.
-    // const email = error.email;
-    // The AuthCredential type that was used.
-    // const credential = GoogleAuthProvider.credentialFromError(error);
   }
 };
 
