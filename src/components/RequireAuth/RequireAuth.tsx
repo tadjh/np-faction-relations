@@ -5,8 +5,9 @@ function RequireAuth({ children }: { children: JSX.Element }) {
   let { user } = useAuth();
   let location = useLocation();
 
-  if (!user)
+  if (!user) {
     return <Navigate to="/signin" state={{ from: location }} replace />;
+  }
 
   return children;
 }
