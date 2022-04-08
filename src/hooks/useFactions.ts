@@ -47,27 +47,27 @@ export function getLabCount(faction: TimestampedFactionProps) {
 }
 
 export function getAllies(faction: TimestampedFactionProps) {
-  return faction.relationships.allies.data;
+  return faction.relationships.allies;
 }
 
 export function getAssociates(faction: TimestampedFactionProps) {
-  return faction.relationships.associates.data;
+  return faction.relationships.associates;
 }
 
 export function getColdWars(faction: TimestampedFactionProps) {
-  return faction.relationships.coldWars.data;
+  return faction.relationships.coldWars;
 }
 
 export function getEnemies(faction: TimestampedFactionProps) {
-  return faction.relationships.enemies.data;
+  return faction.relationships.enemies;
 }
 
 export function getFriends(faction: TimestampedFactionProps) {
-  return faction.relationships.friends.data;
+  return faction.relationships.friends;
 }
 
 export function getHotWars(faction: TimestampedFactionProps) {
-  return faction.relationships.hotWars.data;
+  return faction.relationships.hotWars;
 }
 
 export function getRelationship(

@@ -4,7 +4,7 @@
 
 ## Known Bugs {#bugs}
 
-- TODO hussy & lint-staged aren't properly configured, were in use before i added firebase githooks and never removed them along with the script "predeploy"
+- TODO husky & lint-staged aren't properly configured, were in use before i added firebase githooks and never removed them along with the script "predeploy"
 
 ### Vulnerbilities {#vulnerbilities}
 
@@ -35,5 +35,6 @@
 ### Future Features {#plans}
 
 - TODO add author field
+- TODO Timestamp relationship creation with hidden flag?
 
 ---

@@ -46,6 +46,10 @@ function FormRelationships({
     return name;
   };
 
+  const composeDivKey = (type: Relationship) => {
+    return `relations-${type}`;
+  };
+
   const composeOptionKey = (type: Relationship, factionId: string) => {
     return `${type}-${factionId}`;
   };
@@ -56,7 +60,10 @@ function FormRelationships({
       {orderedRelationships.map((type) => {
         const relationship = getRelationship(state, type);
         return (
-          <div className="flex gap-x-2 items-center px-2">
+          <div
+            key={composeDivKey(type)}
+            className="flex gap-x-2 items-center px-2"
+          >
             <label htmlFor={type} className="w-32 flex items-center gap-x-2">
               {getLabelText(type)}
               <button
@@ -73,7 +80,7 @@ function FormRelationships({
               multiple
               className="flex-1 border"
               value={relationship}
-              onChange={() => handleRelationship(type)}
+              onChange={(event) => handleRelationship(event, type)}
             >
               {factionIds.map((factionId) => {
                 if (factionId === currentFaction) return null;

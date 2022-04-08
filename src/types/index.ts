@@ -20,25 +20,26 @@ export type Relationship =
   | 'friends'
   | 'hotWars';
 
-export interface RelationshipData {
-  type: Relationship;
-  data: string[];
-}
+export type RelationshipData = {
+  [key in Relationship]: string[];
+};
+
+export type RelationshipDataType = { [x: string]: string[] };
+
+export type AttributeData = {
+  benchCount: number;
+  hasBench: boolean;
+  hasLab: boolean;
+  labCount: number;
+};
 
 export interface FactionProps {
   visibility: 'public' | 'private';
-  attributes: {
-    benchCount: number;
-    hasBench: boolean;
-    hasLab: boolean;
-    labCount: number;
-  };
+  attributes: AttributeData;
   displayName: string;
   name: string;
   order: number;
-  relationships: {
-    [key in Relationship]: RelationshipData;
-  };
+  relationships: RelationshipData;
 }
 
 export interface TimestampedFactionProps extends FactionProps {

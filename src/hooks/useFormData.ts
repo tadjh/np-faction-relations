@@ -1,5 +1,5 @@
 import { sanitize } from 'dompurify';
-import { ChangeEventHandler, MouseEventHandler, useReducer } from 'react';
+import { ChangeEvent, ChangeEventHandler, useReducer } from 'react';
 import {
   INIT,
   SET_ACTIVE,
@@ -38,18 +38,17 @@ export interface FormDataHandlers {
   handleFriends: ChangeEventHandler<HTMLSelectElement>;
   handleHotWars: ChangeEventHandler<HTMLSelectElement>;
   handleRelationship: (
+    event: ChangeEvent<HTMLSelectElement>,
     type: Relationship
-  ) => ChangeEventHandler<HTMLSelectElement>;
+  ) => void;
   resetState: VoidFunction;
-  resetAllies: MouseEventHandler<HTMLButtonElement>;
-  resetAssociates: MouseEventHandler<HTMLButtonElement>;
-  resetColdWars: MouseEventHandler<HTMLButtonElement>;
-  resetEnemies: MouseEventHandler<HTMLButtonElement>;
-  resetFriends: MouseEventHandler<HTMLButtonElement>;
-  resetHotWars: MouseEventHandler<HTMLButtonElement>;
-  resetRelationship: (
-    type: Relationship
-  ) => MouseEventHandler<HTMLButtonElement>;
+  resetAllies: VoidFunction;
+  resetAssociates: VoidFunction;
+  resetColdWars: VoidFunction;
+  resetEnemies: VoidFunction;
+  resetFriends: VoidFunction;
+  resetHotWars: VoidFunction;
+  resetRelationship: (type: Relationship) => void;
 }
 
 export interface UseFormData {
@@ -127,71 +126,74 @@ export function useFormData(
       payload: formatRelationshipSet(event.target.selectedOptions),
     });
 
-  const handleRelationship = (type: Relationship) => {
+  const handleRelationship = (
+    event: ChangeEvent<HTMLSelectElement>,
+    type: Relationship
+  ) => {
     switch (type) {
       case 'allies':
-        return handleAllies;
+        return handleAllies(event);
       case 'associates':
-        return handleAssociates;
+        return handleAssociates(event);
       case 'coldWars':
-        return handleColdWars;
+        return handleColdWars(event);
       case 'enemies':
-        return handleEnemies;
+        return handleEnemies(event);
       case 'friends':
-        return handleFriends;
+        return handleFriends(event);
       case 'hotWars':
-        return handleHotWars;
+        return handleHotWars(event);
       default:
         throw new Error('Invalid Relationship type in handleRelationship');
     }
   };
 
   const resetState = () => dispatch({ type: INIT, payload: props || {} });
-  const resetAllies: MouseEventHandler<HTMLButtonElement> = () =>
+  const resetAllies = () =>
     dispatch({
       type: SET_ALLIES,
-      payload: props?.relationships?.allies.data || [],
+      payload: props?.relationships?.allies || [],
     });
-  const resetAssociates: MouseEventHandler<HTMLButtonElement> = () =>
+  const resetAssociates = () =>
     dispatch({
       type: SET_ASSOCIATES,
-      payload: props?.relationships?.associates.data || [],
+      payload: props?.relationships?.associates || [],
     });
-  const resetColdWars: MouseEventHandler<HTMLButtonElement> = () =>
+  const resetColdWars = () =>
     dispatch({
       type: SET_COLD_WAR,
-      payload: props?.relationships?.coldWars.data || [],
+      payload: props?.relationships?.coldWars || [],
     });
-  const resetEnemies: MouseEventHandler<HTMLButtonElement> = () =>
+  const resetEnemies = () =>
     dispatch({
       type: SET_ENEMIES,
-      payload: props?.relationships?.enemies.data || [],
+      payload: props?.relationships?.enemies || [],
     });
-  const resetFriends: MouseEventHandler<HTMLButtonElement> = () =>
+  const resetFriends = () =>
     dispatch({
       type: SET_FRIENDS,
-      payload: props?.relationships?.friends.data || [],
+      payload: props?.relationships?.friends || [],
     });
-  const resetHotWars: MouseEventHandler<HTMLButtonElement> = () =>
+  const resetHotWars = () =>
     dispatch({
       type: SET_HOT_WAR,
-      payload: props?.relationships?.hotWars.data || [],
+      payload: props?.relationships?.hotWars || [],
     });
 
   const resetRelationship = (type: Relationship) => {
     switch (type) {
       case 'allies':
-        return resetAllies;
+        return resetAllies();
       case 'associates':
-        return resetAssociates;
+        return resetAssociates();
       case 'coldWars':
-        return resetColdWars;
+        return resetColdWars();
       case 'enemies':
-        return resetEnemies;
+        return resetEnemies();
       case 'friends':
-        return resetFriends;
+        return resetFriends();
       case 'hotWars':
-        return resetHotWars;
+        return resetHotWars();
       default:
         throw new Error('Invalid Relationship type in resetRelationship');
     }

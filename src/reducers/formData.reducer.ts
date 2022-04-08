@@ -32,12 +32,12 @@ export const initialState: TimestampedFactionProps = {
   name: '',
   order: 0,
   relationships: {
-    allies: { type: 'allies', data: [] },
-    associates: { type: 'associates', data: [] },
-    coldWars: { type: 'coldWars', data: [] },
-    enemies: { type: 'enemies', data: [] },
-    friends: { type: 'friends', data: [] },
-    hotWars: { type: 'hotWars', data: [] },
+    allies: [],
+    associates: [],
+    coldWars: [],
+    enemies: [],
+    friends: [],
+    hotWars: [],
   },
   updated: new Timestamp(0, 0),
 };
@@ -119,7 +119,7 @@ export function reducer(
         ...state,
         relationships: {
           ...state.relationships,
-          allies: { ...state.relationships.allies, data: action.payload },
+          allies: action.payload,
         },
       };
     case SET_ASSOCIATES:
@@ -127,10 +127,7 @@ export function reducer(
         ...state,
         relationships: {
           ...state.relationships,
-          associates: {
-            ...state.relationships.associates,
-            data: action.payload,
-          },
+          associates: action.payload,
         },
       };
     case SET_COLD_WAR:
@@ -138,7 +135,7 @@ export function reducer(
         ...state,
         relationships: {
           ...state.relationships,
-          coldWars: { ...state.relationships.coldWars, data: action.payload },
+          coldWars: action.payload,
         },
       };
     case SET_ENEMIES:
@@ -146,7 +143,7 @@ export function reducer(
         ...state,
         relationships: {
           ...state.relationships,
-          enemies: { ...state.relationships.enemies, data: action.payload },
+          enemies: action.payload,
         },
       };
     case SET_FRIENDS:
@@ -154,7 +151,7 @@ export function reducer(
         ...state,
         relationships: {
           ...state.relationships,
-          friends: { ...state.relationships.friends, data: action.payload },
+          friends: action.payload,
         },
       };
     case SET_HOT_WAR:
@@ -162,7 +159,7 @@ export function reducer(
         ...state,
         relationships: {
           ...state.relationships,
-          hotWars: { ...state.relationships.hotWars, data: action.payload },
+          hotWars: action.payload,
         },
       };
     default:

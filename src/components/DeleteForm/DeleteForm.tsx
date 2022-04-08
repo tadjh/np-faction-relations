@@ -9,11 +9,7 @@ import {
   TEXT_IS_SUCCESS_DELETE,
 } from '../../config/strings';
 import { useApi, useFactions } from '../../hooks';
-import {
-  getErrorMessage,
-  isNotEmptyString,
-  shouldResetMutation,
-} from '../../utils';
+import { getErrorMessage, shouldResetMutation } from '../../utils';
 import Accordian from '../Accordian';
 import SubmitButton from '../SubmitButton';
 

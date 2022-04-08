@@ -21,6 +21,7 @@ import {
   TimestampedFactionProps,
   ServerAssociativeFactionProps,
   RelationshipData,
+  RelationshipDataType,
 } from '../types';
 
 export function useApi() {
@@ -64,15 +65,15 @@ export function useApi() {
 
   const compareRelationships = (
     id: string,
-    next: TimestampedFactionProps,
-    prev: TimestampedFactionProps
+    next: RelationshipData,
+    prev: RelationshipData
   ) => {
     let instructions: Instruction[] = [];
 
-    for (let relationship in next.relationships) {
+    for (let relationship in next) {
       const type = relationship as Relationship;
-      const nextSet = new Set(next.relationships[type].data);
-      const prevSet = new Set(prev.relationships[type].data);
+      const nextSet = new Set(next[type]);
+      const prevSet = new Set(prev[type]);
       const added = Array.from(difference(nextSet, prevSet));
       const deleted = Array.from(difference(prevSet, nextSet));
 
@@ -97,6 +98,21 @@ export function useApi() {
     return instructions;
   };
 
+  const composeFactionRelationship = (
+    doc: TimestampedFactionProps,
+    type: Relationship,
+    data: string[]
+  ): TimestampedFactionProps => {
+    const updatedType: RelationshipDataType = { [type]: data };
+    return {
+      ...doc,
+      relationships: {
+        ...doc.relationships,
+        ...updatedType,
+      },
+    };
+  };
+
   const mergeIntructions = (
     instructions: Instruction[],
     factions: AssociativeFactionProps
@@ -106,20 +122,14 @@ export function useApi() {
     for (let { docId, type, operation, diffId } of instructions) {
       let doc = nextDocs[docId] || factions[docId];
 
-      let data = new Set(doc.relationships[type].data);
+      let data = new Set(doc.relationships[type]);
       if (operation === 'add') {
         data.add(diffId);
       } else if (operation === 'delete') {
         data.delete(diffId);
       }
 
-      const nextDoc: TimestampedFactionProps = {
-        ...doc,
-        relationships: {
-          ...doc.relationships,
-          [type]: { ...doc.relationships[type], data: Array.from(data) },
-        },
-      };
+      const nextDoc = composeFactionRelationship(doc, type, Array.from(data));
 
       nextDocs = { ...nextDocs, [docId]: nextDoc };
     }
@@ -142,16 +152,16 @@ export function useApi() {
   const batchUpdates = async (nextDocs: ServerAssociativeFactionProps) => {
     const batch = writeBatch(db);
 
-    for (let id in nextDocs) {
-      batch.update(factionDocumentReference(id), {
-        ...nextDocs[id],
+    for (let docId in nextDocs) {
+      batch.update(factionDocumentReference(docId), {
+        ...nextDocs[docId],
       });
       if (IS_DEVELOPMENT)
         console.log(
           '%cFaction:',
           'font-weight: bold',
-          nextDocs[id].name,
-          `[${id}]`,
+          nextDocs[docId].name,
+          `[${docId}]`,
           'edited'
         );
     }
@@ -169,7 +179,11 @@ export function useApi() {
     prev,
     factions,
   }: ComparableHydratedFactionProps) => {
-    const instructions = compareRelationships(id, next, prev);
+    const instructions = compareRelationships(
+      id,
+      next.relationships,
+      prev.relationships
+    );
     const nextDocs = mergeIntructions(instructions, factions);
     const stampedDocs = updateTimestamps({ ...nextDocs, [id]: next });
 
@@ -226,12 +240,22 @@ export function useApi() {
             : updated;
       });
 
+      console.log('factions', factions);
+
       const length = Object.keys(factions).length;
 
       return { factions, updated, length };
     } catch (error) {
       throw error;
     }
+  };
+
+  type OldRelationshipData = {
+    [key in Relationship]: { type: Relationship; data: string[] };
+  };
+
+  type NewRelationshipData = {
+    [key in Relationship]: string[];
   };
 
   const getFactionsFix = async (): Promise<FactionsContextType> => {
@@ -245,31 +269,28 @@ export function useApi() {
       docs.forEach((doc) => {
         const data = doc.data() as any;
 
-        const coldWar = data.relationships.coldWar;
-        const hotWar = data.relationships.hotWar;
+        const relationships = data.relationships as OldRelationshipData;
 
-        let coldWars: RelationshipData = { type: 'coldWars', data: [] };
-        let hotWars: RelationshipData = { type: 'hotWars', data: [] };
+        let nextRelationships = {} as NewRelationshipData;
 
-        if (coldWar) {
-          coldWars = { ...coldWars, data: [...coldWar.data] };
+        for (let relationship in relationships) {
+          const relationshipData =
+            relationships[relationship as Relationship].data;
+          const relationshipArray = [...relationshipData];
+
+          delete data.relationships[relationship];
+
+          nextRelationships = {
+            ...nextRelationships,
+            [relationship]: relationshipArray,
+          };
         }
-
-        if (hotWar) {
-          hotWars = { ...hotWars, data: [...hotWar.data] };
-        }
-
-        delete data.relationships.coldWar;
-        delete data.relationships.hotWar;
-
-        console.log('precommit', data);
 
         const nextDoc = {
           ...data,
-          relationships: { ...data.relationships, coldWars, hotWars },
+          relationships: nextRelationships,
           updated: serverTimestamp(),
         };
-        console.log('composed doc', nextDoc);
 
         batch.set(factionDocumentReference(doc.id), { ...nextDoc });
 

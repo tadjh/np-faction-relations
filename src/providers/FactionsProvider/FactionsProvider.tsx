@@ -7,8 +7,8 @@ import FactionsContext, {
 import { useApi } from '../../hooks';
 
 function FactionsProvider({ children }: { children: ReactNode }) {
-  const { getFactionsFix } = useApi();
-  const { data } = useQuery(COLLECTION_FACTIONS, getFactionsFix);
+  const { getFactions } = useApi();
+  const { data } = useQuery(COLLECTION_FACTIONS, getFactions);
 
   const value: FactionsContextType = {
     factions: data?.factions || null,
