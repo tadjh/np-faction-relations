@@ -1,5 +1,6 @@
 import { ERROR_TEXT_WIDGETS_PERMISSION_DENIED } from '../../config/strings';
 import { useAuth } from '../../hooks';
+import { isAllFalse } from '../../utils';
 import AddForm from '../AddForm';
 import DeleteForm from '../DeleteForm';
 import EditForm from '../EditForm';
@@ -7,20 +8,27 @@ import EditForm from '../EditForm';
 function Widgets() {
   const { roles, canCreate, canEdit, canDelete } = useAuth();
 
-  const showAdd = canCreate(roles);
-  const showEdit = canEdit(roles);
-  const showDelete = canDelete(roles);
-  const nothing = !showAdd && !showEdit && !showDelete && true;
+  const shouldAllowAdd = canCreate(roles);
+  const shouldAllowEdit = canEdit(roles);
+  const shouldAllowDelete = canDelete(roles);
+  const shouldShowError = isAllFalse(
+    shouldAllowAdd,
+    shouldAllowEdit,
+    shouldAllowDelete
+  );
+
+  if (shouldShowError) {
+    return (
+      <span className="text-xs text-center">
+        {ERROR_TEXT_WIDGETS_PERMISSION_DENIED}
+      </span>
+    );
+  }
   return (
     <>
-      {showAdd && <AddForm />}
-      {showEdit && <EditForm />}
-      {showDelete && <DeleteForm />}
-      {nothing && (
-        <span className="text-xs text-center">
-          {ERROR_TEXT_WIDGETS_PERMISSION_DENIED}
-        </span>
-      )}
+      {shouldAllowAdd && <AddForm />}
+      {shouldAllowEdit && <EditForm />}
+      {shouldAllowDelete && <DeleteForm />}
     </>
   );
 }
