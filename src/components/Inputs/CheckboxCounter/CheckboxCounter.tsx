@@ -33,7 +33,7 @@ function CheckboxCounter({
         name={`${name}Count`}
         value={count}
         onChange={onChangeCount}
-        isVisible={checked}
+        hidden={!checked}
         isWrapped={false}
       >
         {countLabel}
