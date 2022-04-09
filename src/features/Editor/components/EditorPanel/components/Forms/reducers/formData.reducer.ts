@@ -16,8 +16,8 @@ import {
   SET_LAB_COUNT,
   SET_NAME,
   SET_ORDER,
-} from '../config/constants';
-import { TimestampedFactionProps } from '../types';
+} from '../../../../../../../config/constants';
+import { TimestampedFactionProps } from '../../../../../../../types';
 
 export const initialState: TimestampedFactionProps = {
   visibility: 'public',

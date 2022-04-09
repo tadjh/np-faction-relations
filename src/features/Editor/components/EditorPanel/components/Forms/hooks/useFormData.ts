@@ -17,9 +17,12 @@ import {
   SET_LAB_COUNT,
   SET_NAME,
   SET_ORDER,
-} from '../config/constants';
+} from '../../../../../../../config/constants';
 import { initialState, reducer } from '../reducers/formData.reducer';
-import { Relationship, TimestampedFactionProps } from '../types';
+import {
+  Relationship,
+  TimestampedFactionProps,
+} from '../../../../../../../types';
 
 export interface FormDataHandlers {
   handleSetAll: (data: TimestampedFactionProps | null) => void;

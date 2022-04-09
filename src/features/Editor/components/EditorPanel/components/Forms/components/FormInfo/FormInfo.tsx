@@ -17,12 +17,12 @@ import {
   getLabCount,
   getName,
   getOrder,
-  UseFormData,
 } from '../../../../../../../hooks';
 import FormHeader from '../FormHeader';
 import CheckboxCounter from '../../../../../../../components/Inputs/CheckboxCounter';
 import Counter from '../../../../../../../components/Inputs/Counter';
 import Input from '../../../../../../../components/Inputs/TextInput';
+import { UseFormData } from '../hooks';
 
 function FormInfo({ state, handlers }: UseFormData) {
   const {

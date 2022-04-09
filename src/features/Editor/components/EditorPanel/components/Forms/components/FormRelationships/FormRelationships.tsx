@@ -5,7 +5,6 @@ import {
   getLabelText,
   getName,
   getRelationship,
-  UseFormData,
 } from '../../../../../../../hooks';
 import {
   AssociativeFactionProps,
@@ -14,6 +13,7 @@ import {
 } from '../../../../../../../types';
 import { isEmptyArray, isNotEmptyString } from '../../../../../../../utils';
 import FormHeader from '../FormHeader';
+import { UseFormData } from '../hooks';
 
 const orderedRelationships: Relationship[] = [
   'associates',
