@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import EditLayout from '../EditorLayout';
 import Widgets from '../Widgets';
 import RequireAuth from '../RequireAuth';
-import SignIn from '../SignIn';
+import SignIn from '../Forms/SignIn';
 
 export interface EditPanelProps {
   isOpen: boolean;

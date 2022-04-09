@@ -1,5 +1,5 @@
 import { useEffect, MutableRefObject, useRef, useState } from 'react';
-import { BASE_SPACING } from '../../config/constants';
+import { BASE_SPACING, RESPONSIVE_BREAKPOINT } from '../../config/constants';
 import { getAbsDifference } from '../../utils';
 
 type Constraint = 'bottom' | 'top' | 'left' | 'right';
@@ -41,7 +41,9 @@ export function useGrid(
     };
 
     const getPadding = () => {
-      return getViewportWidth() > 768 ? BASE_SPACING * 2.5 : BASE_SPACING * 4;
+      return getViewportWidth() > RESPONSIVE_BREAKPOINT
+        ? BASE_SPACING * 2.5
+        : BASE_SPACING * 4;
     };
 
     const getDistanceFromEdge = (difference: number | undefined) => {

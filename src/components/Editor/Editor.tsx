@@ -1,8 +1,8 @@
 import clsx from 'clsx';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import EditorLink from '../EditorLink';
-import EditorPanel from '../EditorPanel';
+import EditorLink from './components/EditorLink';
+import EditorPanel from './components/EditorPanel';
 
 function Editor() {
   const [isOpen, setIsOpen] = useState(false);

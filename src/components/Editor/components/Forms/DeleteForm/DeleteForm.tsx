@@ -1,17 +1,17 @@
 import clsx from 'clsx';
 import { ChangeEventHandler, FormEventHandler, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
-import { COLLECTION_FACTIONS } from '../../../config/environment';
+import { COLLECTION_FACTIONS } from '../../../../../config/environment';
 import {
   EVENT_TEXT_DELETE,
   LABEL_TEXT_SELECT_FACTION,
   TEXT_IS_LOADING_DELETE,
   TEXT_IS_SUCCESS_DELETE,
-} from '../../../config/strings';
-import { useApi, useFactions } from '../../../hooks';
-import { getErrorMessage, shouldResetMutation } from '../../../utils';
-import Accordian from '../../Accordian';
-import SubmitButton from '../../SubmitButton';
+} from '../../../../../config/strings';
+import { useApi, useFactions } from '../../../../../hooks';
+import { getErrorMessage, shouldResetMutation } from '../../../../../utils';
+import Accordian from '../../../../Accordian';
+import SubmitButton from '../../../../SubmitButton';
 
 function DeleteForm() {
   const [selected, setSelected] = useState('');
