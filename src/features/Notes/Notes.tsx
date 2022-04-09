@@ -148,7 +148,7 @@ function Notes() {
           onMouseEnter={handleOnMouseEnter}
           onMouseLeave={handleOnMouseLeave}
         >
-          <div className="bg-stone-700 text-white w-full cursor-pointer">
+          <div className="bg-gray-700 text-white w-full cursor-pointer">
             <div className="flex justify-between items-center p-2">
               <span className="flex-1 flex justify-start">
                 {LABEL_TEXT_NOTES}
@@ -176,7 +176,7 @@ function Notes() {
               </button>
             </div>
             <div
-              className="h-1 bg-stone-500"
+              className="h-1 bg-gray-500"
               style={{ width: `${progress}%` }}
             ></div>
           </div>

@@ -16,7 +16,7 @@ function SubmitButton({ isLoading = false, children }: SubmitButtonProps) {
   return (
     <button
       type="submit"
-      className="text-xs hover:cursor-pointer bg-stone-700 hover:bg-stone-900 border transition-colors text-white text-opacity-90 px-4 py-1"
+      className="text-xs hover:cursor-pointer bg-gray-700 hover:bg-gray-900 border transition-colors text-white text-opacity-90 px-4 py-1"
     >
       {children}
     </button>

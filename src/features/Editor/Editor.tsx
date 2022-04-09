@@ -20,7 +20,7 @@ function Editor() {
       <EditorLink onClick={handleOpen} />
       <div
         className={clsx(
-          'bg-stone-900 z-10 fixed',
+          'bg-gray-900 z-10 fixed',
           isOpen
             ? 'bg-opacity-75 w-full min-h-screen h-full'
             : 'bg-opacity-0 w-0 h-0',
