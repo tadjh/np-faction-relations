@@ -1,22 +1,22 @@
 import clsx from 'clsx';
 import { FormEventHandler } from 'react';
-import Accordian from '../../../../../../../components/Accordian';
-import SubmitButton from '../../../../../../../components/Inputs/SubmitButton';
+import Accordian from '../../../../../../../../components/Accordian';
+import SubmitButton from '../../../../../../../../components/Inputs/SubmitButton';
 import { useMutation, useQueryClient } from 'react-query';
-import { useApi, useFactions } from '../../../../../../../hooks';
+import { useApi, useFactions } from '../../../../../../../../hooks';
 import {
   TEXT_IS_LOADING_ADD,
   TEXT_IS_SUCCESS_ADD,
   EVENT_TEXT_RESET,
   EVENT_TEXT_ADD,
-} from '../../../../../../../config/strings';
-import { COLLECTION_FACTIONS } from '../../../../../../../config/environment';
+} from '../../../../../../../../config/strings';
+import { COLLECTION_FACTIONS } from '../../../../../../../../config/environment';
 import {
   getErrorMessage,
   shouldResetMutation,
-} from '../../../../../../../utils';
+} from '../../../../../../../../utils';
 import FormInfo from '../FormInfo';
-import { useFormData } from '../hooks';
+import { useFormData } from '../../hooks';
 
 function AddForm() {
   const { length } = useFactions();

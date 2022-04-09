@@ -8,7 +8,7 @@ import {
   LABEL_TEXT_HAS_LAB,
   LABEL_TEXT_LAB_COUNT,
   LABEL_TEXT_SORT_ORDER,
-} from '../../../../../../../config/strings';
+} from '../../../../../../../../config/strings';
 import {
   getBenchCount,
   getDisplayName,
@@ -17,12 +17,12 @@ import {
   getLabCount,
   getName,
   getOrder,
-} from '../../../../../../../hooks';
+} from '../../../../../../../../hooks';
 import FormHeader from '../FormHeader';
-import CheckboxCounter from '../../../../../../../components/Inputs/CheckboxCounter';
-import Counter from '../../../../../../../components/Inputs/Counter';
-import Input from '../../../../../../../components/Inputs/TextInput';
-import { UseFormData } from '../hooks';
+import CheckboxCounter from '../../../../../../../../components/Inputs/CheckboxCounter';
+import Counter from '../../../../../../../../components/Inputs/Counter';
+import Input from '../../../../../../../../components/Inputs/TextInput';
+import { UseFormData } from '../../hooks';
 
 function FormInfo({ state, handlers }: UseFormData) {
   const {
