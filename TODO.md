@@ -12,14 +12,12 @@
 
 ### Performance Issues {#performance}
 
-- TODO Error handling
 - TODO Add error boundaries
 - TODO handle click spam on buttons
 
 ## Development {#development}
 
 - TODO Figure out how to record every document
-- TODO Add highlighting
 
 ### Quality of Life {#qol}
 
