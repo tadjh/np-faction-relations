@@ -12,7 +12,6 @@ import { TimestampedFactionProps } from '../../../../types';
 export interface GridHeaderCellProps {
   rowIndex: number;
   columnIndex: number;
-  isLast: boolean;
   faction: TimestampedFactionProps;
   isRotated?: boolean;
   onMouseEnter?: MouseEventHandler<HTMLDivElement>;
@@ -20,7 +19,6 @@ export interface GridHeaderCellProps {
 function GridHeaderCell({
   rowIndex,
   columnIndex,
-  isLast,
   faction,
   isRotated = false,
   onMouseEnter: handleMouseEnter,

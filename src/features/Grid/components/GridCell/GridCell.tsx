@@ -11,8 +11,6 @@ export interface GridCellProps {
   columnIndex: number;
   faction: TimestampedFactionProps;
   columnFactionId: string;
-  isBottom: boolean;
-  isLast: boolean;
   handleMouseEnter: MouseEventHandler<HTMLDivElement>;
 }
 
@@ -21,8 +19,6 @@ function GridCell({
   columnIndex,
   faction,
   columnFactionId,
-  isBottom,
-  isLast,
   handleMouseEnter,
 }: GridCellProps): JSX.Element {
   const benchCount = getBenchCount(faction);
@@ -38,8 +34,6 @@ function GridCell({
           rowIndex,
           columnFactionId,
         })
-        // isBottom && 'border-b-gray-900',
-        // isLast && 'border-r-gray-900'
       )}
     >
       <div

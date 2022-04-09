@@ -2,7 +2,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { MutableRefObject, useMemo, createRef } from 'react';
 import { CELL_SIZE_X, CELL_SIZE_Y, HEADER_SIZE } from '../../config/constants';
 import { getFaction, useFactions } from '../../hooks';
-import { isStrictEqual } from '../../utils';
 import GridCell from './components/GridCell';
 import GridHeader from './components/GridHeader';
 import GridHeaderCell from './components/GridHeaderCell';
@@ -15,7 +14,7 @@ export interface GridProps {
 }
 
 function Grid({ headerRef, footerRef }: GridProps) {
-  const { factions, length } = useFactions();
+  const { factions } = useFactions();
   const { gridRef, constraints } = useGrid(headerRef, footerRef);
 
   const factionIds = useMemo(() => Object.keys(factions || {}), [factions]);
@@ -40,20 +39,15 @@ function Grid({ headerRef, footerRef }: GridProps) {
             dragConstraints={constraints}
             className="grid relative text-[8px] shadow-xl border border-gray-400"
             style={{
-              gridTemplateColumns: `${HEADER_SIZE} repeat(${length},${CELL_SIZE_X}px)`,
-              gridTemplateRows: `${HEADER_SIZE} repeat(${length},${CELL_SIZE_Y}px)`,
+              gridTemplateColumns: `${HEADER_SIZE} repeat(${factionIds.length},${CELL_SIZE_X}px)`,
+              gridTemplateRows: `${HEADER_SIZE} repeat(${factionIds.length},${CELL_SIZE_Y}px)`,
             }}
             onMouseLeave={handleMouseLeave}
           >
-            <GridOverlay
-              length={length}
-              factionIds={factionIds}
-              columnRefs={columnRefs}
-            />
+            <GridOverlay factionIds={factionIds} columnRefs={columnRefs} />
             <GridHeader
               factionIds={factionIds}
               factions={factions}
-              length={length}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
             />
@@ -65,7 +59,6 @@ function Grid({ headerRef, footerRef }: GridProps) {
                   <GridHeaderCell
                     rowIndex={padRowIndex}
                     columnIndex={0}
-                    isLast={isStrictEqual(padRowIndex, length)}
                     faction={faction}
                     onMouseEnter={handleMouseLeave}
                   />
@@ -77,8 +70,6 @@ function Grid({ headerRef, footerRef }: GridProps) {
                         columnIndex={padColumnIndex}
                         faction={faction}
                         columnFactionId={columnFactionId}
-                        isBottom={isStrictEqual(padRowIndex, length)}
-                        isLast={isStrictEqual(padColumnIndex, length)}
                         handleMouseEnter={handleMouseEnter}
                       />
                     );
