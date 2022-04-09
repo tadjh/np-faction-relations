@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import Footer from '../Footer';
-import Grid from '../Grid';
+import Grid from '../../features/Grid';
 import Header from '../Header';
 
 function Layout() {

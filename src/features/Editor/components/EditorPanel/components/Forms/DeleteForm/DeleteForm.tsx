@@ -13,8 +13,8 @@ import {
   getErrorMessage,
   shouldResetMutation,
 } from '../../../../../../../utils';
-import Accordian from '../../../../../../Accordian';
-import SubmitButton from '../../../../../../Inputs/SubmitButton';
+import Accordian from '../../../../../../../components/Accordian';
+import SubmitButton from '../../../../../../../components/Inputs/SubmitButton';
 
 function DeleteForm() {
   const [selected, setSelected] = useState('');

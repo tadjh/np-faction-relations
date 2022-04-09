@@ -1,5 +1,5 @@
-import Notes from './components/Notes';
-import Editor from './components/Editor';
+import Notes from './features/Notes';
+import Editor from './features/Editor';
 import AuthProvider from './providers/AuthProvider';
 import Layout from './components/Layout';
 

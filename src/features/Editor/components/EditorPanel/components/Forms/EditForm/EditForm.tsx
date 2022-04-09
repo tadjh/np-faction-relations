@@ -18,10 +18,10 @@ import {
   useFormData,
 } from '../../../../../../../hooks';
 import { getErrorMessage, isNotEmptyString } from '../../../../../../../utils';
-import Accordian from '../../../../../../Accordian';
+import Accordian from '../../../../../../../components/Accordian';
 import FormInfo from '../FormInfo';
 import FormRelationships from '../FormRelationships';
-import SubmitButton from '../../../../../../Inputs/SubmitButton';
+import SubmitButton from '../../../../../../../components/Inputs/SubmitButton';
 
 function EditForm() {
   const { state, handlers } = useFormData();
