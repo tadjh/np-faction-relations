@@ -1,15 +1,13 @@
-import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
-import { MutableRefObject, useMemo, createRef, MouseEventHandler } from 'react';
+import { MutableRefObject, useMemo, createRef } from 'react';
 import { CELL_SIZE_X, CELL_SIZE_Y, HEADER_SIZE } from '../../config/constants';
-import { getBenchCount, getFaction, useFactions } from '../../hooks';
-import { TimestampedFactionProps } from '../../types';
-import { isGreaterThan, isStrictEqual } from '../../utils';
+import { getFaction, useFactions } from '../../hooks';
+import { isStrictEqual } from '../../utils';
 import GridCell from './components/GridCell';
 import GridHeader from './components/GridHeader';
 import GridHeaderCell from './components/GridHeaderCell';
 import GridOverlay from './components/GridOverlay';
-import { useGrid, useHighlight, useStyles } from './hooks';
+import { useGrid, useHighlight } from './hooks';
 
 export interface GridProps {
   headerRef: MutableRefObject<HTMLDivElement | null>;
