@@ -240,8 +240,6 @@ export function useApi() {
             : updated;
       });
 
-      console.log('factions', factions);
-
       const length = Object.keys(factions).length;
 
       return { factions, updated, length };

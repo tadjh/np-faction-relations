@@ -1,16 +1,18 @@
-import { Outlet } from 'react-router-dom';
-import AuthStatus from '../AuthStatus';
+import { useRef } from 'react';
+import Footer from '../Footer';
+import Grid from '../Grid';
+import Header from '../Header';
 
-export interface LayoutProps {
-  onClose: () => void;
-}
-
-function Layout({ onClose }: LayoutProps) {
+function Layout() {
+  const headerRef = useRef<HTMLDivElement | null>(null);
+  const footerRef = useRef<HTMLDivElement | null>(null);
   return (
-    <>
-      <AuthStatus onClose={onClose} />
-      <Outlet />
-    </>
+    <div className="overflow-hidden relative flex flex-col font-mono h-screen items-center p-2.5 md:p-4">
+      <Header ref={headerRef} />
+      <div className="flex-1"></div>
+      <Grid headerRef={headerRef} footerRef={footerRef} />
+      <Footer ref={footerRef} />
+    </div>
   );
 }
 

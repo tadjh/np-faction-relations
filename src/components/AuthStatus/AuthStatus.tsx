@@ -25,7 +25,10 @@ function AuthStatus({ onClose }: AuthStatusProps) {
   return (
     <div className="text-[8px] flex justify-between items-center">
       <div className="flex items-center gap-x-2">
-        <i onClick={onClose} className="text-base cursor-pointer leading-4">
+        <i
+          onClick={onClose}
+          className="text-base cursor-pointer leading-4 font-sans"
+        >
           &#x25C0;
         </i>
         <span>{user.displayName ?? user.uid}</span>

@@ -18,7 +18,7 @@ const TRANSITION_DURATION_IN_MILLISECONDS = 150;
 
 const variants = {
   enter: {
-    x: 500,
+    x: 50,
     opacity: 0,
   },
   center: {
@@ -28,7 +28,7 @@ const variants = {
   },
   exit: {
     zIndex: 0,
-    x: -500,
+    x: -50,
     opacity: 0,
   },
 };
@@ -135,7 +135,7 @@ function Notes() {
     <>
       <div
         className={clsx(
-          'absolute p-4 top-0 right-0 text-[8px] hover:underline',
+          'absolute p-2.5 md:p-4 top-0 right-0 text-[8px] hover:underline font-mono z-10',
           isVisible ? 'opacity-0' : 'opacity-100 cursor-pointer'
         )}
         onClick={handleOpen}
@@ -144,7 +144,7 @@ function Notes() {
       </div>
       {isVisible && (
         <div
-          className="max-w-sm min-w-sm w-full fixed top-3 right-3 flex flex-col items-center group"
+          className="max-w-full w-[416px] absolute right-0 top-0 p-2.5 md:p-4 flex flex-col items-center group font-mono z-10"
           onMouseEnter={handleOnMouseEnter}
           onMouseLeave={handleOnMouseLeave}
         >
@@ -180,7 +180,7 @@ function Notes() {
               style={{ width: `${progress}%` }}
             ></div>
           </div>
-          <div className="relative h-28 w-[400px] overflow-hidden flex justify-center">
+          <div className="relative w-[378px] md:w-[392px] flex justify-center">
             <AnimatePresence initial={false}>
               <motion.div
                 key={slide}
@@ -192,7 +192,7 @@ function Notes() {
                   x: { type: 'spring', stiffness: 300, damping: 30 },
                   opacity: { duration: 0.2 },
                 }}
-                className="text-xs absolute max-w-md w-[384px] border-l border-b border-r p-2 shadow bg-white"
+                className="text-xs absolute w-[370px] md:w-[384px] border-l border-b border-r p-2 shadow-2xl bg-white"
               >
                 {text[slide]}
               </motion.div>

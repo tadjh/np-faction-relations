@@ -69,3 +69,7 @@ export function isAllFalse(bool1: boolean, bool2: boolean, bool3: boolean) {
 export function isGreaterThan(num1: number, num2: number) {
   return num1 > num2;
 }
+
+export function getAbsDifference(num1: number, num2: number) {
+  return Math.abs(num1 - num2);
+}

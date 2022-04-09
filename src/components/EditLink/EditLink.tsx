@@ -7,8 +7,8 @@ export interface EditLinkProps {
 
 function EditLink({ onClick }: EditLinkProps) {
   return (
-    <div className="absolute p-4">
-      <Link to="/edit" onClick={onClick} className="hover:underline text-[8px]">
+    <div className="absolute p-2.5 md:p-4 text-[8px] z-10 font-mono">
+      <Link to="/edit" onClick={onClick} className="hover:underline">
         {EVENT_TEXT_EDIT}
       </Link>
     </div>

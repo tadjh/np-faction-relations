@@ -1,7 +1,7 @@
-const BASE_NUMBER = 4;
+export const BASE_SPACING = 4;
 const MULTIPLIER = 8;
-export const CELL_SIZE_X = BASE_NUMBER * MULTIPLIER;
-export const CELL_SIZE_Y = BASE_NUMBER * (MULTIPLIER - 1);
+export const CELL_SIZE_X = BASE_SPACING * MULTIPLIER;
+export const CELL_SIZE_Y = BASE_SPACING * (MULTIPLIER - 1);
 export const HEADER_SIZE = '92px';
 
 export const COLOR_ASSOCIATE = 'bg-lime-900';
