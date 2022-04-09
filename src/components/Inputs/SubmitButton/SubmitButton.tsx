@@ -1,5 +1,5 @@
 import { HTMLAttributes } from 'react';
-import { SpinnerIcon } from '../../assets/Icons';
+import { SpinnerIcon } from '../../../assets/Icons';
 
 export interface SubmitButtonProps extends HTMLAttributes<HTMLDivElement> {
   isLoading?: boolean;

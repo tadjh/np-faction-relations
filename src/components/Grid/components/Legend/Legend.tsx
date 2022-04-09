@@ -9,7 +9,7 @@ import {
   COLOR_HAS_BENCH,
   HEADER_SIZE,
   COLOR_HAS_LAB,
-} from '../../config/constants';
+} from '../../../../config/constants';
 import {
   RELATION_ASSOCIATES,
   RELATION_ALLIES,
@@ -19,8 +19,8 @@ import {
   RELATION_ENEMIES,
   RELATION_HAS_BENCH,
   RELATION_HAS_LAB,
-} from '../../config/strings';
-import { headerColor } from '../../config/styles';
+} from '../../../../config/strings';
+import { headerColor } from '../../../../config/styles';
 
 function Legend() {
   return (

@@ -11,9 +11,8 @@ import {
 } from '../../hooks';
 import { AssociativeFactionProps } from '../../types';
 import { isEmptyObject, isGreaterThan, isStrictEqual } from '../../utils';
-import Legend from '../Legend';
-import { backgroundColor } from './styles';
-import { useGrid } from './useGrid';
+import Legend from './components/Legend';
+import { useGrid } from './hooks';
 
 export function shouldHideGrid(factions: AssociativeFactionProps | null) {
   return factions === null || isEmptyObject(factions);
@@ -27,7 +26,10 @@ export interface GridProps {
 function Grid({ headerRef, footerRef }: GridProps) {
   const { factions, length } = useFactions();
 
-  const { gridRef, constraints } = useGrid(headerRef, footerRef);
+  const { gridRef, constraints, backgroundColor } = useGrid(
+    headerRef,
+    footerRef
+  );
 
   // if (shouldHideGrid(factions)) return null;
 

@@ -21,7 +21,7 @@ import { getErrorMessage, isNotEmptyString } from '../../../../../utils';
 import Accordian from '../../../../Accordian';
 import FormInfo from '../FormInfo';
 import FormRelationships from '../FormRelationships';
-import SubmitButton from '../../../../SubmitButton';
+import SubmitButton from '../../../../Inputs/SubmitButton';
 
 function EditForm() {
   const { state, handlers } = useFormData();

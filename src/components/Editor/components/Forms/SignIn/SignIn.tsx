@@ -5,7 +5,7 @@ import {
   EVENT_TEXT_SIGN_IN,
 } from '../../../../../config/strings';
 import { useAuth } from '../../../../../hooks';
-import SubmitButton from '../../../../SubmitButton';
+import SubmitButton from '../../../../Inputs/SubmitButton';
 
 function SignIn() {
   let navigate = useNavigate();

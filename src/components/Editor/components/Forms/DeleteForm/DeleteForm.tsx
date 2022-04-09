@@ -11,7 +11,7 @@ import {
 import { useApi, useFactions } from '../../../../../hooks';
 import { getErrorMessage, shouldResetMutation } from '../../../../../utils';
 import Accordian from '../../../../Accordian';
-import SubmitButton from '../../../../SubmitButton';
+import SubmitButton from '../../../../Inputs/SubmitButton';
 
 function DeleteForm() {
   const [selected, setSelected] = useState('');

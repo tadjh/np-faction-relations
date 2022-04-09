@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom';
-import AuthStatus from '../../../AuthStatus';
+import AuthStatus from '../AuthStatus';
 
 export interface LayoutProps {
   onClose: () => void;

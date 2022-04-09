@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { FormEventHandler } from 'react';
 import Accordian from '../../../../Accordian';
-import SubmitButton from '../../../../SubmitButton';
+import SubmitButton from '../../../../Inputs/SubmitButton';
 import { useMutation, useQueryClient } from 'react-query';
 import { useApi, useFactions, useFormData } from '../../../../../hooks';
 import {
