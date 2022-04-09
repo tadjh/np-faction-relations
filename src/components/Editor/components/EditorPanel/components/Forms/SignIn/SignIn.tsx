@@ -3,9 +3,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import {
   ERROR_TEXT_EDIT_PERMISSION_DENIED,
   EVENT_TEXT_SIGN_IN,
-} from '../../../../../config/strings';
-import { useAuth } from '../../../../../hooks';
-import SubmitButton from '../../../../Inputs/SubmitButton';
+} from '../../../../../../../config/strings';
+import { useAuth } from '../../../../../../../hooks';
+import SubmitButton from '../../../../../../Inputs/SubmitButton';
 
 function SignIn() {
   let navigate = useNavigate();

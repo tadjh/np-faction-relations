@@ -1,9 +1,9 @@
-import { CloseIcon } from '../../../../assets/Icons';
+import { CloseIcon } from '../../../../../../assets/Icons';
 import {
   EVENT_TEXT_EDIT,
   EVENT_TEXT_SIGN_OUT,
-} from '../../../../config/strings';
-import { useAuth } from '../../../../hooks';
+} from '../../../../../../config/strings';
+import { useAuth } from '../../../../../../hooks';
 
 export interface AuthStatusProps {
   onClose: () => void;

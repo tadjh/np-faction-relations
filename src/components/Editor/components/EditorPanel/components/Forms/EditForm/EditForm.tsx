@@ -2,26 +2,26 @@ import clsx from 'clsx';
 import { useState } from 'react';
 import { ChangeEventHandler, FormEventHandler } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
-import { COLLECTION_FACTIONS } from '../../../../../config/environment';
+import { COLLECTION_FACTIONS } from '../../../../../../../config/environment';
 import {
   EVENT_TEXT_RESET,
   EVENT_TEXT_UPDATE,
   LABEL_TEXT_SELECT_FACTION,
   TEXT_IS_LOADING_UPDATE,
   TEXT_IS_SUCCESS_UPDATE,
-} from '../../../../../config/strings';
+} from '../../../../../../../config/strings';
 import {
   getFaction,
   getName,
   useApi,
   useFactions,
   useFormData,
-} from '../../../../../hooks';
-import { getErrorMessage, isNotEmptyString } from '../../../../../utils';
-import Accordian from '../../../../Accordian';
+} from '../../../../../../../hooks';
+import { getErrorMessage, isNotEmptyString } from '../../../../../../../utils';
+import Accordian from '../../../../../../Accordian';
 import FormInfo from '../FormInfo';
 import FormRelationships from '../FormRelationships';
-import SubmitButton from '../../../../Inputs/SubmitButton';
+import SubmitButton from '../../../../../../Inputs/SubmitButton';
 
 function EditForm() {
   const { state, handlers } = useFormData();

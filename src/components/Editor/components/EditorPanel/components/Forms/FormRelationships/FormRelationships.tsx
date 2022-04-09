@@ -1,4 +1,4 @@
-import { LABEL_TEXT_RELATIONSHIPS } from '../../../../../config/strings';
+import { LABEL_TEXT_RELATIONSHIPS } from '../../../../../../../config/strings';
 import {
   getDisplayName,
   getFaction,
@@ -6,13 +6,13 @@ import {
   getName,
   getRelationship,
   UseFormData,
-} from '../../../../../hooks';
+} from '../../../../../../../hooks';
 import {
   AssociativeFactionProps,
   Relationship,
   TimestampedFactionProps,
-} from '../../../../../types';
-import { isEmptyArray, isNotEmptyString } from '../../../../../utils';
+} from '../../../../../../../types';
+import { isEmptyArray, isNotEmptyString } from '../../../../../../../utils';
 import FormHeader from '../FormHeader';
 
 const orderedRelationships: Relationship[] = [
