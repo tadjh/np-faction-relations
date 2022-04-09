@@ -148,12 +148,6 @@ export function useGrid(
         ? getHorizontalConstraint(horizontalDistanceFromEdge, -padding)
         : 0;
 
-    console.log(
-      verticalDistanceFromEdge,
-      footerRef.current?.offsetHeight,
-      padding
-    );
-
     hasConstraints.current = true;
     setConstraints((prevState) => ({
       ...prevState,
