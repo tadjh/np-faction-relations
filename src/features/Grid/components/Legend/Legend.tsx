@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { DOMAttributes } from 'react';
 import {
   COLOR_ASSOCIATE,
   COLOR_ALLY,
@@ -14,96 +15,59 @@ import {
   RELATION_ASSOCIATES,
   RELATION_ALLIES,
   RELATION_FRIENDS,
-  RELATION_COLD_WAR,
-  RELATION_HOT_WAR,
+  RELATION_COLD_WARS,
+  RELATION_HOT_WARS,
   RELATION_ENEMIES,
   RELATION_HAS_BENCH,
   RELATION_HAS_LAB,
 } from '../../../../config/strings';
 import { headerColor } from '../../../../config/styles';
 
-function Legend() {
+type LegendData =
+  | { name: typeof RELATION_ASSOCIATES; color: typeof COLOR_ASSOCIATE }
+  | { name: typeof RELATION_ALLIES; color: typeof COLOR_ALLY }
+  | { name: typeof RELATION_FRIENDS; color: typeof COLOR_FRIEND }
+  | { name: typeof RELATION_COLD_WARS; color: typeof COLOR_COLD_WAR }
+  | { name: typeof RELATION_HOT_WARS; color: typeof COLOR_HOT_WAR }
+  | { name: typeof RELATION_ENEMIES; color: typeof COLOR_ENEMY }
+  | { name: typeof RELATION_HAS_BENCH; color: typeof COLOR_HAS_BENCH }
+  | { name: typeof RELATION_HAS_LAB; color: typeof COLOR_HAS_LAB };
+
+const legend: LegendData[] = [
+  { name: RELATION_ASSOCIATES, color: COLOR_ASSOCIATE },
+  { name: RELATION_ALLIES, color: COLOR_ALLY },
+  { name: RELATION_FRIENDS, color: COLOR_FRIEND },
+  { name: RELATION_COLD_WARS, color: COLOR_COLD_WAR },
+  { name: RELATION_HOT_WARS, color: COLOR_HOT_WAR },
+  { name: RELATION_ENEMIES, color: COLOR_ENEMY },
+  { name: RELATION_HAS_BENCH, color: COLOR_HAS_BENCH },
+  { name: RELATION_HAS_LAB, color: COLOR_HAS_LAB },
+];
+
+function Legend({ onMouseEnter }: DOMAttributes<HTMLDivElement>) {
   return (
     <div
       className={clsx(
-        'flex justify-center items-center border text-center border-stone-900',
+        'flex justify-center items-center border-r border-b text-center border-gray-400 relative hover:scale-150 hover:z-10 hover:border transition-transform hover:-translate-x-1/4 hover:-translate-y-1/4 ',
         headerColor()
       )}
       style={{ width: HEADER_SIZE, height: HEADER_SIZE }}
+      onMouseEnter={onMouseEnter}
     >
       <ul>
-        <li className="flex gap-x-1 items-center h-2.5">
-          <span
-            className={clsx(
-              'block border border-stone-900 w-4 h-2',
-              COLOR_ASSOCIATE
-            )}
-          ></span>
-          {RELATION_ASSOCIATES}
-        </li>
-        <li className="flex gap-x-1 items-center h-2.5">
-          <span
-            className={clsx(
-              'block border border-stone-900 w-4 h-2',
-              COLOR_ALLY
-            )}
-          ></span>
-          {RELATION_ALLIES}
-        </li>
-        <li className="flex gap-x-1 items-center h-2.5">
-          <span
-            className={clsx(
-              'block border border-stone-900 w-4 h-2',
-              COLOR_FRIEND
-            )}
-          ></span>
-          {RELATION_FRIENDS}
-        </li>
-        <li className="flex gap-x-1 items-center h-2.5">
-          <span
-            className={clsx(
-              'block border border-stone-900 w-4 h-2',
-              COLOR_COLD_WAR
-            )}
-          ></span>
-          {RELATION_COLD_WAR}
-        </li>
-        <li className="flex gap-x-1 items-center h-2.5">
-          <span
-            className={clsx(
-              'block border border-stone-900 w-4 h-2',
-              COLOR_HOT_WAR
-            )}
-          ></span>
-          {RELATION_HOT_WAR}
-        </li>
-        <li className="flex gap-x-1 items-center h-2.5">
-          <span
-            className={clsx(
-              'block border border-stone-900 w-4 h-2',
-              COLOR_ENEMY
-            )}
-          ></span>
-          {RELATION_ENEMIES}
-        </li>
-        <li className="flex gap-x-1 items-center h-2.5">
-          <span
-            className={clsx(
-              'block border border-stone-900 w-4 h-2',
-              COLOR_HAS_BENCH
-            )}
-          ></span>
-          {RELATION_HAS_BENCH}
-        </li>
-        <li className="flex gap-x-1 items-center h-2.5">
-          <span
-            className={clsx(
-              'block border border-stone-900 w-4 h-2',
-              COLOR_HAS_LAB
-            )}
-          ></span>
-          {RELATION_HAS_LAB}
-        </li>
+        {legend.map(({ name, color }, index) => {
+          return (
+            <li
+              key={`${index}-${name}`}
+              className="flex gap-x-1 items-center h-2.5"
+            >
+              <span
+                className={clsx('block border border-gray-900 w-4 h-2', color)}
+              ></span>
+              {name}
+            </li>
+          );
+        })}
       </ul>
     </div>
   );

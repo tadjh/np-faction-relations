@@ -1,22 +1,15 @@
 import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Fragment, MutableRefObject } from 'react';
+import { MutableRefObject, useMemo, createRef, MouseEventHandler } from 'react';
 import { CELL_SIZE_X, CELL_SIZE_Y, HEADER_SIZE } from '../../config/constants';
-import { headerColor } from '../../config/styles';
-import {
-  composeShortName,
-  getBenchCount,
-  getFaction,
-  useFactions,
-} from '../../hooks';
-import { AssociativeFactionProps } from '../../types';
-import { isEmptyObject, isGreaterThan, isStrictEqual } from '../../utils';
-import Legend from './components/Legend';
-import { useGrid } from './hooks';
-
-export function shouldHideGrid(factions: AssociativeFactionProps | null) {
-  return factions === null || isEmptyObject(factions);
-}
+import { getBenchCount, getFaction, useFactions } from '../../hooks';
+import { TimestampedFactionProps } from '../../types';
+import { isGreaterThan, isStrictEqual } from '../../utils';
+import GridCell from './components/GridCell';
+import GridHeader from './components/GridHeader';
+import GridHeaderCell from './components/GridHeaderCell';
+import GridOverlay from './components/GridOverlay';
+import { useGrid, useHighlight, useStyles } from './hooks';
 
 export interface GridProps {
   headerRef: MutableRefObject<HTMLDivElement | null>;
@@ -25,15 +18,15 @@ export interface GridProps {
 
 function Grid({ headerRef, footerRef }: GridProps) {
   const { factions, length } = useFactions();
+  const { gridRef, constraints } = useGrid(headerRef, footerRef);
 
-  const { gridRef, constraints, backgroundColor } = useGrid(
-    headerRef,
-    footerRef
+  const factionIds = useMemo(() => Object.keys(factions || {}), [factions]);
+  const columnRefs = useMemo(
+    () => ['legend', ...factionIds].map(() => createRef<HTMLDivElement>()),
+    [factionIds]
   );
 
-  // if (shouldHideGrid(factions)) return null;
-
-  const factionIds = Object.keys(factions || {});
+  const { handleMouseEnter, handleMouseLeave } = useHighlight(columnRefs);
 
   return (
     <div className="absolute font-mono left-0 md:left-1/2 top-1/2 -translate-y-1/2 md:-translate-x-1/2 p-4">
@@ -47,74 +40,52 @@ function Grid({ headerRef, footerRef }: GridProps) {
             dragMomentum={false}
             ref={gridRef}
             dragConstraints={constraints}
-            className="grid relative text-[8px] shadow-xl"
+            className="grid relative text-[8px] shadow-xl border border-gray-400"
             style={{
               gridTemplateColumns: `${HEADER_SIZE} repeat(${length},${CELL_SIZE_X}px)`,
               gridTemplateRows: `${HEADER_SIZE} repeat(${length},${CELL_SIZE_Y}px)`,
             }}
+            onMouseLeave={handleMouseLeave}
           >
-            <Legend />
-            {factionIds.map((columnFaction, columnIndex) => {
-              const faction = getFaction(factions, columnFaction);
-              return (
-                <div
-                  key={`row1col${columnIndex + 2}`}
-                  className={clsx(
-                    'border text-center flex items-center justify-center',
-                    headerColor(columnIndex),
-                    'border-t-stone-900 border-b-stone-900',
-                    isStrictEqual(columnIndex, length - 1) &&
-                      'border-r-stone-900'
-                  )}
-                >
-                  <span className="-rotate-90">
-                    {composeShortName(faction)}
-                  </span>
-                </div>
-              );
-            })}
+            <GridOverlay
+              length={length}
+              factionIds={factionIds}
+              columnRefs={columnRefs}
+            />
+            <GridHeader
+              factionIds={factionIds}
+              factions={factions}
+              length={length}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            />
             {factionIds.map((rowFactionId, rowIndex) => {
               const faction = getFaction(factions, rowFactionId);
-              const benchCount = getBenchCount(faction);
+              const padRowIndex = rowIndex + 1;
               return (
-                <Fragment key={`y-${rowFactionId}`}>
-                  <div
-                    key={`row${rowIndex + 2}col1`}
-                    className={clsx(
-                      'border text-center flex items-center justify-center border-l-stone-900 border-r-stone-900',
-                      isStrictEqual(rowIndex, length - 1) &&
-                        'border-b-stone-900',
-                      headerColor(rowIndex)
-                    )}
-                  >
-                    {composeShortName(faction)}
-                  </div>
-                  {factionIds.map((columnFactionId, columnIndex) => (
-                    <div
-                      key={`row${rowIndex + 2}col${columnIndex + 2}`}
-                      className={clsx(
-                        'border text-center flex justify-center items-center',
-                        backgroundColor(
-                          faction,
-                          columnIndex,
-                          rowIndex,
-                          columnFactionId
-                        ),
-                        isStrictEqual(rowIndex, length - 1) &&
-                          'border-b-stone-900',
-                        isStrictEqual(columnIndex, length - 1) &&
-                          'border-r-stone-900'
-                      )}
-                    >
-                      {isStrictEqual(columnIndex, rowIndex) &&
-                        isGreaterThan(benchCount, 1) && (
-                          <span className="text-xs text-amber-100">
-                            {benchCount}
-                          </span>
-                        )}
-                    </div>
-                  ))}
-                </Fragment>
+                <div key={`row-${rowFactionId}`} className="contents group">
+                  <GridHeaderCell
+                    rowIndex={padRowIndex}
+                    columnIndex={0}
+                    isLast={isStrictEqual(padRowIndex, length)}
+                    faction={faction}
+                    onMouseEnter={handleMouseLeave}
+                  />
+                  {factionIds.map((columnFactionId, columnIndex) => {
+                    const padColumnIndex = columnIndex + 1;
+                    return (
+                      <GridCell
+                        rowIndex={padRowIndex}
+                        columnIndex={padColumnIndex}
+                        faction={faction}
+                        columnFactionId={columnFactionId}
+                        isBottom={isStrictEqual(padRowIndex, length)}
+                        isLast={isStrictEqual(padColumnIndex, length)}
+                        handleMouseEnter={handleMouseEnter}
+                      />
+                    );
+                  })}
+                </div>
               );
             })}
           </motion.div>
