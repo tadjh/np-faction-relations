@@ -1,9 +1,9 @@
 import { ERROR_TEXT_WIDGETS_PERMISSION_DENIED } from '../../config/strings';
 import { useAuth } from '../../hooks';
 import { isAllFalse } from '../../utils';
-import AddForm from '../AddForm';
-import DeleteForm from '../DeleteForm';
-import EditForm from '../EditForm';
+import AddForm from '../Forms/AddForm';
+import DeleteForm from '../Forms/DeleteForm';
+import EditForm from '../Forms/EditForm';
 
 function Widgets() {
   const { roles, canCreate, canEdit, canDelete } = useAuth();

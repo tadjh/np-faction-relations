@@ -1,5 +1,5 @@
 import Notes from './components/Notes';
-import Edit from './components/Edit';
+import Editor from './components/Editor';
 import AuthProvider from './providers/AuthProvider';
 import Layout from './components/Layout';
 
@@ -7,7 +7,7 @@ function App() {
   return (
     <>
       <AuthProvider>
-        <Edit />
+        <Editor />
       </AuthProvider>
       <Notes />
       <Layout />

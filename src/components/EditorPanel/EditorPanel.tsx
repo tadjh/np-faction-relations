@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { Routes, Route } from 'react-router-dom';
-import EditLayout from '../EditLayout';
+import EditLayout from '../EditorLayout';
 import Widgets from '../Widgets';
 import RequireAuth from '../RequireAuth';
 import SignIn from '../SignIn';

@@ -22,7 +22,6 @@
 
 ### Quality of Life {#qol}
 
-- TODO Mobile responsiveness
 - TODO Tooltips
 - TODO Refactor Notes for Framer Motion
 

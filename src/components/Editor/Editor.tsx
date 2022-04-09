@@ -1,10 +1,10 @@
 import clsx from 'clsx';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import EditLink from '../EditLink';
-import EditPanel from '../EditPanel';
+import EditorLink from '../EditorLink';
+import EditorPanel from '../EditorPanel';
 
-function Edit() {
+function Editor() {
   const [isOpen, setIsOpen] = useState(false);
   let navigate = useNavigate();
 
@@ -17,7 +17,7 @@ function Edit() {
 
   return (
     <>
-      <EditLink onClick={handleOpen} />
+      <EditorLink onClick={handleOpen} />
       <div
         className={clsx(
           'bg-stone-900 z-10 fixed',
@@ -28,9 +28,9 @@ function Edit() {
         )}
         onClick={handleClose}
       />
-      <EditPanel onClose={handleClose} isOpen={isOpen} />
+      <EditorPanel onClose={handleClose} isOpen={isOpen} />
     </>
   );
 }
 
-export default Edit;
+export default Editor;
