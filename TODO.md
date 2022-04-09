@@ -13,6 +13,7 @@
 ### Performance Issues {#performance}
 
 - TODO Error handling
+- TODO Add error boundaries
 - TODO handle click spam on buttons
 
 ## Development {#development}
@@ -23,13 +24,14 @@
 ### Quality of Life {#qol}
 
 - TODO Tooltips
-- TODO Refactor Notes for Framer Motion
+- TODO Refactor Notes with Framer Motion
 
 ### Environment {#environment}
 
 - FIXME Github merge/pull actions don't seem to work. env variables are cooked
 - TODO Consider adding storybook
 - TODO Consider add jest tests
+- TODO Add sentry
 
 ### Future Features {#plans}
 

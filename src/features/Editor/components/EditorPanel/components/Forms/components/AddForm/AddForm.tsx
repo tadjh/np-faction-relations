@@ -17,6 +17,7 @@ import {
 } from '../../../../../../../../utils';
 import FormInfo from '../FormInfo';
 import { useFormData } from '../../hooks';
+import { toast } from 'react-toastify';
 
 function AddForm() {
   const { length } = useFactions();
@@ -57,9 +58,9 @@ function AddForm() {
               mutation.isSuccess && 'text-green-500'
             )}
           >
-            {mutation.isLoading && TEXT_IS_LOADING_ADD}
-            {mutation.isError && `${getErrorMessage(error)}`}
-            {mutation.isSuccess && TEXT_IS_SUCCESS_ADD}
+            {mutation.isLoading && toast.info(TEXT_IS_LOADING_ADD)}
+            {mutation.isSuccess && toast.success(TEXT_IS_SUCCESS_ADD)}
+            {mutation.isError && toast.error(`${getErrorMessage(error)}`)}
           </span>
           <SubmitButton isLoading={mutation.isLoading}>
             {mutation.isSuccess || mutation.isError

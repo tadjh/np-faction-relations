@@ -15,6 +15,7 @@ import {
 } from '../../../../../../../../utils';
 import Accordian from '../../../../../../../../components/Accordian';
 import SubmitButton from '../../../../../../../../components/Inputs/SubmitButton';
+import { toast } from 'react-toastify';
 
 function DeleteForm() {
   const [selected, setSelected] = useState('');
@@ -101,9 +102,9 @@ function DeleteForm() {
               mutation.isSuccess && 'text-green-500'
             )}
           >
-            {mutation.isLoading && TEXT_IS_LOADING_DELETE}
-            {mutation.isError && `${getErrorMessage(error)}`}
-            {mutation.isSuccess && TEXT_IS_SUCCESS_DELETE}
+            {mutation.isLoading && toast.info(TEXT_IS_LOADING_DELETE)}
+            {mutation.isError && toast.error(`${getErrorMessage(error)}`)}
+            {mutation.isSuccess && toast.success(TEXT_IS_SUCCESS_DELETE)}
           </span>
           <SubmitButton isLoading={mutation.isLoading}>
             {EVENT_TEXT_DELETE}

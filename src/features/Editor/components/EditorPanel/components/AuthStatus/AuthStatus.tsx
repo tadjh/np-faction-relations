@@ -1,9 +1,11 @@
+import { toast } from 'react-toastify';
 import { CloseIcon } from '../../../../../../assets/Icons';
 import {
   EVENT_TEXT_EDIT,
   EVENT_TEXT_SIGN_OUT,
 } from '../../../../../../config/strings';
 import { useAuth } from '../../../../../../hooks';
+import { getErrorMessage } from '../../../../../../utils';
 
 export interface AuthStatusProps {
   onClose: () => void;
@@ -12,7 +14,13 @@ export interface AuthStatusProps {
 function AuthStatus({ onClose }: AuthStatusProps) {
   let { user, signOut } = useAuth();
 
-  const handleSignOut = () => signOut(onClose);
+  const handleSignOut = async () => {
+    try {
+      await signOut(onClose);
+    } catch (error: any) {
+      toast.error('Error signing out: ' + getErrorMessage(error));
+    }
+  };
 
   if (!user) {
     return (

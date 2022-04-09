@@ -5,6 +5,7 @@ import {
   updateDoc,
   writeBatch,
 } from 'firebase/firestore';
+import { toast } from 'react-toastify';
 import { IS_DEVELOPMENT } from '../config/environment';
 import {
   db,
@@ -23,6 +24,23 @@ import {
   RelationshipData,
   RelationshipDataType,
 } from '../types';
+import { getErrorMessage } from '../utils';
+
+interface ComparableHydratedFactionProps {
+  id: string;
+  next: TimestampedFactionProps;
+  prev: TimestampedFactionProps;
+  factions: AssociativeFactionProps;
+}
+
+type Operation = 'add' | 'delete';
+
+interface Instruction {
+  docId: string;
+  diffId: string;
+  operation: Operation;
+  type: Relationship;
+}
 
 export function useApi() {
   const createFaction = async (data: FactionProps) => {
@@ -35,33 +53,16 @@ export function useApi() {
       const docRef = await addDoc(FACTION_COLLECTION_REFERENCE, newDoc);
       if (IS_DEVELOPMENT) console.log('Document written with ID: ', docRef.id);
       return docRef;
-    } catch (error) {
-      console.error('Error adding document: ', error);
-      throw error;
+    } catch (error: any) {
+      toast.error('Error adding document: ' + getErrorMessage(error));
     }
   };
 
-  interface ComparableHydratedFactionProps {
-    id: string;
-    next: TimestampedFactionProps;
-    prev: TimestampedFactionProps;
-    factions: AssociativeFactionProps;
-  }
-
-  function difference(setA: Set<string>, setB: Set<string>) {
+  const difference = (setA: Set<string>, setB: Set<string>) => {
     let _difference = new Set(setA);
     setB.forEach((elem) => _difference.delete(elem));
     return _difference;
-  }
-
-  type Operation = 'add' | 'delete';
-
-  interface Instruction {
-    docId: string;
-    diffId: string;
-    operation: Operation;
-    type: Relationship;
-  }
+  };
 
   const compareRelationships = (
     id: string,
@@ -168,8 +169,8 @@ export function useApi() {
 
     try {
       await batch.commit();
-    } catch (error) {
-      throw error;
+    } catch (error: any) {
+      toast.error('Error batching edits: ' + getErrorMessage(error));
     }
   };
 
@@ -203,9 +204,8 @@ export function useApi() {
             'edited'
           );
       }
-    } catch (error) {
-      console.error('Error editing document: ', error);
-      throw error;
+    } catch (error: any) {
+      toast.error('Error editing document: ' + getErrorMessage(error));
     }
   };
 
@@ -220,9 +220,8 @@ export function useApi() {
       });
       if (IS_DEVELOPMENT) console.log('Document deleted with ID: ', id);
       return;
-    } catch (error) {
-      console.error('Error deleting document: ', error);
-      throw error;
+    } catch (error: any) {
+      toast.error('Error deleting document: ' + getErrorMessage(error));
     }
   };
 
@@ -243,72 +242,8 @@ export function useApi() {
       const length = Object.keys(factions).length;
 
       return { factions, updated, length };
-    } catch (error) {
-      throw error;
-    }
-  };
-
-  type OldRelationshipData = {
-    [key in Relationship]: { type: Relationship; data: string[] };
-  };
-
-  type NewRelationshipData = {
-    [key in Relationship]: string[];
-  };
-
-  const getFactionsFix = async (): Promise<FactionsContextType> => {
-    try {
-      const docs = await getDocs(FACTION_COLLECTION_QUERY);
-      let factions = {};
-      let updated = 0;
-
-      const batch = writeBatch(db);
-
-      docs.forEach((doc) => {
-        const data = doc.data() as any;
-
-        const relationships = data.relationships as OldRelationshipData;
-
-        let nextRelationships = {} as NewRelationshipData;
-
-        for (let relationship in relationships) {
-          const relationshipData =
-            relationships[relationship as Relationship].data;
-          const relationshipArray = [...relationshipData];
-
-          delete data.relationships[relationship];
-
-          nextRelationships = {
-            ...nextRelationships,
-            [relationship]: relationshipArray,
-          };
-        }
-
-        const nextDoc = {
-          ...data,
-          relationships: nextRelationships,
-          updated: serverTimestamp(),
-        };
-
-        batch.set(factionDocumentReference(doc.id), { ...nextDoc });
-
-        factions = { ...factions, [doc.id]: nextDoc };
-        updated =
-          data.updated && data.updated.seconds > updated
-            ? data.updated.seconds
-            : updated;
-      });
-
-      try {
-        await batch.commit();
-      } catch (error) {
-        throw error;
-      }
-
-      const length = Object.keys(factions).length;
-
-      return { factions, updated, length };
-    } catch (error) {
+    } catch (error: any) {
+      toast.error('Error getting factions: ' + getErrorMessage(error));
       throw error;
     }
   };
@@ -318,6 +253,5 @@ export function useApi() {
     editFaction,
     deleteFaction,
     getFactions,
-    getFactionsFix,
   };
 }

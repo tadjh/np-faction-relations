@@ -10,6 +10,8 @@ import { useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { Role, Roles, User } from '../../types';
 import { getDoc } from 'firebase/firestore';
+import { toast } from 'react-toastify';
+import { getErrorMessage } from '../../utils';
 
 function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<Omit<User, 'roles'> | null>(null);
@@ -23,8 +25,8 @@ function AuthProvider({ children }: { children: ReactNode }) {
           const doc = await getDoc(userDocumentReference(user.uid));
           const data = doc.data();
           setRoles(data?.roles);
-        } catch (error) {
-          throw error;
+        } catch (error: any) {
+          toast.error('Error getting user roles: ' + getErrorMessage(error));
         }
       } else {
         setUser(null);

@@ -6,6 +6,8 @@ import {
 } from '../../../../../../../config/strings';
 import { useAuth } from '../../../../../../../hooks';
 import SubmitButton from '../../../../../../../components/Inputs/SubmitButton';
+import { toast } from 'react-toastify';
+import { getErrorMessage } from '../../../../../../../utils';
 
 function SignIn() {
   let navigate = useNavigate();
@@ -25,9 +27,9 @@ function SignIn() {
       await signIn();
       setIsFetching(false);
       navigate(from, { replace: true });
-    } catch (error) {
+    } catch (error: any) {
       setIsFetching(false);
-      console.error(error);
+      toast.error('Error signing in: ' + getErrorMessage(error));
     }
   };
 

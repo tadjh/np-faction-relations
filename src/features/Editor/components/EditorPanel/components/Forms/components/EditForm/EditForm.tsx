@@ -25,6 +25,7 @@ import FormInfo from '../FormInfo';
 import FormRelationships from '../FormRelationships';
 import SubmitButton from '../../../../../../../../components/Inputs/SubmitButton';
 import { useFormData } from '../../hooks';
+import { toast } from 'react-toastify';
 
 function EditForm() {
   const { state, handlers } = useFormData();
@@ -136,9 +137,9 @@ function EditForm() {
                 mutation.isSuccess && 'text-green-500'
               )}
             >
-              {mutation.isLoading && TEXT_IS_LOADING_UPDATE}
-              {mutation.isError && `${getErrorMessage(error)}`}
-              {mutation.isSuccess && TEXT_IS_SUCCESS_UPDATE}
+              {mutation.isLoading && toast.info(TEXT_IS_LOADING_UPDATE)}
+              {mutation.isError && toast.error(`${getErrorMessage(error)}`)}
+              {mutation.isSuccess && toast.success(TEXT_IS_SUCCESS_UPDATE)}
             </span>
             <SubmitButton isLoading={mutation.isLoading}>
               {mutation.isError ? EVENT_TEXT_RESET : EVENT_TEXT_UPDATE}
