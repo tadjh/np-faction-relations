@@ -11,12 +11,12 @@ import { dateToString } from '../../utils';
 const Footer = forwardRef<HTMLDivElement>((_, ref) => {
   const { updated } = useFactions();
   return (
-    <div className="flex gap-x-2 text-[8px] justify-between" ref={ref}>
-      <div className="flex-1">
+    <div className="flex gap-x-2 text-[8px] justify-between w-full" ref={ref}>
+      <div>
         {IS_DEVELOPMENT ? PROJECT_ID : DOMAIN_NAME}
         {IS_DEVELOPMENT && ` (${NODE_ENV})`}
       </div>
-      <div className="flex-[2] text-right">
+      <div className="text-right">
         {!!updated && `Last updated ${dateToString(updated)}`}
       </div>
     </div>
