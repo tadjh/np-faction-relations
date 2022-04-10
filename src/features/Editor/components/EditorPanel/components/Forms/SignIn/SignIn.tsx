@@ -1,9 +1,9 @@
 import { FormEventHandler, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
-  ERROR_TEXT_EDIT_PERMISSION_DENIED,
+  ERROR_TEXT_EDITOR_PERMISSION_DENIED,
   EVENT_TEXT_SIGN_IN,
-} from '../../../../../../../config/strings';
+} from '../../../config/strings';
 import { useAuth } from '../../../../../../../hooks';
 import SubmitButton from '../../../../../../../components/Inputs/SubmitButton';
 import { toast } from 'react-toastify';
@@ -44,7 +44,7 @@ function SignIn() {
         className="text-xs border-l border-b border-r w-full gap-y-2 flex flex-col"
         onSubmit={handleSubmit}
       >
-        <div className="px-2 pt-2">{ERROR_TEXT_EDIT_PERMISSION_DENIED}</div>
+        <div className="px-2 pt-2">{ERROR_TEXT_EDITOR_PERMISSION_DENIED}</div>
         <div className="w-full flex justify-end items-center p-2 h-11">
           <SubmitButton isLoading={isFetching}>
             {EVENT_TEXT_SIGN_IN}

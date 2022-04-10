@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { EVENT_TEXT_EDIT } from '../../../../config/strings';
+import { EVENT_TEXT_EDIT } from '../../config/strings';
 
 export interface EditLinkProps {
   onClick: () => void;

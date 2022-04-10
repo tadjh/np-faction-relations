@@ -4,13 +4,13 @@ import Accordian from '../../../../../../../../components/Accordian';
 import SubmitButton from '../../../../../../../../components/Inputs/SubmitButton';
 import { useMutation, useQueryClient } from 'react-query';
 import { useApi, useFactions } from '../../../../../../../../hooks';
+import { GENERIC_ERROR_TEXT } from '../../../../../../../../config/strings';
 import {
   TEXT_IS_LOADING_ADD,
   TEXT_IS_SUCCESS_ADD,
   EVENT_TEXT_RESET,
   EVENT_TEXT_ADD,
-  GENERIC_ERROR_TEXT,
-} from '../../../../../../../../config/strings';
+} from '../../../../config/strings';
 import { COLLECTION_FACTIONS } from '../../../../../../../../config/environment';
 import {
   getErrorMessage,

@@ -16,7 +16,7 @@ import {
   SET_LAB_COUNT,
   SET_NAME,
   SET_ORDER,
-} from '../../../../../../../config/constants';
+} from '../config/constants';
 import { TimestampedFaction } from '../../../../../../../types';
 
 export const initialState: TimestampedFaction = {

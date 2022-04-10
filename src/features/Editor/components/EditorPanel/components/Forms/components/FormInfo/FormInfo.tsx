@@ -1,14 +1,14 @@
 import {
-  LABEL_TEXT_INFO,
   LABEL_TEXT_NAME,
   LABEL_TEXT_DISPLAY_NAME,
+  LABEL_TEXT_INFO,
   LABEL_TEXT_OPTIONAL,
   LABEL_TEXT_HAS_BENCH,
   LABEL_TEXT_BENCH_COUNT,
   LABEL_TEXT_HAS_LAB,
   LABEL_TEXT_LAB_COUNT,
   LABEL_TEXT_SORT_ORDER,
-} from '../../../../../../../../config/strings';
+} from '../../../../config/strings';
 import {
   getBenchCount,
   getDisplayName,

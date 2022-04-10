@@ -3,14 +3,15 @@ import { useState } from 'react';
 import { ChangeEventHandler, FormEventHandler } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { COLLECTION_FACTIONS } from '../../../../../../../../config/environment';
+import { GENERIC_ERROR_TEXT } from '../../../../../../../../config/strings';
 import {
   EVENT_TEXT_RESET,
   EVENT_TEXT_UPDATE,
-  GENERIC_ERROR_TEXT,
   LABEL_TEXT_SELECT_FACTION,
   TEXT_IS_LOADING_UPDATE,
   TEXT_IS_SUCCESS_UPDATE,
-} from '../../../../../../../../config/strings';
+} from '../../../../config/strings';
+
 import {
   getFaction,
   getName,

@@ -2,13 +2,13 @@ import clsx from 'clsx';
 import { ChangeEventHandler, FormEventHandler, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { COLLECTION_FACTIONS } from '../../../../../../../../config/environment';
+import { GENERIC_ERROR_TEXT } from '../../../../../../../../config/strings';
 import {
   EVENT_TEXT_DELETE,
-  GENERIC_ERROR_TEXT,
   LABEL_TEXT_SELECT_FACTION,
   TEXT_IS_LOADING_DELETE,
   TEXT_IS_SUCCESS_DELETE,
-} from '../../../../../../../../config/strings';
+} from '../../../../config/strings';
 import { useApi, useFactions } from '../../../../../../../../hooks';
 import {
   getErrorMessage,

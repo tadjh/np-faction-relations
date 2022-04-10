@@ -1,4 +1,4 @@
-import { ERROR_TEXT_WIDGETS_PERMISSION_DENIED } from '../../../../../../config/strings';
+import { ERROR_TEXT_WIDGETS_PERMISSION_DENIED } from '../../config/strings';
 import { useAuth } from '../../../../../../hooks';
 import { isAllFalse } from '../../../../../../utils';
 import AddForm from '../Forms/components/AddForm';

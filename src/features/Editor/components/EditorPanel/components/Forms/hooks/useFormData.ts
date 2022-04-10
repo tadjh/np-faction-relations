@@ -17,7 +17,7 @@ import {
   SET_LAB_COUNT,
   SET_NAME,
   SET_ORDER,
-} from '../../../../../../../config/constants';
+} from '../config/constants';
 import { initialState, reducer } from '../reducers/formData.reducer';
 import { Relationship, TimestampedFaction } from '../../../../../../../types';
 

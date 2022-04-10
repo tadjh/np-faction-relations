@@ -1,4 +1,4 @@
-import { LABEL_TEXT_RELATIONSHIPS } from '../../../../../../../../config/strings';
+import { LABEL_TEXT_RELATIONSHIPS } from '../../../../config/strings';
 import {
   getDisplayName,
   getFaction,
@@ -14,6 +14,7 @@ import {
 import { isEmptyArray, isNotEmptyString } from '../../../../../../../../utils';
 import FormHeader from '../FormHeader';
 import { UseFormData } from '../../hooks';
+import { useMemo } from 'react';
 
 const orderedRelationships: Relationship[] = [
   'associates',
@@ -37,7 +38,7 @@ function FormRelationships({
 }: FormRelationshipsProps) {
   const { handleRelationship, resetRelationship } = handlers;
 
-  const factionIds = Object.keys(factions);
+  const factionIds = useMemo(() => Object.keys(factions), [factions]);
 
   const composeFullName = (faction: TimestampedFaction) => {
     const name = getName(faction);
