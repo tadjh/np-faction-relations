@@ -1,3 +1,5 @@
+import { ONE_DAY_IN_MILLISECONDS } from '../config/constants';
+
 export function dateToString(value: string | number | Date) {
   return new Date(value).toString();
 }
@@ -8,6 +10,10 @@ export function shouldResetMutation(
   loading = false
 ) {
   return success || error || loading;
+}
+
+export function shouldMakeHistory(last: number) {
+  return Date.now() - last > ONE_DAY_IN_MILLISECONDS;
 }
 
 export function getErrorMessage(error: any) {

@@ -9,7 +9,7 @@ import { useFactions } from '../../hooks';
 import { dateToString } from '../../utils';
 
 const Footer = forwardRef<HTMLDivElement>((_, ref) => {
-  const { updated } = useFactions();
+  const { lastUpdate } = useFactions();
   return (
     <div className="flex gap-x-2 text-[8px] justify-between w-full" ref={ref}>
       <div>
@@ -17,7 +17,7 @@ const Footer = forwardRef<HTMLDivElement>((_, ref) => {
         {IS_DEVELOPMENT && ` (${NODE_ENV})`}
       </div>
       <div className="text-right">
-        {!!updated && `Last updated ${dateToString(updated)}`}
+        {!!lastUpdate && `Last updated ${dateToString(lastUpdate)}`}
       </div>
     </div>
   );

@@ -32,5 +32,11 @@ service cloud.firestore {
 
       allow update: if signedIn() && isEditor(userDoc(request.auth.uid));
     }
+
+    match /history/{history} {
+      allow read;
+
+      allow create: if signedIn() && isEditor(userDoc(request.auth.uid));
+    }
   }
 }

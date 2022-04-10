@@ -14,6 +14,7 @@ import {
 import { COLLECTION_FACTIONS } from '../../../../../../../../config/environment';
 import {
   getErrorMessage,
+  shouldMakeHistory,
   shouldResetMutation,
 } from '../../../../../../../../utils';
 import FormInfo from '../FormInfo';
@@ -21,9 +22,9 @@ import { useFormData } from '../../hooks';
 import { toast } from 'react-toastify';
 
 function AddForm() {
-  const { length, updated } = useFactions();
+  const { length, lastUpdate, factions } = useFactions();
   const { state, handlers } = useFormData({ order: length });
-  const { createFaction } = useApi();
+  const { createFaction, createHistory } = useApi();
   const queryClient = useQueryClient();
 
   const mutation = useMutation(createFaction, {
@@ -33,6 +34,12 @@ function AddForm() {
     },
     onError: (error) => {
       toast.error('Error adding faction: ' + getErrorMessage(error));
+    },
+  });
+
+  const mutateHistory = useMutation(createHistory, {
+    onError: (error) => {
+      toast.error('Error making history: ' + getErrorMessage(error));
     },
   });
 
@@ -46,6 +53,12 @@ function AddForm() {
 
     if (shouldResetMutation(mutation.isSuccess, mutation.isError))
       return reset();
+
+    if (shouldMakeHistory(lastUpdate)) {
+      console.log('make history');
+
+      // mutateHistory.mutate(factions);
+    }
 
     mutation.mutate(state);
   };

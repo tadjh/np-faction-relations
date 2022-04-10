@@ -21,6 +21,7 @@ import {
 import {
   getErrorMessage,
   isNotEmptyString,
+  shouldMakeHistory,
 } from '../../../../../../../../utils';
 import Accordian from '../../../../../../../../components/Accordian';
 import FormInfo from '../FormInfo';
@@ -31,9 +32,9 @@ import { toast } from 'react-toastify';
 
 function EditForm() {
   const { state, handlers } = useFormData();
-  const { factions } = useFactions();
+  const { lastUpdate, factions } = useFactions();
   const [currentFaction, setCurrentFaction] = useState('');
-  const { editFaction } = useApi();
+  const { editFaction, createHistory } = useApi();
   const queryClient = useQueryClient();
 
   const mutation = useMutation(editFaction, {
@@ -43,6 +44,12 @@ function EditForm() {
     },
     onError: (error) => {
       toast.error('Error editing faction: ' + getErrorMessage(error));
+    },
+  });
+
+  const mutateHistory = useMutation(createHistory, {
+    onError: (error) => {
+      toast.error('Error making history: ' + getErrorMessage(error));
     },
   });
 
@@ -66,6 +73,10 @@ function EditForm() {
     event.preventDefault();
 
     if (mutation.isError) return handleReset();
+
+    if (shouldMakeHistory(lastUpdate)) {
+      mutateHistory.mutate(factions);
+    }
 
     if (factions) {
       const prev = factions[currentFaction];

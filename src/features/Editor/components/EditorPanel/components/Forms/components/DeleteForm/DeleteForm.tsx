@@ -12,6 +12,7 @@ import {
 import { useApi, useFactions } from '../../../../../../../../hooks';
 import {
   getErrorMessage,
+  shouldMakeHistory,
   shouldResetMutation,
 } from '../../../../../../../../utils';
 import Accordian from '../../../../../../../../components/Accordian';
@@ -20,8 +21,8 @@ import { toast } from 'react-toastify';
 
 function DeleteForm() {
   const [selected, setSelected] = useState('');
-  const { deleteFaction } = useApi();
-  const { factions } = useFactions();
+  const { deleteFaction, createHistory } = useApi();
+  const { lastUpdate, factions } = useFactions();
   const queryClient = useQueryClient();
 
   const mutation = useMutation(deleteFaction, {
@@ -31,6 +32,12 @@ function DeleteForm() {
     },
     onError: (error) => {
       toast.error('Error deleting faction: ' + getErrorMessage(error));
+    },
+  });
+
+  const mutateHistory = useMutation(createHistory, {
+    onError: (error) => {
+      toast.error('Error making history: ' + getErrorMessage(error));
     },
   });
 
@@ -60,6 +67,11 @@ function DeleteForm() {
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
+
+    if (shouldMakeHistory(lastUpdate)) {
+      mutateHistory.mutate(factions);
+    }
+
     mutation.mutate(selected);
   };
 

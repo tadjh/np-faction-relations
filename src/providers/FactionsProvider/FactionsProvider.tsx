@@ -18,7 +18,7 @@ function FactionsProvider({ children }: { children: ReactNode }) {
   const value: FactionsContextType = {
     factions: data?.factions || null,
     length: data?.length || 0,
-    updated: data?.updated || 0,
+    lastUpdate: data?.lastUpdate || 0,
   };
 
   return (

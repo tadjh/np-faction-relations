@@ -11,6 +11,7 @@ import {
   factionDocumentReference,
   FACTION_COLLECTION_QUERY,
   FACTION_COLLECTION_REFERENCE,
+  HISTORY_COLLECTION_REFERENCE,
 } from '../config/firebase';
 import { FactionsContextType } from '../contexts/factions.context';
 import {
@@ -22,8 +23,8 @@ import {
   ServerFactions,
   Relationships,
   RelationshipsType,
+  History,
 } from '../types';
-import { getErrorMessage } from '../utils';
 
 interface ComparableHydratedFactionProps {
   id: string;
@@ -50,7 +51,7 @@ export function useApi() {
     };
     try {
       const docRef = await addDoc(FACTION_COLLECTION_REFERENCE, newDoc);
-      if (IS_DEVELOPMENT) console.log('Document written with ID: ', docRef.id);
+      if (IS_DEVELOPMENT) console.log('Faction created with ID: ', docRef.id);
       return docRef;
     } catch (error: any) {
       throw error;
@@ -194,11 +195,10 @@ export function useApi() {
         });
         if (IS_DEVELOPMENT)
           console.log(
-            '%cFaction:',
+            '%cFaction edited:',
             'font-weight: bold',
             stampedDocs[id].name,
-            `[${id}]`,
-            'edited'
+            `[${id}]`
           );
       }
     } catch (error: any) {
@@ -215,7 +215,7 @@ export function useApi() {
       await updateDoc(factionDocumentReference(id), {
         ...nextDoc,
       });
-      if (IS_DEVELOPMENT) console.log('Document deleted with ID: ', id);
+      if (IS_DEVELOPMENT) console.log('Faction deleted with ID: ', id);
       return;
     } catch (error: any) {
       throw error;
@@ -238,8 +238,23 @@ export function useApi() {
 
       const length = Object.keys(factions).length;
 
-      return { factions, updated, length };
+      return { factions, lastUpdate: updated, length };
     } catch (error: any) {
+      throw error;
+    }
+  };
+
+  const createHistory = async (data: Factions | null) => {
+    if (!data) return;
+
+    const newDoc: History = {
+      factions: data,
+      created: serverTimestamp(),
+    };
+    try {
+      const docRef = await addDoc(HISTORY_COLLECTION_REFERENCE, newDoc);
+      if (IS_DEVELOPMENT) console.log('History created with ID: ', docRef.id);
+    } catch (error) {
       throw error;
     }
   };
@@ -249,5 +264,6 @@ export function useApi() {
     editFaction,
     deleteFaction,
     getFactions,
+    createHistory,
   };
 }

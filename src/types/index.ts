@@ -59,3 +59,8 @@ export interface Factions {
 export interface ServerFactions {
   [id: string]: ServerTimestampedFaction;
 }
+
+export interface History {
+  factions: Factions;
+  created: FieldValue;
+}

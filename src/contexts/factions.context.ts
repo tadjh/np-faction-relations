@@ -4,7 +4,7 @@ import { Factions } from '../types';
 export interface FactionsContextType {
   factions: Factions | null;
   length: number;
-  updated: number;
+  lastUpdate: number;
 }
 
 let FactionsContext = createContext<FactionsContextType>(null!);

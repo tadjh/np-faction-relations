@@ -18,11 +18,9 @@
 
 ## Development {#development}
 
-- TODO Figure out how to record every document
-- TODO Tooltips
-- TODO Add notes to database
-
 ### Quality of Life {#qol}
+
+- TODO edit icons on each faction header if isEdtior+ that links to editor
 
 ### Environment {#environment}
 
@@ -33,7 +31,10 @@
 
 ### Future Features {#plans}
 
-- TODO add author field
-- TODO Timestamp relationship creation with hidden flag?
+- TODO Tooltips
+- TODO add note author/editor fields
+- TODO Add notes to database (isEditor)
+- TODO Edit notes with pencil icon inline editor (isEditor)
+- TODO Delete notes (isEditor)
 
 ---
