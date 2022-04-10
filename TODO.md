@@ -5,6 +5,7 @@
 ## Known Bugs {#bugs}
 
 - TODO husky & lint-staged aren't properly configured, were in use before i added firebase githooks and never removed them along with the script "predeploy"
+- FIXME Toasts not showing
 
 ### Vulnerbilities {#vulnerbilities}
 

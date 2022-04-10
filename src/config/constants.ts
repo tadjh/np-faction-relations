@@ -1,5 +1,5 @@
 export const BASE_SPACING = 4;
-const MULTIPLIER = 8;
+const MULTIPLIER = 7;
 export const CELL_SIZE_X = BASE_SPACING * MULTIPLIER;
 export const CELL_SIZE_Y = BASE_SPACING * (MULTIPLIER - 1);
 export const HEADER_SIZE = '92px';

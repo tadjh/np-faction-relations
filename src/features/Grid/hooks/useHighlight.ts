@@ -54,8 +54,6 @@ export function useHighlight(columnRefs: RefObject<HTMLDivElement>[]) {
   };
 
   const handleMouseLeave: MouseEventHandler<HTMLDivElement> = (event) => {
-    console.log('leaving', event.currentTarget);
-
     if (!prevColumn.current) return;
     handleForceLeave(prevColumn.current);
     deleteColumn();
