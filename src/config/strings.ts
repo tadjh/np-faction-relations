@@ -1,15 +1,6 @@
 export const SITE_HEADER_TEXT = 'faction relational chart';
 export const LOGO_ALT_TEXT = 'nopixel logo';
 
-export const RELATION_ASSOCIATES = 'associates';
-export const RELATION_ALLIES = 'allies';
-export const RELATION_FRIENDS = 'friends';
-export const RELATION_HOT_WARS = 'hot wars';
-export const RELATION_COLD_WARS = 'cold wars';
-export const RELATION_ENEMIES = 'enemies';
-export const RELATION_HAS_BENCH = 'has bench';
-export const RELATION_HAS_LAB = 'has lab';
-
 export const EVENT_TEXT_EDIT = 'edit';
 export const EVENT_TEXT_SIGN_OUT = 'sign out';
 export const EVENT_TEXT_SIGN_IN = 'sign in';
@@ -37,8 +28,8 @@ export const LABEL_TEXT_RELATIONSHIPS = 'relationships';
 export const LABEL_TEXT_ASSOCIATES = 'associates';
 export const LABEL_TEXT_ALLIES = 'allies';
 export const LABEL_TEXT_FRIENDS = 'friends';
-export const LABEL_TEXT_COLD_WAR = 'cold war';
-export const LABEL_TEXT_HOT_WAR = 'hot war';
+export const LABEL_TEXT_COLD_WARS = 'cold wars';
+export const LABEL_TEXT_HOT_WARS = 'hot wars';
 export const LABEL_TEXT_ENEMIES = 'enemies';
 export const LABEL_TEXT_NOTES = 'notes';
 

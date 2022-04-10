@@ -1,13 +1,14 @@
 import clsx from 'clsx';
 import { MouseEventHandler } from 'react';
 import {
-  CELL_SIZE_X,
-  CELL_SIZE_Y,
+  CELL_COLUMN_WIDTH,
+  CELL_ROW_HEIGHT,
   HEADER_SIZE,
-} from '../../../../config/constants';
-import { headerColor } from '../../../../config/styles';
+} from '../../config/constants';
+import { headerColor } from '../../config/styles';
 import { composeShortName } from '../../../../hooks';
 import { TimestampedFaction } from '../../../../types';
+import { composeCellKey } from '../../utils';
 
 export interface GridHeaderCellProps {
   rowIndex: number;
@@ -23,49 +24,32 @@ function GridHeaderCell({
   isRotated = false,
   onMouseEnter: handleMouseEnter,
 }: GridHeaderCellProps): JSX.Element {
-  if (isRotated) {
-    return (
-      <div
-        key={`row${rowIndex}col${columnIndex}`}
-        className={clsx(
-          'border text-center flex items-center justify-center relative group hover:scale-150 hover:z-10 hover:border-b-gray-300 hover:-translate-y-1/4 transition-transform',
-          headerColor(columnIndex),
-          'border-b-gray-400'
-        )}
-      >
-        <div
-          data-column={columnIndex}
-          className="absolute bg-gray-500 bg-opacity-5 hidden group-hover:block"
-          style={{
-            width: `${CELL_SIZE_X}px`,
-            height: HEADER_SIZE,
-          }}
-          onMouseEnter={handleMouseEnter}
-        />
-        <span className="-rotate-90">{composeShortName(faction)}</span>
-      </div>
-    );
-  }
-
   return (
     <div
-      key={`row${rowIndex}col${columnIndex}`}
+      key={composeCellKey(rowIndex, columnIndex)}
       className={clsx(
-        'border text-center flex items-center justify-center relative group hover:scale-150 hover:z-10 hover:border-r-gray-200 hover:-translate-x-1/4 transition-transform',
-        headerColor(rowIndex),
-        'border-r-gray-400'
+        'border text-center flex items-center justify-center relative group',
+        'hover:scale-125 hover:z-10 transition-transform',
+        headerColor(isRotated ? columnIndex : rowIndex),
+        isRotated
+          ? 'border-b-gray-400 hover:border-b-gray-300 hover:-translate-y-1/8'
+          : 'border-r-gray-400 hover:border-r-gray-200 hover:-translate-x-1/8'
       )}
     >
       <div
+        data-column={isRotated ? columnIndex : null}
         className="absolute bg-gray-500 bg-opacity-5 hidden group-hover:block"
         style={{
-          width: HEADER_SIZE,
-          height: `${CELL_SIZE_Y}px`,
+          width: isRotated ? CELL_COLUMN_WIDTH : HEADER_SIZE,
+          height: isRotated ? HEADER_SIZE : CELL_ROW_HEIGHT,
         }}
         onMouseEnter={handleMouseEnter}
       />
-      <span>{composeShortName(faction)}</span>
+      <span className={clsx(isRotated && '-rotate-90')}>
+        {composeShortName(faction)}
+      </span>
     </div>
   );
 }
+
 export default GridHeaderCell;

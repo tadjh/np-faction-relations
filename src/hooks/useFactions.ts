@@ -3,8 +3,8 @@ import {
   LABEL_TEXT_ASSOCIATES,
   LABEL_TEXT_ALLIES,
   LABEL_TEXT_FRIENDS,
-  LABEL_TEXT_COLD_WAR,
-  LABEL_TEXT_HOT_WAR,
+  LABEL_TEXT_COLD_WARS,
+  LABEL_TEXT_HOT_WARS,
   LABEL_TEXT_ENEMIES,
 } from '../config/strings';
 import FactionsContext from '../contexts/factions.context';
@@ -92,13 +92,13 @@ export function getLabelText(type: Relationship) {
     case 'associates':
       return LABEL_TEXT_ASSOCIATES;
     case 'coldWars':
-      return LABEL_TEXT_COLD_WAR;
+      return LABEL_TEXT_COLD_WARS;
     case 'enemies':
       return LABEL_TEXT_ENEMIES;
     case 'friends':
       return LABEL_TEXT_FRIENDS;
     case 'hotWars':
-      return LABEL_TEXT_HOT_WAR;
+      return LABEL_TEXT_HOT_WARS;
     default:
       throw new Error('Invalid Relationship type in getLabelText');
   }

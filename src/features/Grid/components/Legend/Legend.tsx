@@ -8,9 +8,9 @@ import {
   COLOR_HOT_WAR,
   COLOR_ENEMY,
   COLOR_HAS_BENCH,
-  HEADER_SIZE,
   COLOR_HAS_LAB,
-} from '../../../../config/constants';
+  HEADER_SIZE,
+} from '../../config/constants';
 import {
   RELATION_ASSOCIATES,
   RELATION_ALLIES,
@@ -20,8 +20,8 @@ import {
   RELATION_ENEMIES,
   RELATION_HAS_BENCH,
   RELATION_HAS_LAB,
-} from '../../../../config/strings';
-import { headerColor } from '../../../../config/styles';
+} from '../../config/strings';
+import { headerColor } from '../../config/styles';
 
 type LegendData =
   | { name: typeof RELATION_ASSOCIATES; color: typeof COLOR_ASSOCIATE }
@@ -48,7 +48,9 @@ function Legend({ onMouseEnter }: DOMAttributes<HTMLDivElement>) {
   return (
     <div
       className={clsx(
-        'flex justify-center items-center border-r border-b text-center border-gray-400 relative hover:scale-150 hover:z-10 hover:border transition-transform hover:-translate-x-1/4 hover:-translate-y-1/4 ',
+        'flex justify-center items-center border-r border-b text-center',
+        'border-gray-400 relative hover:scale-150 hover:z-10 hover:border',
+        'transition-transform hover:-translate-x-1/4 hover:-translate-y-1/4 ',
         headerColor()
       )}
       style={{ width: HEADER_SIZE, height: HEADER_SIZE }}

@@ -1,7 +1,11 @@
 module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
-    extend: {},
+    extend: {
+      translate: {
+        '1/8': '12.5%',
+      },
+    },
   },
   plugins: [],
 };

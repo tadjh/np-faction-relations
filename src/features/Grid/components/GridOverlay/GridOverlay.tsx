@@ -1,5 +1,5 @@
 import { RefObject } from 'react';
-import { HEADER_SIZE, CELL_SIZE_X } from '../../../../config/constants';
+import { HEADER_SIZE, CELL_COLUMN_WIDTH } from '../../config/constants';
 
 export interface GridOverlayProps {
   factionIds: string[];
@@ -11,7 +11,7 @@ function GridOverlay({ factionIds, columnRefs }: GridOverlayProps) {
     <div
       className="absolute w-full h-full grid"
       style={{
-        gridTemplateColumns: `${HEADER_SIZE} repeat(${factionIds.length},${CELL_SIZE_X}px)`,
+        gridTemplateColumns: `${HEADER_SIZE} repeat(${factionIds.length},${CELL_COLUMN_WIDTH})`,
       }}
     >
       <div />

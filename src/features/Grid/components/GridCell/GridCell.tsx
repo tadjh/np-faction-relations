@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { MouseEventHandler } from 'react';
-import { CELL_SIZE_X, CELL_SIZE_Y } from '../../../../config/constants';
+import { CELL_COLUMN_WIDTH, CELL_ROW_HEIGHT } from '../../config/constants';
 import { getBenchCount } from '../../../../hooks';
 import { TimestampedFaction } from '../../../../types';
 import { isStrictEqual, isGreaterThan } from '../../../../utils';
@@ -40,8 +40,8 @@ function GridCell({
         data-column={columnIndex}
         className="absolute bg-gray-500 bg-opacity-5 hidden group-hover:block"
         style={{
-          width: `${CELL_SIZE_X}px`,
-          height: `${CELL_SIZE_Y}px`,
+          width: CELL_COLUMN_WIDTH,
+          height: CELL_ROW_HEIGHT,
         }}
         onMouseEnter={handleMouseEnter}
       />

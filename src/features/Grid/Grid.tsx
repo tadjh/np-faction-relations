@@ -1,6 +1,10 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { MutableRefObject, useMemo, createRef } from 'react';
-import { CELL_SIZE_X, CELL_SIZE_Y, HEADER_SIZE } from '../../config/constants';
+import {
+  CELL_COLUMN_WIDTH,
+  CELL_ROW_HEIGHT,
+  HEADER_SIZE,
+} from './config/constants';
 import { getFaction, useFactions } from '../../hooks';
 import GridCell from './components/GridCell';
 import GridHeader from './components/GridHeader';
@@ -39,8 +43,8 @@ function Grid({ headerRef, footerRef }: GridProps) {
             dragConstraints={constraints}
             className="grid relative text-[8px] shadow-xl border border-gray-400"
             style={{
-              gridTemplateColumns: `${HEADER_SIZE} repeat(${factionIds.length},${CELL_SIZE_X}px)`,
-              gridTemplateRows: `${HEADER_SIZE} repeat(${factionIds.length},${CELL_SIZE_Y}px)`,
+              gridTemplateColumns: `${HEADER_SIZE} repeat(${factionIds.length},${CELL_COLUMN_WIDTH})`,
+              gridTemplateRows: `${HEADER_SIZE} repeat(${factionIds.length},${CELL_ROW_HEIGHT})`,
             }}
             onMouseLeave={handleMouseLeave}
           >

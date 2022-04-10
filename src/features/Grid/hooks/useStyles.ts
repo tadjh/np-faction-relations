@@ -11,7 +11,7 @@ import {
   COLOR_ENEMY,
   COLOR_BACKGROUND_ALT,
   COLOR_BACKGROUND,
-} from '../../../config/constants';
+} from '../config/constants';
 import {
   getHasBench,
   getHasLab,
