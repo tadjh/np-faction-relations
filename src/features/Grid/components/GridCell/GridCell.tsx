@@ -5,6 +5,7 @@ import { getBenchCount } from '../../../../hooks';
 import { TimestampedFaction } from '../../../../types';
 import { isStrictEqual, isGreaterThan } from '../../../../utils';
 import { useStyles } from '../../hooks';
+import { composeCellKey } from '../../utils';
 
 export interface GridCellProps {
   rowIndex: number;
@@ -25,7 +26,7 @@ function GridCell({
   const { backgroundColor } = useStyles();
   return (
     <div
-      key={`row${rowIndex}col${columnIndex}`}
+      key={composeCellKey(rowIndex, columnIndex)}
       className={clsx(
         'border text-center flex justify-center items-center relative group hover:scale-125 hover:z-10 transition-transform',
         backgroundColor({

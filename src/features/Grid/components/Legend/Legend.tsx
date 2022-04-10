@@ -49,8 +49,8 @@ function Legend({ onMouseEnter }: DOMAttributes<HTMLDivElement>) {
     <div
       className={clsx(
         'flex justify-center items-center border-r border-b text-center',
-        'border-gray-400 relative hover:scale-150 hover:z-10 hover:border',
-        'transition-transform hover:-translate-x-1/4 hover:-translate-y-1/4 ',
+        'border-gray-400 relative hover:scale-125 hover:z-10 hover:border',
+        'transition-transform hover:-translate-x-1/8 hover:-translate-y-1/8 ',
         headerColor()
       )}
       style={{ width: HEADER_SIZE, height: HEADER_SIZE }}
