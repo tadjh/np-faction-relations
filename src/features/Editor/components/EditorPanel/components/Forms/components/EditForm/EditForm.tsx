@@ -6,6 +6,7 @@ import { COLLECTION_FACTIONS } from '../../../../../../../../config/environment'
 import {
   EVENT_TEXT_RESET,
   EVENT_TEXT_UPDATE,
+  GENERIC_ERROR_TEXT,
   LABEL_TEXT_SELECT_FACTION,
   TEXT_IS_LOADING_UPDATE,
   TEXT_IS_SUCCESS_UPDATE,
@@ -36,11 +37,13 @@ function EditForm() {
 
   const mutation = useMutation(editFaction, {
     onSuccess: () => {
+      toast.success(TEXT_IS_SUCCESS_UPDATE);
       queryClient.invalidateQueries(COLLECTION_FACTIONS);
     },
+    onError: (error) => {
+      toast.error('Error editing faction: ' + getErrorMessage(error));
+    },
   });
-
-  const error = mutation.error as any;
 
   const handleSelected: ChangeEventHandler<HTMLSelectElement> = (event) => {
     if (event.target.value === '') return handleReset();
@@ -137,9 +140,9 @@ function EditForm() {
                 mutation.isSuccess && 'text-green-500'
               )}
             >
-              {mutation.isLoading && toast.info(TEXT_IS_LOADING_UPDATE)}
-              {mutation.isError && toast.error(`${getErrorMessage(error)}`)}
-              {mutation.isSuccess && toast.success(TEXT_IS_SUCCESS_UPDATE)}
+              {mutation.isLoading && TEXT_IS_LOADING_UPDATE}
+              {mutation.isSuccess && TEXT_IS_SUCCESS_UPDATE}
+              {mutation.isError && GENERIC_ERROR_TEXT}
             </span>
             <SubmitButton isLoading={mutation.isLoading}>
               {mutation.isError ? EVENT_TEXT_RESET : EVENT_TEXT_UPDATE}

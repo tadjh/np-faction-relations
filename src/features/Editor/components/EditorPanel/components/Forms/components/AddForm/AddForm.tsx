@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { FormEventHandler } from 'react';
+import { FormEventHandler, useEffect } from 'react';
 import Accordian from '../../../../../../../../components/Accordian';
 import SubmitButton from '../../../../../../../../components/Inputs/SubmitButton';
 import { useMutation, useQueryClient } from 'react-query';
@@ -9,6 +9,7 @@ import {
   TEXT_IS_SUCCESS_ADD,
   EVENT_TEXT_RESET,
   EVENT_TEXT_ADD,
+  GENERIC_ERROR_TEXT,
 } from '../../../../../../../../config/strings';
 import { COLLECTION_FACTIONS } from '../../../../../../../../config/environment';
 import {
@@ -20,18 +21,20 @@ import { useFormData } from '../../hooks';
 import { toast } from 'react-toastify';
 
 function AddForm() {
-  const { length } = useFactions();
+  const { length, updated } = useFactions();
   const { state, handlers } = useFormData({ order: length });
   const { createFaction } = useApi();
   const queryClient = useQueryClient();
 
   const mutation = useMutation(createFaction, {
     onSuccess: () => {
+      toast.success(TEXT_IS_SUCCESS_ADD);
       queryClient.invalidateQueries(COLLECTION_FACTIONS);
     },
+    onError: (error) => {
+      toast.error('Error adding faction: ' + getErrorMessage(error));
+    },
   });
-
-  const error = mutation.error as any;
 
   const reset = () => {
     handlers.resetState();
@@ -58,9 +61,9 @@ function AddForm() {
               mutation.isSuccess && 'text-green-500'
             )}
           >
-            {mutation.isLoading && toast.info(TEXT_IS_LOADING_ADD)}
-            {mutation.isSuccess && toast.success(TEXT_IS_SUCCESS_ADD)}
-            {mutation.isError && toast.error(`${getErrorMessage(error)}`)}
+            {mutation.isLoading && TEXT_IS_LOADING_ADD}
+            {mutation.isSuccess && TEXT_IS_SUCCESS_ADD}
+            {mutation.isError && GENERIC_ERROR_TEXT}
           </span>
           <SubmitButton isLoading={mutation.isLoading}>
             {mutation.isSuccess || mutation.isError

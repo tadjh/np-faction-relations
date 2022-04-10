@@ -4,6 +4,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { COLLECTION_FACTIONS } from '../../../../../../../../config/environment';
 import {
   EVENT_TEXT_DELETE,
+  GENERIC_ERROR_TEXT,
   LABEL_TEXT_SELECT_FACTION,
   TEXT_IS_LOADING_DELETE,
   TEXT_IS_SUCCESS_DELETE,
@@ -25,11 +26,13 @@ function DeleteForm() {
 
   const mutation = useMutation(deleteFaction, {
     onSuccess: () => {
+      toast.success(TEXT_IS_SUCCESS_DELETE);
       queryClient.invalidateQueries(COLLECTION_FACTIONS);
     },
+    onError: (error) => {
+      toast.error('Error deleting faction: ' + getErrorMessage(error));
+    },
   });
-
-  const error = mutation.error as any;
 
   const handleSelected: ChangeEventHandler<HTMLSelectElement> = (event) => {
     setSelected(event.target.value);
@@ -102,9 +105,9 @@ function DeleteForm() {
               mutation.isSuccess && 'text-green-500'
             )}
           >
-            {mutation.isLoading && toast.info(TEXT_IS_LOADING_DELETE)}
-            {mutation.isError && toast.error(`${getErrorMessage(error)}`)}
-            {mutation.isSuccess && toast.success(TEXT_IS_SUCCESS_DELETE)}
+            {mutation.isLoading && TEXT_IS_LOADING_DELETE}
+            {mutation.isSuccess && TEXT_IS_SUCCESS_DELETE}
+            {mutation.isError && GENERIC_ERROR_TEXT}
           </span>
           <SubmitButton isLoading={mutation.isLoading}>
             {EVENT_TEXT_DELETE}

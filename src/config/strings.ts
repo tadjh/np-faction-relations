@@ -52,3 +52,5 @@ export const TEXT_IS_LOADING_UPDATE = 'updating faction...';
 export const TEXT_IS_SUCCESS_UPDATE = 'faction updated';
 export const TEXT_IS_LOADING_DELETE = 'removing faction...';
 export const TEXT_IS_SUCCESS_DELETE = 'faction removed';
+
+export const GENERIC_ERROR_TEXT = 'something went wrong';

@@ -5,7 +5,6 @@ import {
   updateDoc,
   writeBatch,
 } from 'firebase/firestore';
-import { toast } from 'react-toastify';
 import { IS_DEVELOPMENT } from '../config/environment';
 import {
   db,
@@ -54,7 +53,7 @@ export function useApi() {
       if (IS_DEVELOPMENT) console.log('Document written with ID: ', docRef.id);
       return docRef;
     } catch (error: any) {
-      toast.error('Error adding document: ' + getErrorMessage(error));
+      throw error;
     }
   };
 
@@ -168,7 +167,7 @@ export function useApi() {
     try {
       await batch.commit();
     } catch (error: any) {
-      toast.error('Error batching edits: ' + getErrorMessage(error));
+      throw error;
     }
   };
 
@@ -203,7 +202,7 @@ export function useApi() {
           );
       }
     } catch (error: any) {
-      toast.error('Error editing document: ' + getErrorMessage(error));
+      throw error;
     }
   };
 
@@ -219,7 +218,7 @@ export function useApi() {
       if (IS_DEVELOPMENT) console.log('Document deleted with ID: ', id);
       return;
     } catch (error: any) {
-      toast.error('Error deleting document: ' + getErrorMessage(error));
+      throw error;
     }
   };
 
@@ -241,7 +240,6 @@ export function useApi() {
 
       return { factions, updated, length };
     } catch (error: any) {
-      toast.error('Error getting factions: ' + getErrorMessage(error));
       throw error;
     }
   };
