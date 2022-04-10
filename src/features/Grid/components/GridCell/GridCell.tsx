@@ -2,14 +2,14 @@ import clsx from 'clsx';
 import { MouseEventHandler } from 'react';
 import { CELL_SIZE_X, CELL_SIZE_Y } from '../../../../config/constants';
 import { getBenchCount } from '../../../../hooks';
-import { TimestampedFactionProps } from '../../../../types';
+import { TimestampedFaction } from '../../../../types';
 import { isStrictEqual, isGreaterThan } from '../../../../utils';
 import { useStyles } from '../../hooks';
 
 export interface GridCellProps {
   rowIndex: number;
   columnIndex: number;
-  faction: TimestampedFactionProps;
+  faction: TimestampedFaction;
   columnFactionId: string;
   handleMouseEnter: MouseEventHandler<HTMLDivElement>;
 }

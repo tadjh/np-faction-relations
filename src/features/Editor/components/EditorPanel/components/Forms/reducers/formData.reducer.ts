@@ -17,9 +17,9 @@ import {
   SET_NAME,
   SET_ORDER,
 } from '../../../../../../../config/constants';
-import { TimestampedFactionProps } from '../../../../../../../types';
+import { TimestampedFaction } from '../../../../../../../types';
 
-export const initialState: TimestampedFactionProps = {
+export const initialState: TimestampedFaction = {
   visibility: 'public',
   attributes: {
     benchCount: 0,
@@ -43,8 +43,8 @@ export const initialState: TimestampedFactionProps = {
 };
 
 export type FactionAction =
-  | { type: typeof INIT; payload: Partial<TimestampedFactionProps> }
-  | { type: typeof SET_ALL; payload: TimestampedFactionProps }
+  | { type: typeof INIT; payload: Partial<TimestampedFaction> }
+  | { type: typeof SET_ALL; payload: TimestampedFaction }
   | { type: typeof SET_ACTIVE }
   | { type: typeof SET_DISPLAY_NAME; payload: string }
   | { type: typeof SET_NAME; payload: string }
@@ -61,9 +61,9 @@ export type FactionAction =
   | { type: typeof SET_HOT_WAR; payload: string[] };
 
 export function reducer(
-  state: TimestampedFactionProps,
+  state: TimestampedFaction,
   action: FactionAction
-): TimestampedFactionProps {
+): TimestampedFaction {
   switch (action.type) {
     case INIT:
       return { ...state, ...initialState, ...action.payload };

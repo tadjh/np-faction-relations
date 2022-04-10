@@ -1,12 +1,12 @@
 import { MouseEventHandler } from 'react';
 import { getFaction } from '../../../../hooks';
-import { AssociativeFactionProps } from '../../../../types';
+import { Factions } from '../../../../types';
 import GridHeaderCell from '../GridHeaderCell';
 import Legend from '../Legend';
 
 export interface GridHeaderProps {
   factionIds: string[];
-  factions: AssociativeFactionProps;
+  factions: Factions;
   onMouseEnter: MouseEventHandler<HTMLDivElement>;
   onMouseLeave: MouseEventHandler<HTMLDivElement>;
 }

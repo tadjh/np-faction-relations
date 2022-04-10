@@ -22,7 +22,7 @@ import {
   getHotWars,
   getEnemies,
 } from '../../../hooks';
-import { TimestampedFactionProps } from '../../../types';
+import { TimestampedFaction } from '../../../types';
 import {
   isStrictEqual,
   isBothTrue,
@@ -31,7 +31,7 @@ import {
 } from '../../../utils';
 
 export interface BackgroundColorProps {
-  faction: TimestampedFactionProps;
+  faction: TimestampedFaction;
   columnIndex: number;
   rowIndex: number;
   columnFactionId: string;

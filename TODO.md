@@ -19,11 +19,10 @@
 ## Development {#development}
 
 - TODO Figure out how to record every document
+- TODO Tooltips
+- TODO Add notes to database
 
 ### Quality of Life {#qol}
-
-- TODO Tooltips
-- TODO Refactor Notes with Framer Motion
 
 ### Environment {#environment}
 

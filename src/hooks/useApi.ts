@@ -15,22 +15,22 @@ import {
 } from '../config/firebase';
 import { FactionsContextType } from '../contexts/factions.context';
 import {
-  FactionProps,
-  AssociativeFactionProps,
+  Faction,
+  Factions,
   Relationship,
-  ServerTimeFactionProps,
-  TimestampedFactionProps,
-  ServerAssociativeFactionProps,
-  RelationshipData,
-  RelationshipDataType,
+  ServerTimestampedFaction,
+  TimestampedFaction,
+  ServerFactions,
+  Relationships,
+  RelationshipsType,
 } from '../types';
 import { getErrorMessage } from '../utils';
 
 interface ComparableHydratedFactionProps {
   id: string;
-  next: TimestampedFactionProps;
-  prev: TimestampedFactionProps;
-  factions: AssociativeFactionProps;
+  next: TimestampedFaction;
+  prev: TimestampedFaction;
+  factions: Factions;
 }
 
 type Operation = 'add' | 'delete';
@@ -43,8 +43,8 @@ interface Instruction {
 }
 
 export function useApi() {
-  const createFaction = async (data: FactionProps) => {
-    const newDoc: ServerTimeFactionProps = {
+  const createFaction = async (data: Faction) => {
+    const newDoc: ServerTimestampedFaction = {
       ...data,
       created: serverTimestamp(),
       updated: serverTimestamp(),
@@ -66,8 +66,8 @@ export function useApi() {
 
   const compareRelationships = (
     id: string,
-    next: RelationshipData,
-    prev: RelationshipData
+    next: Relationships,
+    prev: Relationships
   ) => {
     let instructions: Instruction[] = [];
 
@@ -100,11 +100,11 @@ export function useApi() {
   };
 
   const composeFactionRelationship = (
-    doc: TimestampedFactionProps,
+    doc: TimestampedFaction,
     type: Relationship,
     data: string[]
-  ): TimestampedFactionProps => {
-    const updatedType: RelationshipDataType = { [type]: data };
+  ): TimestampedFaction => {
+    const updatedType: RelationshipsType = { [type]: data };
     return {
       ...doc,
       relationships: {
@@ -116,9 +116,9 @@ export function useApi() {
 
   const mergeIntructions = (
     instructions: Instruction[],
-    factions: AssociativeFactionProps
-  ): AssociativeFactionProps => {
-    let nextDocs: AssociativeFactionProps = {};
+    factions: Factions
+  ): Factions => {
+    let nextDocs: Factions = {};
 
     for (let { docId, type, operation, diffId } of instructions) {
       let doc = nextDocs[docId] || factions[docId];
@@ -137,10 +137,8 @@ export function useApi() {
     return nextDocs;
   };
 
-  const updateTimestamps = (
-    nextDocs: AssociativeFactionProps
-  ): ServerAssociativeFactionProps => {
-    let updatedDocs: ServerAssociativeFactionProps = {};
+  const updateTimestamps = (nextDocs: Factions): ServerFactions => {
+    let updatedDocs: ServerFactions = {};
     for (let id in nextDocs) {
       updatedDocs = {
         ...updatedDocs,
@@ -150,7 +148,7 @@ export function useApi() {
     return updatedDocs;
   };
 
-  const batchUpdates = async (nextDocs: ServerAssociativeFactionProps) => {
+  const batchUpdates = async (nextDocs: ServerFactions) => {
     const batch = writeBatch(db);
 
     for (let docId in nextDocs) {
@@ -210,7 +208,7 @@ export function useApi() {
   };
 
   const deleteFaction = async (id: string) => {
-    const nextDoc: Partial<ServerTimeFactionProps> = {
+    const nextDoc: Partial<ServerTimestampedFaction> = {
       visibility: 'private',
       updated: serverTimestamp(),
     };

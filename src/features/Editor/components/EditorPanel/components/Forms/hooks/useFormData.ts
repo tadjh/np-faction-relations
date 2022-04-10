@@ -19,13 +19,10 @@ import {
   SET_ORDER,
 } from '../../../../../../../config/constants';
 import { initialState, reducer } from '../reducers/formData.reducer';
-import {
-  Relationship,
-  TimestampedFactionProps,
-} from '../../../../../../../types';
+import { Relationship, TimestampedFaction } from '../../../../../../../types';
 
 export interface FormDataHandlers {
-  handleSetAll: (data: TimestampedFactionProps | null) => void;
+  handleSetAll: (data: TimestampedFaction | null) => void;
   handleActive: ChangeEventHandler<HTMLInputElement>;
   handleDisplayName: ChangeEventHandler<HTMLInputElement>;
   handleName: ChangeEventHandler<HTMLInputElement>;
@@ -55,16 +52,14 @@ export interface FormDataHandlers {
 }
 
 export interface UseFormData {
-  state: TimestampedFactionProps;
+  state: TimestampedFaction;
   handlers: FormDataHandlers;
 }
 
-export function useFormData(
-  props?: Partial<TimestampedFactionProps>
-): UseFormData {
+export function useFormData(props?: Partial<TimestampedFaction>): UseFormData {
   const [state, dispatch] = useReducer(reducer, { ...initialState, ...props });
 
-  const handleSetAll = (data: TimestampedFactionProps | null) => {
+  const handleSetAll = (data: TimestampedFaction | null) => {
     if (!data) return;
     dispatch({ type: SET_ALL, payload: data });
   };

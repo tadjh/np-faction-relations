@@ -21,7 +21,7 @@ import {
 import { getAnalytics, logEvent } from 'firebase/analytics';
 import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
 import { getPerformance } from 'firebase/performance';
-import { TimestampedFactionProps } from '../types';
+import { TimestampedFaction } from '../types';
 import {
   FIREBASE_API_KEY,
   FIREBASE_APP_ID,
@@ -75,7 +75,7 @@ if (IS_DEVELOPMENT)
 export const FACTION_COLLECTION_REFERENCE = collection(
   db,
   COLLECTION_FACTIONS
-) as CollectionReference<TimestampedFactionProps>;
+) as CollectionReference<TimestampedFaction>;
 
 export const factionDocumentReference = (id: string) =>
   doc(db, COLLECTION_FACTIONS, id);
@@ -83,7 +83,7 @@ export const factionDocumentReference = (id: string) =>
 export const userDocumentReference = (id: string) =>
   doc(db, COLLECTION_USERS, id);
 
-export const FACTION_COLLECTION_QUERY = query<TimestampedFactionProps>(
+export const FACTION_COLLECTION_QUERY = query<TimestampedFaction>(
   FACTION_COLLECTION_REFERENCE,
   where('visibility', '==', 'public'),
   orderBy('order')

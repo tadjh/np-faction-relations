@@ -20,11 +20,11 @@ export type Relationship =
   | 'friends'
   | 'hotWars';
 
-export type RelationshipData = {
+export type Relationships = {
   [key in Relationship]: string[];
 };
 
-export type RelationshipDataType = { [x: string]: string[] };
+export type RelationshipsType = { [x: string]: string[] };
 
 export type AttributeData = {
   benchCount: number;
@@ -33,29 +33,29 @@ export type AttributeData = {
   labCount: number;
 };
 
-export interface FactionProps {
+export interface Faction {
   visibility: 'public' | 'private';
   attributes: AttributeData;
   displayName: string;
   name: string;
   order: number;
-  relationships: RelationshipData;
+  relationships: Relationships;
 }
 
-export interface TimestampedFactionProps extends FactionProps {
+export interface TimestampedFaction extends Faction {
   created: Timestamp;
   updated: Timestamp | null;
 }
 
-export interface ServerTimeFactionProps extends FactionProps {
+export interface ServerTimestampedFaction extends Faction {
   created: FieldValue;
   updated: FieldValue;
 }
 
-export interface AssociativeFactionProps {
-  [id: string]: TimestampedFactionProps;
+export interface Factions {
+  [id: string]: TimestampedFaction;
 }
 
-export interface ServerAssociativeFactionProps {
-  [id: string]: ServerTimeFactionProps;
+export interface ServerFactions {
+  [id: string]: ServerTimestampedFaction;
 }

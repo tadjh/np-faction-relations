@@ -8,70 +8,63 @@ import {
   LABEL_TEXT_ENEMIES,
 } from '../config/strings';
 import FactionsContext from '../contexts/factions.context';
-import {
-  AssociativeFactionProps,
-  Relationship,
-  TimestampedFactionProps,
-} from '../types';
+import { Factions, Relationship, TimestampedFaction } from '../types';
 import { isEmptyString } from '../utils';
 
-export function getFaction(
-  factions: AssociativeFactionProps,
-  factionId: string
-) {
+export function getFaction(factions: Factions, factionId: string) {
   return factions[factionId];
 }
 
-export function getName(faction: TimestampedFactionProps) {
+export function getName(faction: TimestampedFaction) {
   return faction.name;
 }
 
-export function getDisplayName(faction: TimestampedFactionProps) {
+export function getDisplayName(faction: TimestampedFaction) {
   return faction.displayName;
 }
 
-export function getHasBench(faction: TimestampedFactionProps) {
+export function getHasBench(faction: TimestampedFaction) {
   return faction.attributes.hasBench;
 }
 
-export function getBenchCount(faction: TimestampedFactionProps) {
+export function getBenchCount(faction: TimestampedFaction) {
   return faction.attributes.benchCount;
 }
 
-export function getHasLab(faction: TimestampedFactionProps) {
+export function getHasLab(faction: TimestampedFaction) {
   return faction.attributes.hasLab;
 }
 
-export function getLabCount(faction: TimestampedFactionProps) {
+export function getLabCount(faction: TimestampedFaction) {
   return faction.attributes.labCount;
 }
 
-export function getAllies(faction: TimestampedFactionProps) {
+export function getAllies(faction: TimestampedFaction) {
   return faction.relationships.allies;
 }
 
-export function getAssociates(faction: TimestampedFactionProps) {
+export function getAssociates(faction: TimestampedFaction) {
   return faction.relationships.associates;
 }
 
-export function getColdWars(faction: TimestampedFactionProps) {
+export function getColdWars(faction: TimestampedFaction) {
   return faction.relationships.coldWars;
 }
 
-export function getEnemies(faction: TimestampedFactionProps) {
+export function getEnemies(faction: TimestampedFaction) {
   return faction.relationships.enemies;
 }
 
-export function getFriends(faction: TimestampedFactionProps) {
+export function getFriends(faction: TimestampedFaction) {
   return faction.relationships.friends;
 }
 
-export function getHotWars(faction: TimestampedFactionProps) {
+export function getHotWars(faction: TimestampedFaction) {
   return faction.relationships.hotWars;
 }
 
 export function getRelationship(
-  faction: TimestampedFactionProps,
+  faction: TimestampedFaction,
   type: Relationship
 ) {
   switch (type) {
@@ -111,18 +104,18 @@ export function getLabelText(type: Relationship) {
   }
 }
 
-export function getOrder(faction: TimestampedFactionProps) {
+export function getOrder(faction: TimestampedFaction) {
   return faction.order;
 }
 
-export function composeFullName(faction: TimestampedFactionProps) {
+export function composeFullName(faction: TimestampedFaction) {
   const name = getName(faction);
   const displayName = getDisplayName(faction);
   if (isEmptyString(displayName)) return name;
   return `${name} [${displayName}]`;
 }
 
-export function composeShortName(faction: TimestampedFactionProps) {
+export function composeShortName(faction: TimestampedFaction) {
   return getDisplayName(faction) || getName(faction);
 }
 

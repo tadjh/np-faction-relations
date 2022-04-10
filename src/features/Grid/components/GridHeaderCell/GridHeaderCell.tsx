@@ -7,12 +7,12 @@ import {
 } from '../../../../config/constants';
 import { headerColor } from '../../../../config/styles';
 import { composeShortName } from '../../../../hooks';
-import { TimestampedFactionProps } from '../../../../types';
+import { TimestampedFaction } from '../../../../types';
 
 export interface GridHeaderCellProps {
   rowIndex: number;
   columnIndex: number;
-  faction: TimestampedFactionProps;
+  faction: TimestampedFaction;
   isRotated?: boolean;
   onMouseEnter?: MouseEventHandler<HTMLDivElement>;
 }

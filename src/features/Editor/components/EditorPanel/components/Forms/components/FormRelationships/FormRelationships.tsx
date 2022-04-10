@@ -7,9 +7,9 @@ import {
   getRelationship,
 } from '../../../../../../../../hooks';
 import {
-  AssociativeFactionProps,
+  Factions,
   Relationship,
-  TimestampedFactionProps,
+  TimestampedFaction,
 } from '../../../../../../../../types';
 import { isEmptyArray, isNotEmptyString } from '../../../../../../../../utils';
 import FormHeader from '../FormHeader';
@@ -25,7 +25,7 @@ const orderedRelationships: Relationship[] = [
 ];
 
 export interface FormRelationshipsProps extends UseFormData {
-  factions: AssociativeFactionProps;
+  factions: Factions;
   currentFaction: string;
 }
 
@@ -39,7 +39,7 @@ function FormRelationships({
 
   const factionIds = Object.keys(factions);
 
-  const composeFullName = (faction: TimestampedFactionProps) => {
+  const composeFullName = (faction: TimestampedFaction) => {
     const name = getName(faction);
     const displayName = getDisplayName(faction);
     if (isNotEmptyString(displayName)) return `${name} [${displayName}]`;

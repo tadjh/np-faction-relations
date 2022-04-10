@@ -1,8 +1,8 @@
 import { createContext } from 'react';
-import { AssociativeFactionProps } from '../types';
+import { Factions } from '../types';
 
 export interface FactionsContextType {
-  factions: AssociativeFactionProps | null;
+  factions: Factions | null;
   length: number;
   updated: number;
 }
