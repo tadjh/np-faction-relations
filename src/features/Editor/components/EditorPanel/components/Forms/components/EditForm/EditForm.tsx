@@ -20,6 +20,7 @@ import {
 } from '../../../../../../../../hooks';
 import {
   getErrorMessage,
+  isEmptyString,
   isNotEmptyString,
   shouldMakeHistory,
 } from '../../../../../../../../utils';
@@ -29,6 +30,8 @@ import FormRelationships from '../FormRelationships';
 import SubmitButton from '../../../../../../../../components/Inputs/SubmitButton';
 import { useFormData } from '../../hooks';
 import { toast } from 'react-toastify';
+import IconButton from '../../../../../../../../components/Inputs/IconButton';
+import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
 
 function EditForm() {
   const { state, handlers } = useFormData();
@@ -101,14 +104,11 @@ function EditForm() {
             className="w-32 h-8 flex items-center gap-x-2"
           >
             {LABEL_TEXT_SELECT_FACTION}
-            {isNotEmptyString(currentFaction) && (
-              <span
-                className="text-base hover:cursor-pointer"
-                onClick={handleReset}
-              >
-                &#8635;
-              </span>
-            )}
+            <IconButton
+              icon={faArrowRotateRight}
+              onClick={handleReset}
+              hidden={isEmptyString(currentFaction)}
+            />
           </label>
           <select
             name="updateFaction"

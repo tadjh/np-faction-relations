@@ -1,5 +1,6 @@
 import { HTMLAttributes } from 'react';
-import { SpinnerIcon } from '../../../assets/Icons';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export interface SubmitButtonProps extends HTMLAttributes<HTMLDivElement> {
   isLoading?: boolean;
@@ -8,7 +9,7 @@ function SubmitButton({ isLoading = false, children }: SubmitButtonProps) {
   if (isLoading) {
     return (
       <div className="w-[72px] flex justify-center items-center">
-        <SpinnerIcon />
+        <FontAwesomeIcon icon={faSpinner} />
       </div>
     );
   }

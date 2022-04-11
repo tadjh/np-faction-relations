@@ -8,7 +8,8 @@ import {
 import { headerColor } from '../../config/styles';
 import { composeShortName } from '../../../../hooks';
 import { TimestampedFaction } from '../../../../types';
-import { composeCellKey } from '../../utils';
+import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import IconButton from '../../../../components/Inputs/IconButton';
 
 export interface GridHeaderCellProps {
   rowIndex: number;
@@ -26,28 +27,35 @@ function GridHeaderCell({
 }: GridHeaderCellProps): JSX.Element {
   return (
     <div
-      key={composeCellKey(rowIndex, columnIndex)}
       className={clsx(
-        'border text-center flex items-center justify-center relative group',
+        'border text-center flex items-center justify-between relative group',
         'hover:scale-125 hover:z-10 transition-transform',
         headerColor(isRotated ? columnIndex : rowIndex),
         isRotated
-          ? 'border-b-gray-400 hover:border-b-gray-300 hover:-translate-y-1/8'
-          : 'border-r-gray-400 hover:border-r-gray-200 hover:-translate-x-1/8'
+          ? 'border-b-gray-400 hover:border-b-gray-300 hover:-translate-y-1/8 py-2 flex-col'
+          : 'border-r-gray-400 hover:border-r-gray-200 hover:-translate-x-1/8 px-2 flex-row'
       )}
     >
       <div
         data-column={isRotated ? columnIndex : null}
-        className="absolute bg-gray-500 bg-opacity-5 hidden group-hover:block"
+        className={clsx(
+          'absolute bg-gray-500 bg-opacity-5 hidden px-2 group-hover:block',
+          isRotated ? 'top-0' : 'left-0'
+        )}
         style={{
           width: isRotated ? CELL_COLUMN_WIDTH : HEADER_SIZE,
           height: isRotated ? HEADER_SIZE : CELL_ROW_HEIGHT,
         }}
         onMouseEnter={handleMouseEnter}
       />
-      <span className={clsx(isRotated && '-rotate-90')}>
+      <div />
+      <div className={clsx(isRotated && '-rotate-90')}>
         {composeShortName(faction)}
-      </span>
+      </div>
+      <IconButton
+        icon={faPenToSquare}
+        className="opacity-0 group-hover:opacity-100"
+      />
     </div>
   );
 }

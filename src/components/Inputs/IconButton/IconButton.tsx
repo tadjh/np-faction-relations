@@ -1,19 +1,30 @@
 import clsx from 'clsx';
 import { ButtonHTMLAttributes } from 'react';
+import {
+  FontAwesomeIcon,
+  FontAwesomeIconProps,
+} from '@fortawesome/react-fontawesome';
+
+export interface IconButtonProps
+  extends ButtonHTMLAttributes<HTMLButtonElement>,
+    Pick<FontAwesomeIconProps, 'icon'> {}
 
 function IconButton({
   onClick: handleOnClick,
   type = 'button',
+  icon,
+  className,
   children,
-}: ButtonHTMLAttributes<HTMLButtonElement>) {
+  hidden,
+}: IconButtonProps) {
   return (
     <button
       type={type}
       onClick={handleOnClick}
-      className={clsx(
-        'text-base p-1 hover:bg-gray-200 bg-opacity-5 hover:shadow-sm transition-colors'
-      )}
+      className={clsx(className, 'transition', 'cursor-pointer z-10')}
+      hidden={hidden}
     >
+      <FontAwesomeIcon icon={icon} />
       {children}
     </button>
   );

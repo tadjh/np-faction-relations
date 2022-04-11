@@ -11,10 +11,13 @@ import {
   Relationship,
   TimestampedFaction,
 } from '../../../../../../../../types';
-import { isEmptyArray, isNotEmptyString } from '../../../../../../../../utils';
+import { isNotEmptyString } from '../../../../../../../../utils';
 import FormHeader from '../FormHeader';
 import { UseFormData } from '../../hooks';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
+import IconButton from '../../../../../../../../components/Inputs/IconButton';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import clsx from 'clsx';
 
 const orderedRelationships: Relationship[] = [
   'associates',
@@ -36,7 +39,15 @@ function FormRelationships({
   factions,
   currentFaction,
 }: FormRelationshipsProps) {
-  const { handleRelationship, resetRelationship } = handlers;
+  const { handleRelationship } = handlers;
+  const [selected, setSelected] = useState(-1);
+
+  const resetSelected = () => setSelected(-1);
+
+  const handleSelected = (currentIndex: number) => {
+    if (currentIndex === selected) return resetSelected();
+    setSelected(currentIndex);
+  };
 
   const factionIds = useMemo(() => Object.keys(factions), [factions]);
 
@@ -58,47 +69,56 @@ function FormRelationships({
   return (
     <>
       <FormHeader>{LABEL_TEXT_RELATIONSHIPS}</FormHeader>
-      {orderedRelationships.map((type) => {
-        const relationship = getRelationship(state, type);
-        return (
-          <div
-            key={composeDivKey(type)}
-            className="flex gap-x-2 items-center px-2"
-          >
-            <label htmlFor={type} className="w-32 flex items-center gap-x-2">
-              {getLabelText(type)}
-              <button
-                type="button"
-                className="text-base hover:cursor-pointer"
-                onClick={() => resetRelationship(type)}
-                hidden={isEmptyArray(relationship)}
+      <div className="flex flex-row px-2 gap-x-2">
+        <div className="flex flex-col gap-y-2">
+          {orderedRelationships.map((type, index) => {
+            const relationship = getRelationship(state, type);
+            return (
+              <label
+                key={composeDivKey(type)}
+                htmlFor={type}
+                onClick={() => handleSelected(index)}
+                className={clsx(
+                  'flex items-center gap-x-2 cursor-pointer',
+                  selected !== -1 && selected !== index && 'text-gray-400'
+                )}
               >
-                &#8635;
-              </button>
-            </label>
-            <select
-              name={type}
-              multiple
-              className="flex-1 border"
-              value={relationship}
-              onChange={(event) => handleRelationship(event, type)}
-            >
-              {factionIds.map((factionId) => {
-                if (factionId === currentFaction) return null;
-                const faction = getFaction(factions, factionId);
-                return (
-                  <option
-                    key={composeOptionKey(type, factionId)}
-                    value={factionId}
-                  >
-                    {composeFullName(faction)}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-        );
-      })}
+                {relationship.length > 0 && <span>{relationship.length}</span>}
+                {getLabelText(type)}
+                <IconButton icon={faPlus} />
+              </label>
+            );
+          })}
+        </div>
+        <div className="flex-1">
+          {orderedRelationships.map((type, index) => {
+            const relationship = getRelationship(state, type);
+            return (
+              <select
+                name={type}
+                multiple
+                className="border w-full h-full"
+                value={relationship}
+                onChange={(event) => handleRelationship(event, type)}
+                hidden={selected !== index}
+              >
+                {factionIds.map((factionId) => {
+                  if (factionId === currentFaction) return null;
+                  const faction = getFaction(factions, factionId);
+                  return (
+                    <option
+                      key={composeOptionKey(type, factionId)}
+                      value={factionId}
+                    >
+                      {composeFullName(faction)}
+                    </option>
+                  );
+                })}
+              </select>
+            );
+          })}
+        </div>
+      </div>
     </>
   );
 }

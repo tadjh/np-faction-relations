@@ -1,5 +1,7 @@
 import clsx from 'clsx';
 import { HTMLAttributes, MouseEventHandler, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 
 export interface AccordianProps extends HTMLAttributes<HTMLDivElement> {
   label: string;
@@ -17,11 +19,12 @@ function Accordian({ label, children }: AccordianProps) {
         className="bg-gray-700 text-white text-opacity-90 w-full hover:cursor-pointer hover:bg-gray-900 transition-colors"
         onClick={toggleAccordian}
       >
-        <div className="flex justify-between items-center p-2">
+        <div className="flex justify-between items-center px-2 py-1.5">
           <span>{label}</span>
-          <span className={clsx('text-base', isOpen && 'rotate-180')}>
-            &#x25BC;
-          </span>
+          <FontAwesomeIcon
+            icon={faCaretDown}
+            className={clsx(isOpen && 'rotate-180')}
+          />
         </div>
       </header>
       <div

@@ -12,12 +12,15 @@ import {
 import { useApi, useFactions } from '../../../../../../../../hooks';
 import {
   getErrorMessage,
+  isEmptyString,
   shouldMakeHistory,
   shouldResetMutation,
 } from '../../../../../../../../utils';
 import Accordian from '../../../../../../../../components/Accordian';
 import SubmitButton from '../../../../../../../../components/Inputs/SubmitButton';
 import { toast } from 'react-toastify';
+import IconButton from '../../../../../../../../components/Inputs/IconButton';
+import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
 
 function DeleteForm() {
   const [selected, setSelected] = useState('');
@@ -84,14 +87,11 @@ function DeleteForm() {
             className="w-32 h-8 flex items-center gap-x-2"
           >
             {LABEL_TEXT_SELECT_FACTION}
-            {selected !== '' && (
-              <span
-                className="text-base hover:cursor-pointer"
-                onClick={resetSelected}
-              >
-                &#8635;
-              </span>
-            )}
+            <IconButton
+              icon={faArrowRotateRight}
+              onClick={resetSelected}
+              hidden={isEmptyString(selected)}
+            />
           </label>
           <select
             name="deleteFaction"

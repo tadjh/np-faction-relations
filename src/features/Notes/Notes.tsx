@@ -1,10 +1,17 @@
 import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
-import { CloseIcon } from '../../assets/Icons';
 import { LABEL_TEXT_NOTES } from '../../config/strings';
 import { variants } from './config';
 import useNotes from './hooks/useNotes';
 import text from './text';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faNoteSticky } from '@fortawesome/free-solid-svg-icons';
+import IconButton from '../../components/Inputs/IconButton';
+import {
+  faXmark,
+  faArrowLeft,
+  faArrowRight,
+} from '@fortawesome/free-solid-svg-icons';
 
 function Notes() {
   const {
@@ -23,11 +30,12 @@ function Notes() {
     <>
       <div
         className={clsx(
-          'absolute p-2.5 md:p-4 top-0 right-0 text-[8px] hover:underline font-mono z-10',
+          'absolute p-2.5 md:p-4 top-0 right-0 text-[8px] hover:underline font-mono z-10 flex gap-x-1 items-center',
           isOpen ? 'opacity-0' : 'opacity-100 cursor-pointer'
         )}
         onClick={handleOpen}
       >
+        <FontAwesomeIcon icon={faNoteSticky} />
         {LABEL_TEXT_NOTES}
       </div>
       <AnimatePresence>
@@ -48,27 +56,23 @@ function Notes() {
                   {LABEL_TEXT_NOTES}
                 </span>
                 <span className="text-xs flex flex-2 items-center justify-center gap-x-2">
-                  <span
-                    className="opacity-0 group-hover:opacity-100 cursor-pointer hover:underline px-2.5 py-1.5"
+                  <IconButton
                     onClick={previous}
-                  >
-                    &larr;
-                  </span>
+                    icon={faArrowLeft}
+                    className="opacity-0 group-hover:opacity-100 px-2.5 py-1.5"
+                  />
                   {`${slide + 1} of ${text.length}`}
-                  <span
-                    className="opacity-0 group-hover:opacity-100 cursor-pointer hover:underline px-2.5 py-1.5"
+                  <IconButton
                     onClick={next}
-                  >
-                    &rarr;
-                  </span>
+                    icon={faArrowRight}
+                    className="opacity-0 group-hover:opacity-100 px-2.5 py-1.5"
+                  />
                 </span>
-                <button
-                  type="button"
+                <IconButton
                   onClick={handleClose}
-                  className="text-base text-white flex-1 flex justify-end"
-                >
-                  <CloseIcon />
-                </button>
+                  icon={faXmark}
+                  className="text-white flex-1 text-right"
+                />
               </div>
               <div
                 className="h-1 bg-gray-500"
