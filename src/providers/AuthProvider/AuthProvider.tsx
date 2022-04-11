@@ -10,7 +10,7 @@ import { useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { Role, Roles, User } from '../../types';
 import { getDoc } from 'firebase/firestore';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 import { getErrorMessage } from '../../utils';
 
 function AuthProvider({ children }: { children: ReactNode }) {

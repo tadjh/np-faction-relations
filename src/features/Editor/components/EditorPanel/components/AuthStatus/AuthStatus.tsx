@@ -1,4 +1,4 @@
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 import { EVENT_TEXT_EDIT, EVENT_TEXT_SIGN_OUT } from '../../config/strings';
 import { useAuth } from '../../../../../../hooks';
 import { getErrorMessage } from '../../../../../../utils';

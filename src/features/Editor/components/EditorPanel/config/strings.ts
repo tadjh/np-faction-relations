@@ -26,12 +26,18 @@ export const LABEL_TEXT_LAB_COUNT = 'number of labs';
 export const LABEL_TEXT_SELECT_FACTION = 'select faction';
 export const LABEL_TEXT_RELATIONSHIPS = 'relationships';
 
-export const TEXT_IS_LOADING_ADD = 'adding faction...';
-export const TEXT_IS_SUCCESS_ADD = 'faction added';
-export const TEXT_IS_LOADING_UPDATE = 'updating faction...';
-export const TEXT_IS_SUCCESS_UPDATE = 'faction updated';
-export const TEXT_IS_LOADING_DELETE = 'removing faction...';
-export const TEXT_IS_SUCCESS_DELETE = 'faction removed';
+export const CREATE_FACTION_IS_LOADING_TEXT = 'adding faction...';
+export const CREATE_FACTION_IS_SUCCESS_TEXT = 'faction added';
+export const CREATE_FACTION_IS_ERROR_TEXT = 'error adding faction: ';
+
+export const UPDATE_FACTION_IS_LOADING_TEXT = 'updating faction...';
+export const UPDATE_FACTION_IS_SUCCESS_TEXT = 'faction updated';
+export const UPDATE_FACTION_IS_ERROR_TEXT = 'error updating faction: ';
+
+export const DELETE_FACTION_IS_LOADING_TEXT = 'removing faction...';
+export const DELETE_FACTION_IS_SUCCESS_TEXT = 'faction removed';
+export const DELETE_FACTION_IS_ERROR_TEXT = 'error removing faction: ';
+
 export const CREATE_SNAPSHOT_IS_LOADING_TEXT = 'creating a snapshot...';
 export const CREATE_SNAPSHOT_IS_SUCCESS_TEXT = 'snapshot created';
 export const CREATE_SNAPSHOT_IS_ERROR_TEXT = 'error creating snapshot: ';

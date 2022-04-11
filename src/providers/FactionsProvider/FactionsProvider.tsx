@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { useQuery } from 'react-query';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 import { COLLECTION_FACTIONS } from '../../config/environment';
 import FactionsContext, {
   FactionsContextType,

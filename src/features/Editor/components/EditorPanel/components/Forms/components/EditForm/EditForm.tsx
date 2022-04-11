@@ -8,8 +8,9 @@ import {
   EVENT_TEXT_RESET,
   EVENT_TEXT_UPDATE,
   LABEL_TEXT_SELECT_FACTION,
-  TEXT_IS_LOADING_UPDATE,
-  TEXT_IS_SUCCESS_UPDATE,
+  UPDATE_FACTION_IS_ERROR_TEXT,
+  UPDATE_FACTION_IS_LOADING_TEXT,
+  UPDATE_FACTION_IS_SUCCESS_TEXT,
 } from '../../../../config/strings';
 
 import {
@@ -28,8 +29,8 @@ import Accordian from '../../../../../../../../components/Accordian';
 import FormInfo from '../FormInfo';
 import FormRelationships from '../FormRelationships';
 import SubmitButton from '../../../../../../../../components/Inputs/SubmitButton';
-import { useFormData } from '../../hooks';
-import { toast } from 'react-toastify';
+import { useFormData, useSnapshot } from '../../hooks';
+import toast from 'react-hot-toast';
 import IconButton from '../../../../../../../../components/Inputs/IconButton';
 import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
 
@@ -42,18 +43,21 @@ function EditForm() {
   const queryClient = useQueryClient();
 
   const mutation = useMutation(editFaction, {
+    onMutate: () => {
+      toast.loading(UPDATE_FACTION_IS_LOADING_TEXT, {
+        id: 'edit-faction',
+      });
+    },
     onSuccess: () => {
-      toast.success(TEXT_IS_SUCCESS_UPDATE);
+      toast.success(UPDATE_FACTION_IS_SUCCESS_TEXT, {
+        id: 'edit-faction',
+      });
       queryClient.invalidateQueries(COLLECTION_FACTIONS);
     },
     onError: (error) => {
-      toast.error('Error editing faction: ' + getErrorMessage(error));
-    },
-  });
-
-  const mutateHistory = useMutation(createHistory, {
-    onError: (error) => {
-      toast.error('Error making history: ' + getErrorMessage(error));
+      toast.error(UPDATE_FACTION_IS_ERROR_TEXT + getErrorMessage(error), {
+        id: 'edit-faction',
+      });
     },
   });
 
@@ -153,8 +157,8 @@ function EditForm() {
                 mutation.isSuccess && 'text-green-500'
               )}
             >
-              {mutation.isLoading && TEXT_IS_LOADING_UPDATE}
-              {mutation.isSuccess && TEXT_IS_SUCCESS_UPDATE}
+              {mutation.isLoading && UPDATE_FACTION_IS_LOADING_TEXT}
+              {mutation.isSuccess && UPDATE_FACTION_IS_SUCCESS_TEXT}
               {mutation.isError && GENERIC_ERROR_TEXT}
             </span>
             <SubmitButton isLoading={mutation.isLoading}>

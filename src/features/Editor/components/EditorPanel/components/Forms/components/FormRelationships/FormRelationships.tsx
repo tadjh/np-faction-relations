@@ -58,8 +58,12 @@ function FormRelationships({
     return name;
   };
 
-  const composeDivKey = (type: Relationship) => {
-    return `relations-${type}`;
+  const composeLabelKey = (type: Relationship) => {
+    return `relationships-label-${type}`;
+  };
+
+  const composeSelectKey = (type: Relationship) => {
+    return `relationships-select-${type}`;
   };
 
   const composeOptionKey = (type: Relationship, factionId: string) => {
@@ -75,7 +79,7 @@ function FormRelationships({
             const relationship = getRelationship(state, type);
             return (
               <label
-                key={composeDivKey(type)}
+                key={composeLabelKey(type)}
                 htmlFor={type}
                 onClick={() => handleSelected(index)}
                 className={clsx(
@@ -95,6 +99,7 @@ function FormRelationships({
             const relationship = getRelationship(state, type);
             return (
               <select
+                key={composeSelectKey(type)}
                 name={type}
                 multiple
                 className="border w-full h-full"

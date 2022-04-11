@@ -6,8 +6,10 @@ import { GENERIC_ERROR_TEXT } from '../../../../../../../../config/strings';
 import {
   EVENT_TEXT_DELETE,
   LABEL_TEXT_SELECT_FACTION,
-  TEXT_IS_LOADING_DELETE,
-  TEXT_IS_SUCCESS_DELETE,
+  DELETE_FACTION_IS_LOADING_TEXT,
+  DELETE_FACTION_IS_SUCCESS_TEXT,
+  DELETE_FACTION_IS_ERROR_TEXT,
+  CREATE_SNAPSHOT_IS_ERROR_TEXT,
 } from '../../../../config/strings';
 import { useApi, useFactions } from '../../../../../../../../hooks';
 import {
@@ -18,7 +20,7 @@ import {
 } from '../../../../../../../../utils';
 import Accordian from '../../../../../../../../components/Accordian';
 import SubmitButton from '../../../../../../../../components/Inputs/SubmitButton';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 import IconButton from '../../../../../../../../components/Inputs/IconButton';
 import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
 import { useSnapshot } from '../../hooks';
@@ -31,18 +33,21 @@ function DeleteForm() {
   const queryClient = useQueryClient();
 
   const mutation = useMutation(deleteFaction, {
+    onMutate: () => {
+      toast.loading(DELETE_FACTION_IS_LOADING_TEXT, {
+        id: 'delete-faction',
+      });
+    },
     onSuccess: () => {
-      toast.success(TEXT_IS_SUCCESS_DELETE);
+      toast.success(DELETE_FACTION_IS_SUCCESS_TEXT, {
+        id: 'delete-faction',
+      });
       queryClient.invalidateQueries(COLLECTION_FACTIONS);
     },
     onError: (error) => {
-      toast.error('Error deleting faction: ' + getErrorMessage(error));
-    },
-  });
-
-  const mutateHistory = useMutation(createHistory, {
-    onError: (error) => {
-      toast.error('Error making history: ' + getErrorMessage(error));
+      toast.error(DELETE_FACTION_IS_ERROR_TEXT + getErrorMessage(error), {
+        id: 'delete-faction',
+      });
     },
   });
 
@@ -119,8 +124,8 @@ function DeleteForm() {
               mutation.isSuccess && 'text-green-500'
             )}
           >
-            {mutation.isLoading && TEXT_IS_LOADING_DELETE}
-            {mutation.isSuccess && TEXT_IS_SUCCESS_DELETE}
+            {mutation.isLoading && DELETE_FACTION_IS_LOADING_TEXT}
+            {mutation.isSuccess && DELETE_FACTION_IS_SUCCESS_TEXT}
             {mutation.isError && GENERIC_ERROR_TEXT}
           </span>
           <SubmitButton isLoading={mutation.isLoading}>

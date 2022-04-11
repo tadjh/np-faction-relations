@@ -6,7 +6,7 @@ import {
 } from '../../../config/strings';
 import { useAuth } from '../../../../../../../hooks';
 import SubmitButton from '../../../../../../../components/Inputs/SubmitButton';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 import { getErrorMessage } from '../../../../../../../utils';
 
 function SignIn() {
