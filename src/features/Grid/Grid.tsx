@@ -11,6 +11,7 @@ import GridHeader from './components/GridHeader';
 import GridHeaderCell from './components/GridHeaderCell';
 import GridOverlay from './components/GridOverlay';
 import { useGrid, useHighlight } from './hooks';
+import { composeCellKey } from './utils';
 
 export interface GridProps {
   headerRef: MutableRefObject<HTMLDivElement | null>;
@@ -70,6 +71,7 @@ function Grid({ headerRef, footerRef }: GridProps) {
                     const padColumnIndex = columnIndex + 1;
                     return (
                       <GridCell
+                        key={composeCellKey(padRowIndex, padColumnIndex)}
                         rowIndex={padRowIndex}
                         columnIndex={padColumnIndex}
                         faction={faction}

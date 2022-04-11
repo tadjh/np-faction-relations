@@ -1,6 +1,7 @@
 import { MouseEventHandler } from 'react';
 import { getFaction } from '../../../../hooks';
 import { Factions } from '../../../../types';
+import { composeCellKey } from '../../utils';
 import GridHeaderCell from '../GridHeaderCell';
 import Legend from '../Legend';
 
@@ -24,6 +25,7 @@ function GridHeader({
         const padColumnIndex = columnIndex + 1;
         return (
           <GridHeaderCell
+            key={composeCellKey(0, padColumnIndex)}
             rowIndex={0}
             columnIndex={padColumnIndex}
             faction={faction}
