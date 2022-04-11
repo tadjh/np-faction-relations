@@ -9,8 +9,9 @@ function Layout() {
   return (
     <div className="overflow-hidden relative flex flex-col font-mono h-screen items-center p-2.5 md:p-4">
       <Header ref={headerRef} />
-      <div className="flex-1"></div>
-      <Grid headerRef={headerRef} footerRef={footerRef} />
+      <div className="flex-1 relative w-full">
+        <Grid headerRef={headerRef} footerRef={footerRef} />
+      </div>
       <Footer ref={footerRef} />
     </div>
   );

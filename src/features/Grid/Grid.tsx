@@ -31,7 +31,7 @@ function Grid({ headerRef, footerRef }: GridProps) {
   const { handleMouseEnter, handleMouseLeave } = useHighlight(columnRefs);
 
   return (
-    <div className="absolute font-mono left-0 md:left-1/2 top-1/2 -translate-y-1/2 md:-translate-x-1/2 p-4">
+    <div className="font-mono text-[8px] absolute left-0 md:left-1/2 md:-translate-x-1/2">
       <AnimatePresence>
         {factions && (
           <motion.div
@@ -42,7 +42,7 @@ function Grid({ headerRef, footerRef }: GridProps) {
             dragMomentum={false}
             ref={gridRef}
             dragConstraints={constraints}
-            className="grid relative text-[8px] shadow-xl border border-gray-400"
+            className="grid relative shadow-xl border border-gray-400"
             style={{
               gridTemplateColumns: `${HEADER_SIZE} repeat(${factionIds.length},${CELL_COLUMN_WIDTH})`,
               gridTemplateRows: `${HEADER_SIZE} repeat(${factionIds.length},${CELL_ROW_HEIGHT})`,

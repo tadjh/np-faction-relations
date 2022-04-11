@@ -9,9 +9,9 @@ function App() {
     <>
       <AuthProvider>
         <Editor />
+        <Layout />
+        <Notes />
       </AuthProvider>
-      <Notes />
-      <Layout />
       <ToastContainer />
     </>
   );
