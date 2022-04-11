@@ -22,7 +22,7 @@ import {
   getErrorMessage,
   isEmptyString,
   isNotEmptyString,
-  shouldMakeHistory,
+  shouldCreateSnapshot,
 } from '../../../../../../../../utils';
 import Accordian from '../../../../../../../../components/Accordian';
 import FormInfo from '../FormInfo';
@@ -37,7 +37,8 @@ function EditForm() {
   const { state, handlers } = useFormData();
   const { lastUpdate, factions } = useFactions();
   const [currentFaction, setCurrentFaction] = useState('');
-  const { editFaction, createHistory } = useApi();
+  const { editFaction } = useApi();
+  const { snapshotMutation } = useSnapshot();
   const queryClient = useQueryClient();
 
   const mutation = useMutation(editFaction, {
@@ -77,8 +78,8 @@ function EditForm() {
 
     if (mutation.isError) return handleReset();
 
-    if (shouldMakeHistory(lastUpdate)) {
-      mutateHistory.mutate(factions);
+    if (shouldCreateSnapshot(lastUpdate)) {
+      snapshotMutation.mutate(factions);
     }
 
     if (factions) {

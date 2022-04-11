@@ -12,7 +12,7 @@ export function shouldResetMutation(
   return success || error || loading;
 }
 
-export function shouldMakeHistory(last: number) {
+export function shouldCreateSnapshot(last: number) {
   return Date.now() - last > ONE_DAY_IN_MILLISECONDS;
 }
 

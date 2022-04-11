@@ -32,3 +32,6 @@ export const TEXT_IS_LOADING_UPDATE = 'updating faction...';
 export const TEXT_IS_SUCCESS_UPDATE = 'faction updated';
 export const TEXT_IS_LOADING_DELETE = 'removing faction...';
 export const TEXT_IS_SUCCESS_DELETE = 'faction removed';
+export const CREATE_SNAPSHOT_IS_LOADING_TEXT = 'creating a snapshot...';
+export const CREATE_SNAPSHOT_IS_SUCCESS_TEXT = 'snapshot created';
+export const CREATE_SNAPSHOT_IS_ERROR_TEXT = 'error creating snapshot: ';

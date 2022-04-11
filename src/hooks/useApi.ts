@@ -11,7 +11,7 @@ import {
   factionDocumentReference,
   FACTION_COLLECTION_QUERY,
   FACTION_COLLECTION_REFERENCE,
-  HISTORY_COLLECTION_REFERENCE,
+  SNAPSHOT_COLLECTION_REFERENCE,
 } from '../config/firebase';
 import { FactionsContextType } from '../contexts/factions.context';
 import {
@@ -23,7 +23,7 @@ import {
   ServerFactions,
   Relationships,
   RelationshipsType,
-  History,
+  Snapshot,
 } from '../types';
 
 interface ComparableHydratedFactionProps {
@@ -226,34 +226,36 @@ export function useApi() {
     try {
       const docs = await getDocs(FACTION_COLLECTION_QUERY);
       let factions = {};
-      let updated = 0;
+      let lastUpdate = 0;
       docs.forEach((doc) => {
         const data = doc.data();
         factions = { ...factions, [doc.id]: data };
-        updated =
-          data.updated && data.updated.seconds > updated
+        lastUpdate =
+          data.updated && data.updated.seconds > lastUpdate
             ? data.updated.seconds
-            : updated;
+            : lastUpdate;
       });
+
+      lastUpdate = lastUpdate * 1000;
 
       const length = Object.keys(factions).length;
 
-      return { factions, lastUpdate: updated, length };
+      return { factions, lastUpdate, length };
     } catch (error: any) {
       throw error;
     }
   };
 
-  const createHistory = async (data: Factions | null) => {
+  const createSnapshot = async (data: Factions | null) => {
     if (!data) return;
 
-    const newDoc: History = {
+    const newDoc: Snapshot = {
       factions: data,
       created: serverTimestamp(),
     };
     try {
-      const docRef = await addDoc(HISTORY_COLLECTION_REFERENCE, newDoc);
-      if (IS_DEVELOPMENT) console.log('History created with ID: ', docRef.id);
+      const docRef = await addDoc(SNAPSHOT_COLLECTION_REFERENCE, newDoc);
+      if (IS_DEVELOPMENT) console.log('Snapshot created with ID: ', docRef.id);
     } catch (error) {
       throw error;
     }
@@ -264,6 +266,6 @@ export function useApi() {
     editFaction,
     deleteFaction,
     getFactions,
-    createHistory,
+    createSnapshot,
   };
 }

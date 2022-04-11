@@ -20,5 +20,5 @@ export const FIRESTORE_EMULATOR_HOST = 'localhost';
 export const FIRESTORE_EMULATOR_PORT = 8080;
 
 export const COLLECTION_FACTIONS = 'factions';
-export const COLLECTION_HISTORY = 'history';
+export const COLLECTION_SNAPSHOT = 'snapshots';
 export const COLLECTION_USERS = 'users';

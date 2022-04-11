@@ -13,7 +13,7 @@ import { useApi, useFactions } from '../../../../../../../../hooks';
 import {
   getErrorMessage,
   isEmptyString,
-  shouldMakeHistory,
+  shouldCreateSnapshot,
   shouldResetMutation,
 } from '../../../../../../../../utils';
 import Accordian from '../../../../../../../../components/Accordian';
@@ -21,10 +21,12 @@ import SubmitButton from '../../../../../../../../components/Inputs/SubmitButton
 import { toast } from 'react-toastify';
 import IconButton from '../../../../../../../../components/Inputs/IconButton';
 import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
+import { useSnapshot } from '../../hooks';
 
 function DeleteForm() {
   const [selected, setSelected] = useState('');
-  const { deleteFaction, createHistory } = useApi();
+  const { deleteFaction } = useApi();
+  const { snapshotMutation } = useSnapshot();
   const { lastUpdate, factions } = useFactions();
   const queryClient = useQueryClient();
 
@@ -71,8 +73,8 @@ function DeleteForm() {
   const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
 
-    if (shouldMakeHistory(lastUpdate)) {
-      mutateHistory.mutate(factions);
+    if (shouldCreateSnapshot(lastUpdate)) {
+      snapshotMutation.mutate(factions);
     }
 
     mutation.mutate(selected);

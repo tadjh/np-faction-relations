@@ -14,8 +14,7 @@ import {
 import { COLLECTION_FACTIONS } from '../../../../../../../../config/environment';
 import {
   getErrorMessage,
-  shouldMakeHistory,
-  shouldResetMutation,
+  shouldCreateSnapshot,
 } from '../../../../../../../../utils';
 import FormInfo from '../FormInfo';
 import { useFormData } from '../../hooks';
@@ -24,7 +23,8 @@ import { toast } from 'react-toastify';
 function AddForm() {
   const { length, lastUpdate, factions } = useFactions();
   const { state, handlers } = useFormData({ order: length });
-  const { createFaction, createHistory } = useApi();
+  const { createFaction } = useApi();
+  const { snapshotMutation } = useSnapshot();
   const queryClient = useQueryClient();
 
   const mutation = useMutation(createFaction, {
@@ -54,10 +54,8 @@ function AddForm() {
     if (shouldResetMutation(mutation.isSuccess, mutation.isError))
       return reset();
 
-    if (shouldMakeHistory(lastUpdate)) {
-      console.log('make history');
-
-      // mutateHistory.mutate(factions);
+    if (shouldCreateSnapshot(lastUpdate)) {
+      snapshotMutation.mutate(factions);
     }
 
     mutation.mutate(state);

@@ -60,7 +60,7 @@ export interface ServerFactions {
   [id: string]: ServerTimestampedFaction;
 }
 
-export interface History {
+export interface Snapshot {
   factions: Factions;
   created: FieldValue;
 }

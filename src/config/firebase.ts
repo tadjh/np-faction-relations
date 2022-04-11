@@ -21,7 +21,7 @@ import {
 import { getAnalytics, logEvent } from 'firebase/analytics';
 import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
 import { getPerformance } from 'firebase/performance';
-import { History, TimestampedFaction } from '../types';
+import { Snapshot, TimestampedFaction } from '../types';
 import {
   FIREBASE_API_KEY,
   FIREBASE_APP_ID,
@@ -38,6 +38,7 @@ import {
   FIRESTORE_EMULATOR_PORT,
   COLLECTION_FACTIONS,
   COLLECTION_USERS,
+  COLLECTION_SNAPSHOT,
 } from './environment';
 
 if (IS_DEVELOPMENT) console.log(PROJECT_ID);
@@ -77,10 +78,10 @@ export const FACTION_COLLECTION_REFERENCE = collection(
   COLLECTION_FACTIONS
 ) as CollectionReference<TimestampedFaction>;
 
-export const HISTORY_COLLECTION_REFERENCE = collection(
+export const SNAPSHOT_COLLECTION_REFERENCE = collection(
   db,
-  COLLECTION_FACTIONS
-) as CollectionReference<History>;
+  COLLECTION_SNAPSHOT
+) as CollectionReference<Snapshot>;
 
 export const factionDocumentReference = (id: string) =>
   doc(db, COLLECTION_FACTIONS, id);
