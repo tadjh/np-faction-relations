@@ -83,12 +83,18 @@ function FormRelationships({
                 htmlFor={type}
                 onClick={() => handleSelected(index)}
                 className={clsx(
-                  'flex items-center gap-x-2 cursor-pointer',
+                  'flex items-center justify-between gap-x-1 cursor-pointer',
                   selected !== -1 && selected !== index && 'text-gray-400'
                 )}
               >
-                {relationship.length > 0 && <span>{relationship.length}</span>}
-                {getLabelText(type)}
+                <div className="flex gap-x-1">
+                  {relationship.length > 0 && (
+                    <span className="bg-gray-200 px-1">
+                      {relationship.length}
+                    </span>
+                  )}
+                  {getLabelText(type)}
+                </div>
                 <IconButton icon={faPlus} />
               </label>
             );

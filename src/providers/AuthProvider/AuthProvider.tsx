@@ -30,6 +30,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
         }
       } else {
         setUser(null);
+        setRoles(null);
       }
     });
     return () => unsubscribe();

@@ -9,7 +9,6 @@ import {
   DELETE_FACTION_IS_LOADING_TEXT,
   DELETE_FACTION_IS_SUCCESS_TEXT,
   DELETE_FACTION_IS_ERROR_TEXT,
-  CREATE_SNAPSHOT_IS_ERROR_TEXT,
 } from '../../../../config/strings';
 import { useApi, useFactions } from '../../../../../../../../hooks';
 import {

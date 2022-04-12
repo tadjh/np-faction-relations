@@ -1,14 +1,20 @@
 import clsx from 'clsx';
-import { HTMLAttributes, MouseEventHandler, useState } from 'react';
+import { HTMLAttributes, MouseEventHandler, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 
 export interface AccordianProps extends HTMLAttributes<HTMLDivElement> {
   label: string;
+  show?: boolean;
 }
 
-function Accordian({ label, children }: AccordianProps) {
+function Accordian({ label, children, show }: AccordianProps) {
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    if (show !== true) return;
+    setIsOpen(true);
+  }, [show]);
 
   const toggleAccordian: MouseEventHandler<HTMLSpanElement> = () =>
     setIsOpen((prevState) => !prevState);

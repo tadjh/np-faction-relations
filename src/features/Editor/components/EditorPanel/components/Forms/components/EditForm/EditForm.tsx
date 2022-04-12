@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ChangeEventHandler, FormEventHandler } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { COLLECTION_FACTIONS } from '../../../../../../../../config/environment';
@@ -33,6 +33,8 @@ import { useFormData, useSnapshot } from '../../hooks';
 import toast from 'react-hot-toast';
 import IconButton from '../../../../../../../../components/Inputs/IconButton';
 import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
+import { useSearchParams } from 'react-router-dom';
+import { Factions } from '../../../../../../../../types';
 
 function EditForm() {
   const { state, handlers } = useFormData();
@@ -41,6 +43,15 @@ function EditForm() {
   const { editFaction } = useApi();
   const { snapshotMutation } = useSnapshot();
   const queryClient = useQueryClient();
+  let [searchParams] = useSearchParams();
+  const [isOpen, setIsOpen] = useState(false);
+  let factionId = searchParams.get('factionId');
+
+  useEffect(() => {
+    if (!factionId) return;
+    loadFaction(factions, factionId);
+    setIsOpen(true);
+  }, [factionId]);
 
   const mutation = useMutation(editFaction, {
     onMutate: () => {
@@ -61,14 +72,17 @@ function EditForm() {
     },
   });
 
+  const loadFaction = (factions: Factions | null, id: string) => {
+    if (!factions) return;
+    const doc = factions[id];
+    handlers.handleSetAll(doc);
+    setCurrentFaction(id);
+  };
+
   const handleSelected: ChangeEventHandler<HTMLSelectElement> = (event) => {
     if (event.target.value === '') return handleReset();
     const id = event.target.value;
-    if (factions) {
-      const doc = factions[id];
-      handlers.handleSetAll(doc);
-      setCurrentFaction(id);
-    }
+    loadFaction(factions, id);
   };
 
   const handleReset = () => {
@@ -101,7 +115,7 @@ function EditForm() {
   if (!factions) return null;
 
   return (
-    <Accordian label="edit faction">
+    <Accordian label="edit faction" show={isOpen}>
       <form onSubmit={handleSubmit} className="gap-y-2 flex flex-col">
         <div className="flex gap-x-2 items-center px-2 pt-4">
           <label

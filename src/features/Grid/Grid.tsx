@@ -27,11 +27,18 @@ function Grid({ headerRef, footerRef }: GridProps) {
     () => ['legend', ...factionIds].map(() => createRef<HTMLDivElement>()),
     [factionIds]
   );
+  const headerRefs = useMemo(
+    () => ['legend', ...factionIds].map(() => createRef<HTMLDivElement>()),
+    [factionIds]
+  );
 
-  const { handleMouseEnter, handleMouseLeave } = useHighlight(columnRefs);
+  const { handleMouseEnter, handleMouseLeave } = useHighlight(
+    columnRefs,
+    headerRefs
+  );
 
   return (
-    <div className="font-mono text-[8px] absolute left-0 md:left-1/2 md:-translate-x-1/2">
+    <div className="font-mono text-[8px] absolute left-0 md:left-1/2 md:-translate-x-1/2 md:top-1/2 md:-translate-y-1/2">
       <AnimatePresence>
         {factions && (
           <motion.div
@@ -55,6 +62,7 @@ function Grid({ headerRef, footerRef }: GridProps) {
               factions={factions}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
+              headerRefs={headerRefs}
             />
             {factionIds.map((rowFactionId, rowIndex) => {
               const faction = getFaction(factions, rowFactionId);
@@ -65,6 +73,7 @@ function Grid({ headerRef, footerRef }: GridProps) {
                     rowIndex={padRowIndex}
                     columnIndex={0}
                     faction={faction}
+                    factionId={rowFactionId}
                     onMouseEnter={handleMouseLeave}
                   />
                   {factionIds.map((columnFactionId, columnIndex) => {

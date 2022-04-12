@@ -6,6 +6,8 @@ import reportWebVitals from './reportWebVitals';
 import { QueryClientProvider, QueryClient } from 'react-query';
 import FactionsProvider from './providers/FactionsProvider';
 import { BrowserRouter } from 'react-router-dom';
+import AuthProvider from './providers/AuthProvider';
+import EditorProvider from './providers/EditorProvider';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -20,7 +22,11 @@ ReactDOM.render(
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
         <FactionsProvider>
-          <App />
+          <AuthProvider>
+            <EditorProvider>
+              <App />
+            </EditorProvider>
+          </AuthProvider>
         </FactionsProvider>
       </QueryClientProvider>
     </BrowserRouter>
