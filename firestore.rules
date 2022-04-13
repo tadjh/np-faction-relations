@@ -33,7 +33,7 @@ service cloud.firestore {
       allow update: if signedIn() && isEditor(userDoc(request.auth.uid));
     }
 
-    match /history/{history} {
+    match /snapshots/{snapshot} {
       allow read;
 
       allow create: if signedIn() && isEditor(userDoc(request.auth.uid));

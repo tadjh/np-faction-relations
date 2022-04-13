@@ -5,7 +5,7 @@
 ## Known Bugs {#bugs}
 
 - TODO husky & lint-staged aren't properly configured, were in use before i added firebase githooks and never removed them along with the script "predeploy"
-- FIXME Toasts not showing
+- FIXME Toasts are not closing on error
 
 ### Vulnerbilities {#vulnerbilities}
 
@@ -18,9 +18,11 @@
 
 ## Development {#development}
 
-### Quality of Life {#qol}
+- TODO Add different sorts
+- TODO add change sort order to api
+- TODO rename associaties to affiliates
 
-- TODO edit icons on each faction header if isEdtior+ that links to editor
+### Quality of Life {#qol}
 
 ### Environment {#environment}
 
