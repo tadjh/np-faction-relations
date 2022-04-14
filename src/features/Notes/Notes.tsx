@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { LABEL_TEXT_NOTES } from '../../config/strings';
 import { variants } from './config';
 import useNotes from './hooks/useNotes';
-import text from './text';
+import text from './config/text';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faNoteSticky } from '@fortawesome/free-solid-svg-icons';
 import IconButton from '../../components/Inputs/IconButton';
@@ -68,11 +68,9 @@ function Notes() {
                     className="opacity-0 group-hover:opacity-100 px-2.5 py-1.5"
                   />
                 </span>
-                <IconButton
-                  onClick={handleClose}
-                  icon={faXmark}
-                  className="text-white flex-1 text-right"
-                />
+                <span className="text-white flex-1 text-right">
+                  <IconButton onClick={handleClose} icon={faXmark} />
+                </span>
               </div>
               <div
                 className="h-1 bg-gray-500"
