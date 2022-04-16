@@ -2,7 +2,7 @@ import { ReactNode, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import EditorContext from '../../contexts/editor.context';
 
-function AuthProvider({ children }: { children: ReactNode }) {
+function EditorProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
   let navigate = useNavigate();
 
@@ -18,4 +18,4 @@ function AuthProvider({ children }: { children: ReactNode }) {
   );
 }
 
-export default AuthProvider;
+export default EditorProvider;
