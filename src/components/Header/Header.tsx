@@ -10,7 +10,7 @@ const Header = forwardRef<HTMLDivElement>((_, ref) => (
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="flex items-center justify-center gap-x-2 p-2.5 md:p-4 h-16 md:h-auto"
+        className="flex h-16 items-center justify-center gap-x-2 p-2.5 md:h-auto md:p-4"
         ref={ref}
       >
         <img src={logo} alt={LOGO_ALT_TEXT} className="w-28 md:w-36" />

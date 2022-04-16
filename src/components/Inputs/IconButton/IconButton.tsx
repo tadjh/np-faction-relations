@@ -21,7 +21,7 @@ function IconButton({
     <button
       type={type}
       onClick={handleOnClick}
-      className={clsx(className, 'transition', 'cursor-pointer z-10')}
+      className={clsx(className, 'z-10 cursor-pointer transition')}
       hidden={hidden}
     >
       <FontAwesomeIcon icon={icon} />

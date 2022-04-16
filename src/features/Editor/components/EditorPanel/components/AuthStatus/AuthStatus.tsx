@@ -22,7 +22,7 @@ function AuthStatus({ onClose }: AuthStatusProps) {
 
   if (!user) {
     return (
-      <div className="text-[8px] flex justify-between items-center">
+      <div className="flex items-center justify-between text-[8px]">
         <span>{EVENT_TEXT_EDIT}</span>
         <IconButton onClick={onClose} icon={faXmark} />
       </div>
@@ -30,7 +30,7 @@ function AuthStatus({ onClose }: AuthStatusProps) {
   }
 
   return (
-    <div className="text-[8px] flex justify-between items-center">
+    <div className="flex items-center justify-between text-[8px]">
       <div className="flex items-center gap-x-2">
         <IconButton onClick={onClose} icon={faChevronLeft} />
         <span>{user.displayName ?? user.uid}</span>

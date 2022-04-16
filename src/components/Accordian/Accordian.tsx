@@ -20,12 +20,12 @@ function Accordian({ label, children, show }: AccordianProps) {
     setIsOpen((prevState) => !prevState);
 
   return (
-    <div className="flex items-center flex-col justify-center shadow w-full min-w-[360px] bg-white">
+    <div className="flex w-full min-w-[360px] flex-col items-center justify-center bg-white shadow">
       <header
-        className="bg-gray-700 text-white text-opacity-90 w-full hover:cursor-pointer hover:bg-gray-900 transition-colors"
+        className="w-full bg-gray-700 text-white text-opacity-90 transition-colors hover:cursor-pointer hover:bg-gray-900"
         onClick={toggleAccordian}
       >
-        <div className="flex justify-between items-center px-2 py-1.5">
+        <div className="flex items-center justify-between px-2 py-1.5">
           <span>{label}</span>
           <FontAwesomeIcon
             icon={faCaretDown}
@@ -35,11 +35,10 @@ function Accordian({ label, children, show }: AccordianProps) {
       </header>
       <div
         className={clsx(
-          'text-xs w-full border-l border-r',
+          'w-full border-l border-r text-xs transition-all',
           isOpen
             ? 'max-h-[800px] overflow-auto border-b'
-            : 'max-h-0 overflow-hidden border-0',
-          'transition-all'
+            : 'max-h-0 overflow-hidden border-0'
         )}
       >
         {children}

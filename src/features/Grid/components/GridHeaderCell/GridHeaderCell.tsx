@@ -37,19 +37,18 @@ function GridHeaderCell({
     <div
       ref={headerRef}
       className={clsx(
-        'border text-center flex items-center justify-between relative group',
-        'group-hover:scale-125 hover:scale-125 group-hover:z-10 hover:z-10 transition-transform',
         headerColor(isRotated ? columnIndex : rowIndex),
+        'group relative flex items-center justify-between border text-center transition-transform hover:z-10 hover:scale-125 group-hover:z-10 group-hover:scale-125',
         isRotated
-          ? 'border-b-gray-400 hover:border-b-gray-200 hover:-translate-y-1/8 py-2 flex-col'
-          : 'border-r-gray-400 group-hover:border-r-gray-200 group-hover:-translate-x-1/8 px-2 flex-row'
+          ? 'flex-col border-b-gray-400 py-2 hover:-translate-y-1/8 hover:border-b-gray-200'
+          : 'flex-row border-r-gray-400 px-2 group-hover:-translate-x-1/8 group-hover:border-r-gray-200'
       )}
     >
       <div
         id={`${isRotated ? 'column' : 'row'}-header-cell-${columnIndex}-shadow`}
         data-column={isRotated ? columnIndex : null}
         className={clsx(
-          'absolute bg-gray-500 bg-opacity-5 hidden px-2 group-hover:block',
+          'absolute hidden bg-gray-500 bg-opacity-5 px-2 group-hover:block',
           isRotated ? 'top-0' : 'left-0'
         )}
         style={{
@@ -66,7 +65,7 @@ function GridHeaderCell({
         <Link
           to={`/edit?factionId=${factionId}`}
           onClick={openEditor}
-          className="opacity-0 group-hover:opacity-100 hover:opacity-100 block z-10"
+          className="z-10 block opacity-0 hover:opacity-100 group-hover:opacity-100"
           id={`${isRotated ? 'column' : 'row'}-header-cell-${columnIndex}-edit`}
         >
           <FontAwesomeIcon icon={faPenToSquare} />

@@ -11,11 +11,10 @@ function Editor() {
       <EditorLink onClick={openEditor} />
       <div
         className={clsx(
-          'bg-gray-900 z-20 fixed',
+          'fixed z-20 bg-gray-900 transition-colors duration-1000',
           isOpen
-            ? 'bg-opacity-75 w-full min-h-screen h-full'
-            : 'bg-opacity-0 w-0 h-0',
-          'transition-colors duration-1000'
+            ? 'h-full min-h-screen w-full bg-opacity-75'
+            : 'h-0 w-0 bg-opacity-0'
         )}
         onClick={closeEditor}
       />

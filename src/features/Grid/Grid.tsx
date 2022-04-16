@@ -38,7 +38,7 @@ function Grid({ headerRef, footerRef }: GridProps) {
   );
 
   return (
-    <div className="font-mono text-[8px] absolute left-0 md:left-1/2 md:-translate-x-1/2 md:top-1/2 md:-translate-y-1/2">
+    <div className="absolute left-0 font-mono text-[8px] md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2">
       <AnimatePresence>
         {factions && (
           <motion.div
@@ -49,7 +49,7 @@ function Grid({ headerRef, footerRef }: GridProps) {
             dragMomentum={false}
             ref={gridRef}
             dragConstraints={constraints}
-            className="grid relative shadow-xl border border-gray-400"
+            className="relative grid border border-gray-400 shadow-xl"
             style={{
               gridTemplateColumns: `${HEADER_SIZE} repeat(${factionIds.length},${CELL_COLUMN_WIDTH})`,
               gridTemplateRows: `${HEADER_SIZE} repeat(${factionIds.length},${CELL_ROW_HEIGHT})`,
@@ -68,7 +68,7 @@ function Grid({ headerRef, footerRef }: GridProps) {
               const faction = getFaction(factions, rowFactionId);
               const padRowIndex = rowIndex + 1;
               return (
-                <div key={`row-${rowFactionId}`} className="contents group">
+                <div key={`row-${rowFactionId}`} className="group contents">
                   <GridHeaderCell
                     rowIndex={padRowIndex}
                     columnIndex={0}

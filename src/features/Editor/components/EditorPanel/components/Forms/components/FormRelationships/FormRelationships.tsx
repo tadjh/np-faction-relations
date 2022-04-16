@@ -73,7 +73,7 @@ function FormRelationships({
   return (
     <>
       <FormHeader>{LABEL_TEXT_RELATIONSHIPS}</FormHeader>
-      <div className="flex flex-row px-2 gap-x-2">
+      <div className="flex flex-row gap-x-2 px-2">
         <div className="flex flex-col gap-y-2">
           {orderedRelationships.map((type, index) => {
             const relationship = getRelationship(state, type);
@@ -83,7 +83,7 @@ function FormRelationships({
                 htmlFor={type}
                 onClick={() => handleSelected(index)}
                 className={clsx(
-                  'flex items-center justify-between gap-x-1 cursor-pointer',
+                  'flex cursor-pointer items-center justify-between gap-x-1',
                   selected !== -1 && selected !== index && 'text-gray-400'
                 )}
               >
@@ -108,7 +108,7 @@ function FormRelationships({
                 key={composeSelectKey(type)}
                 name={type}
                 multiple
-                className="border w-full h-full"
+                className="h-full w-full border"
                 value={relationship}
                 onChange={(event) => handleRelationship(event, type)}
                 hidden={selected !== index}

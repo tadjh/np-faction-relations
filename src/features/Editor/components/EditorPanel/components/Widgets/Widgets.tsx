@@ -19,7 +19,7 @@ function Widgets() {
 
   if (shouldShowError) {
     return (
-      <span className="text-xs text-center">
+      <span className="text-center text-xs">
         {ERROR_TEXT_WIDGETS_PERMISSION_DENIED}
       </span>
     );

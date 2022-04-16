@@ -17,8 +17,8 @@ const UnwrappedCounter = ({
     <label
       htmlFor={`${name}Count`}
       className={clsx(
-        hidden ? 'opacity-0' : 'opacity-100',
-        'transition-opacity'
+        'transition-opacity',
+        hidden ? 'opacity-0' : 'opacity-100'
       )}
     >
       {children}
@@ -28,8 +28,7 @@ const UnwrappedCounter = ({
       name={`${name}Count`}
       className={clsx(
         hidden ? 'opacity-0' : 'opacity-100',
-        'border w-10 text-right',
-        'transition-opacity'
+        'w-10 border text-right transition-opacity'
       )}
       value={value}
       onChange={onChange}
@@ -40,7 +39,7 @@ const UnwrappedCounter = ({
 
 function Counter({ isWrapped = true, ...props }: CounterProps) {
   return isWrapped ? (
-    <div className="flex gap-x-2 items-center px-2">
+    <div className="flex items-center gap-x-2 px-2">
       <UnwrappedCounter {...props} />
     </div>
   ) : (

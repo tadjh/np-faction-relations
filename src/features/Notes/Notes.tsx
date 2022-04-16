@@ -30,8 +30,8 @@ function Notes() {
     <>
       <div
         className={clsx(
-          'absolute p-2.5 md:p-4 top-0 right-0 text-[8px] hover:underline font-mono z-10 flex gap-x-1 items-center',
-          isOpen ? 'opacity-0' : 'opacity-100 cursor-pointer'
+          'absolute top-0 right-0 z-10 flex items-center gap-x-1 p-2.5 font-mono text-[8px] hover:underline md:p-4',
+          isOpen ? 'opacity-0' : 'cursor-pointer opacity-100'
         )}
         onClick={handleOpen}
       >
@@ -46,29 +46,29 @@ function Notes() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             dragMomentum={false}
-            className="max-w-full w-[416px] absolute right-0 top-0 p-2.5 md:p-4 flex flex-col items-center group font-mono z-10"
+            className="group absolute right-0 top-0 z-10 flex w-[416px] max-w-full flex-col items-center p-2.5 font-mono md:p-4"
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}
           >
-            <div className="bg-gray-700 text-white w-full cursor-pointer">
-              <div className="flex justify-between items-center p-2">
-                <span className="flex-1 flex justify-start">
+            <div className="w-full cursor-pointer bg-gray-700 text-white">
+              <div className="flex items-center justify-between p-2">
+                <span className="flex flex-1 justify-start">
                   {LABEL_TEXT_NOTES}
                 </span>
-                <span className="text-xs flex flex-2 items-center justify-center gap-x-2">
+                <span className="flex-2 flex items-center justify-center gap-x-2 text-xs">
                   <IconButton
                     onClick={previous}
                     icon={faArrowLeft}
-                    className="opacity-0 group-hover:opacity-100 px-2.5 py-1.5"
+                    className="px-2.5 py-1.5 opacity-0 group-hover:opacity-100"
                   />
                   {`${slide + 1} of ${text.length}`}
                   <IconButton
                     onClick={next}
                     icon={faArrowRight}
-                    className="opacity-0 group-hover:opacity-100 px-2.5 py-1.5"
+                    className="px-2.5 py-1.5 opacity-0 group-hover:opacity-100"
                   />
                 </span>
-                <span className="text-white flex-1 text-right">
+                <span className="flex-1 text-right text-white">
                   <IconButton onClick={handleClose} icon={faXmark} />
                 </span>
               </div>
@@ -77,7 +77,7 @@ function Notes() {
                 style={{ width: `${progress}%` }}
               ></div>
             </div>
-            <div className="relative w-[378px] md:w-[392px] flex justify-center">
+            <div className="relative flex w-[378px] justify-center md:w-[392px]">
               <AnimatePresence initial={false}>
                 <motion.div
                   key={slide}
@@ -89,7 +89,7 @@ function Notes() {
                     x: { type: 'spring', stiffness: 300, damping: 30 },
                     opacity: { duration: 0.2 },
                   }}
-                  className="text-xs absolute w-[370px] md:w-[384px] border-l border-b border-r p-2 shadow-2xl bg-white"
+                  className="absolute w-[370px] border-l border-b border-r bg-white p-2 text-xs shadow-2xl md:w-[384px]"
                 >
                   {text[slide]}
                 </motion.div>

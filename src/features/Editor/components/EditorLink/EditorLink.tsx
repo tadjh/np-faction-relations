@@ -9,11 +9,11 @@ export interface EditLinkProps {
 
 function EditLink({ onClick }: EditLinkProps) {
   return (
-    <div className="absolute p-2.5 md:p-4 text-[8px] z-10 font-mono">
+    <div className="absolute z-10 p-2.5 font-mono text-[8px] md:p-4">
       <Link
         to="/edit"
         onClick={onClick}
-        className="hover:underline flex gap-x-1 items-center"
+        className="flex items-center gap-x-1 hover:underline"
       >
         <FontAwesomeIcon icon={faPenToSquare} />
         {EVENT_TEXT_EDIT}

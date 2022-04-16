@@ -48,10 +48,8 @@ function Legend({ onMouseEnter }: DOMAttributes<HTMLDivElement>) {
   return (
     <div
       className={clsx(
-        'flex justify-center items-center border-r border-b text-center',
-        'border-gray-400 relative hover:scale-125 hover:z-10 hover:border',
-        'transition-transform hover:-translate-x-1/8 hover:-translate-y-1/8 ',
-        headerColor()
+        headerColor(),
+        'relative flex items-center justify-center border-r border-b border-gray-400 text-center transition-transform hover:z-10 hover:-translate-x-1/8 hover:-translate-y-1/8 hover:scale-125 hover:border '
       )}
       style={{ width: HEADER_SIZE, height: HEADER_SIZE }}
       onMouseEnter={onMouseEnter}
@@ -61,10 +59,10 @@ function Legend({ onMouseEnter }: DOMAttributes<HTMLDivElement>) {
           return (
             <li
               key={`${index}-${name}`}
-              className="flex gap-x-1 items-center h-2.5"
+              className="flex h-2.5 items-center gap-x-1"
             >
               <span
-                className={clsx('block border border-gray-900 w-4 h-2', color)}
+                className={clsx('block h-2 w-4 border border-gray-900', color)}
               ></span>
               {name}
             </li>

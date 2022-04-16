@@ -9,7 +9,7 @@ export interface GridOverlayProps {
 function GridOverlay({ factionIds, columnRefs }: GridOverlayProps) {
   return (
     <div
-      className="absolute w-full h-full grid"
+      className="absolute grid h-full w-full"
       style={{
         gridTemplateColumns: `${HEADER_SIZE} repeat(${factionIds.length},${CELL_COLUMN_WIDTH})`,
       }}
@@ -22,7 +22,7 @@ function GridOverlay({ factionIds, columnRefs }: GridOverlayProps) {
             key={`column-overlay-${padColumnIndex}`}
             ref={columnRefs[padColumnIndex]}
             data-column={padColumnIndex}
-            className="bg-gray-500 bg-opacity-5 pointer-events-none"
+            className="pointer-events-none bg-gray-500 bg-opacity-5"
             style={{ opacity: 0 }}
           />
         );

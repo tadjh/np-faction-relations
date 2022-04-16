@@ -28,7 +28,7 @@ function GridCell({
     <div
       key={composeCellKey(rowIndex, columnIndex)}
       className={clsx(
-        'border text-center flex justify-center items-center relative group hover:scale-125 hover:z-10 transition-transform',
+        'group relative flex items-center justify-center border text-center transition-transform hover:z-10 hover:scale-125',
         backgroundColor({
           faction,
           columnIndex,
@@ -39,7 +39,7 @@ function GridCell({
     >
       <div
         data-column={columnIndex}
-        className="absolute bg-gray-500 bg-opacity-5 hidden group-hover:block"
+        className="absolute hidden bg-gray-500 bg-opacity-5 group-hover:block"
         style={{
           width: CELL_COLUMN_WIDTH,
           height: CELL_ROW_HEIGHT,

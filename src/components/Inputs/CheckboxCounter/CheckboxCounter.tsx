@@ -20,7 +20,7 @@ function CheckboxCounter({
   onChangeCount,
 }: CheckboxCounterProps) {
   return (
-    <div className="flex gap-x-2 items-center px-2 h-5">
+    <div className="flex h-5 items-center gap-x-2 px-2">
       <Checkbox
         name={name}
         checked={checked}

@@ -34,18 +34,18 @@ function SignIn() {
   };
 
   return (
-    <div className="flex items-center flex-col justify-center shadow w-full bg-white">
-      <div className="bg-gray-700 text-white text-opacity-90 w-full">
-        <div className="flex justify-between items-center p-2 group">
+    <div className="flex w-full flex-col items-center justify-center bg-white shadow">
+      <div className="w-full bg-gray-700 text-white text-opacity-90">
+        <div className="group flex items-center justify-between p-2">
           <span>{EVENT_TEXT_SIGN_IN}</span>
         </div>
       </div>
       <form
-        className="text-xs border-l border-b border-r w-full gap-y-2 flex flex-col"
+        className="flex w-full flex-col gap-y-2 border-l border-b border-r text-xs"
         onSubmit={handleSubmit}
       >
         <div className="px-2 pt-2">{ERROR_TEXT_EDITOR_PERMISSION_DENIED}</div>
-        <div className="w-full flex justify-end items-center p-2 h-11">
+        <div className="flex h-11 w-full items-center justify-end p-2">
           <SubmitButton isLoading={isFetching}>
             {EVENT_TEXT_SIGN_IN}
           </SubmitButton>

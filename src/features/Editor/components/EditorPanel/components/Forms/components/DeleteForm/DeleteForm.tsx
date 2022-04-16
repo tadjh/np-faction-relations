@@ -86,11 +86,11 @@ function DeleteForm() {
 
   return (
     <Accordian label="delete faction">
-      <form onSubmit={handleSubmit} className="gap-y-2 flex flex-col pt-4">
-        <div className="flex gap-x-2 items-center px-2">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-y-2 pt-4">
+        <div className="flex items-center gap-x-2 px-2">
           <label
             htmlFor="deleteFaction"
-            className="w-32 h-8 flex items-center gap-x-2"
+            className="flex h-8 w-32 items-center gap-x-2"
           >
             {LABEL_TEXT_SELECT_FACTION}
             <IconButton
@@ -116,7 +116,7 @@ function DeleteForm() {
               ))}
           </select>
         </div>
-        <div className="w-full flex justify-between items-center p-2 h-11">
+        <div className="flex h-11 w-full items-center justify-between p-2">
           <span
             className={clsx(
               mutation.isError && 'text-red-600',

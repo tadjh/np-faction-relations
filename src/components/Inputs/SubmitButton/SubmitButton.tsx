@@ -14,7 +14,7 @@ function SubmitButton({
 }: SubmitButtonProps) {
   if (isLoading) {
     return (
-      <div className="w-[72px] flex justify-center items-center">
+      <div className="flex w-[72px] items-center justify-center">
         <FontAwesomeIcon icon={faSpinner} />
       </div>
     );
@@ -24,9 +24,7 @@ function SubmitButton({
     <button
       type="submit"
       className={clsx(
-        'text-xs hover:cursor-pointer bg-gray-700 hover:bg-gray-900',
-        'border transition-colors text-white text-opacity-90 px-4 py-1',
-        'disabled:opacity-50 disabled:cursor-default hover:disabled:bg-gray-700'
+        'border bg-gray-700 px-4 py-1 text-xs text-white text-opacity-90 transition-colors hover:cursor-pointer hover:bg-gray-900 disabled:cursor-default disabled:opacity-50 hover:disabled:bg-gray-700'
       )}
       disabled={disabled}
     >

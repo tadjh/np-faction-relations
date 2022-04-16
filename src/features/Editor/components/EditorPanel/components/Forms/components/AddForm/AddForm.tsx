@@ -67,11 +67,11 @@ function AddForm() {
     <Accordian label="add faction">
       <form
         onSubmit={handleSubmit}
-        className="gap-y-2 flex flex-col"
+        className="flex flex-col gap-y-2"
         onFocus={handleReset}
       >
         <FormInfo state={state} handlers={handlers} />
-        <div className="w-full flex justify-between items-center p-2 h-11">
+        <div className="flex h-11 w-full items-center justify-between p-2">
           <span
             className={clsx(
               mutation.isError && 'text-red-600',

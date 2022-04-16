@@ -14,9 +14,8 @@ function EditPanel({ isOpen, onClose }: EditPanelProps) {
   return (
     <div
       className={clsx(
-        'fixed w-[394px] h-screen top-0 left-0 bg-gray-100 border shadow-md flex flex-col gap-y-4 p-4 z-30 overflow-scroll font-mono',
-        isOpen ? 'translate-x-0' : 'translate-x-[-500px]',
-        'transition-transform'
+        'fixed top-0 left-0 z-30 flex h-screen w-[394px] flex-col gap-y-4 overflow-scroll border bg-gray-100 p-4 font-mono shadow-md transition-transform',
+        isOpen ? 'translate-x-0' : 'translate-x-[-500px]'
       )}
     >
       <Routes>
