@@ -237,9 +237,7 @@ export function useApi() {
             : lastUpdate;
       });
 
-      const length = Object.keys(factions).length;
-
-      return { factions, lastUpdate, length };
+      return { factions, lastUpdate };
     } catch (error: any) {
       throw error;
     }

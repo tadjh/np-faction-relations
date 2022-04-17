@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { FormEventHandler, useRef } from 'react';
+import { FormEventHandler, useMemo, useRef } from 'react';
 import Accordian from '../../../../../../../../components/Accordian';
 import SubmitButton from '../../../../../../../../components/Inputs/SubmitButton';
 import { useMutation, useQueryClient } from 'react-query';
@@ -18,8 +18,12 @@ import { useFormData, useSnapshot } from '../../hooks';
 import toast from 'react-hot-toast';
 
 function AddForm() {
-  const { length, lastUpdate, factions } = useFactions();
-  const { state, handlers } = useFormData({ order: length });
+  const { lastUpdate, factions } = useFactions();
+  const order = useMemo(
+    () => (factions ? Object.keys(factions).length : 0),
+    [factions]
+  );
+  const { state, handlers } = useFormData({ order });
   const { createFaction } = useApi();
   const { handleSnapshot } = useSnapshot();
   const queryClient = useQueryClient();

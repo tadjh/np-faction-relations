@@ -4,7 +4,6 @@ import { Factions } from '../types';
 
 export interface FactionsContextType {
   factions: Factions | null;
-  length: number;
   lastUpdate: Timestamp;
 }
 
