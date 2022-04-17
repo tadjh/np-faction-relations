@@ -20,7 +20,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import clsx from 'clsx';
 
 const orderedRelationships: Relationship[] = [
-  'associates',
+  'affiliates',
   'allies',
   'friends',
   'coldWars',

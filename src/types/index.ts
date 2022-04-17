@@ -14,7 +14,7 @@ export interface User {
 
 export type Relationship =
   | 'allies'
-  | 'associates'
+  | 'affiliates'
   | 'coldWars'
   | 'enemies'
   | 'friends'

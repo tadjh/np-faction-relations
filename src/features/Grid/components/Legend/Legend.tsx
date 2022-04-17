@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { DOMAttributes } from 'react';
 import {
-  COLOR_ASSOCIATE,
+  COLOR_AFFILIATE,
   COLOR_ALLY,
   COLOR_FRIEND,
   COLOR_COLD_WAR,
@@ -12,7 +12,7 @@ import {
   HEADER_SIZE,
 } from '../../config/constants';
 import {
-  RELATION_ASSOCIATES,
+  RELATION_AFFILIATES,
   RELATION_ALLIES,
   RELATION_FRIENDS,
   RELATION_COLD_WARS,
@@ -24,7 +24,7 @@ import {
 import { headerColor } from '../../config/styles';
 
 type LegendData =
-  | { name: typeof RELATION_ASSOCIATES; color: typeof COLOR_ASSOCIATE }
+  | { name: typeof RELATION_AFFILIATES; color: typeof COLOR_AFFILIATE }
   | { name: typeof RELATION_ALLIES; color: typeof COLOR_ALLY }
   | { name: typeof RELATION_FRIENDS; color: typeof COLOR_FRIEND }
   | { name: typeof RELATION_COLD_WARS; color: typeof COLOR_COLD_WAR }
@@ -34,7 +34,7 @@ type LegendData =
   | { name: typeof RELATION_HAS_LAB; color: typeof COLOR_HAS_LAB };
 
 const legend: LegendData[] = [
-  { name: RELATION_ASSOCIATES, color: COLOR_ASSOCIATE },
+  { name: RELATION_AFFILIATES, color: COLOR_AFFILIATE },
   { name: RELATION_ALLIES, color: COLOR_ALLY },
   { name: RELATION_FRIENDS, color: COLOR_FRIEND },
   { name: RELATION_COLD_WARS, color: COLOR_COLD_WAR },

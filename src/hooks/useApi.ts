@@ -264,15 +264,24 @@ export function useApi() {
     }
   };
 
-  const getFactionsFix = async (): Promise<FactionsContextType> => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const getFactionsFix = async () => {
     try {
       const docs = await getDocs(FACTION_COLLECTION_QUERY);
 
       let factions: Factions = {};
       let lastUpdate = new Timestamp(0, 0);
       docs.forEach((doc) => {
-        const data = doc.data();
-        factions = { ...factions, [doc.id]: { ...data, active: true } };
+        const data: any = doc.data();
+        const affiliates = [...data.relationships.associates];
+        delete data.relationships.associates;
+        factions = {
+          ...factions,
+          [doc.id]: {
+            ...data,
+            relationships: { ...data.relationships, affiliates },
+          },
+        };
         lastUpdate =
           data.updated && data.updated.toMillis() > lastUpdate.toMillis()
             ? data.updated
@@ -313,6 +322,5 @@ export function useApi() {
     deleteFaction,
     getFactions,
     createSnapshot,
-    getFactionsFix,
   };
 }

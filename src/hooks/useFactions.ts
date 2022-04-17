@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import {
-  LABEL_TEXT_ASSOCIATES,
+  LABEL_TEXT_AFFILIATES,
   LABEL_TEXT_ALLIES,
   LABEL_TEXT_FRIENDS,
   LABEL_TEXT_COLD_WARS,
@@ -47,8 +47,8 @@ export function getAllies(faction: TimestampedFaction) {
   return faction.relationships.allies;
 }
 
-export function getAssociates(faction: TimestampedFaction) {
-  return faction.relationships.associates;
+export function getAffiliates(faction: TimestampedFaction) {
+  return faction.relationships.affiliates;
 }
 
 export function getColdWars(faction: TimestampedFaction) {
@@ -74,8 +74,8 @@ export function getRelationship(
   switch (type) {
     case 'allies':
       return getAllies(faction);
-    case 'associates':
-      return getAssociates(faction);
+    case 'affiliates':
+      return getAffiliates(faction);
     case 'coldWars':
       return getColdWars(faction);
     case 'enemies':
@@ -93,8 +93,8 @@ export function getLabelText(type: Relationship) {
   switch (type) {
     case 'allies':
       return LABEL_TEXT_ALLIES;
-    case 'associates':
-      return LABEL_TEXT_ASSOCIATES;
+    case 'affiliates':
+      return LABEL_TEXT_AFFILIATES;
     case 'coldWars':
       return LABEL_TEXT_COLD_WARS;
     case 'enemies':

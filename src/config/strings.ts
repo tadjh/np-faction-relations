@@ -4,7 +4,7 @@ export const LOGO_ALT_TEXT = 'nopixel logo';
 export const LABEL_TEXT_NAME = 'name';
 export const LABEL_TEXT_DISPLAY_NAME = 'display name';
 
-export const LABEL_TEXT_ASSOCIATES = 'associates';
+export const LABEL_TEXT_AFFILIATES = 'affiliates';
 export const LABEL_TEXT_ALLIES = 'allies';
 export const LABEL_TEXT_FRIENDS = 'friends';
 export const LABEL_TEXT_COLD_WARS = 'cold wars';

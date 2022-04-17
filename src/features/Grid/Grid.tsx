@@ -16,7 +16,6 @@ import clsx from 'clsx';
 
 function Grid() {
   const { factions } = useFactions();
-  // const { gridRef, constraints } = useGrid(headerRef, footerRef);
 
   const factionIds = useMemo(
     () =>

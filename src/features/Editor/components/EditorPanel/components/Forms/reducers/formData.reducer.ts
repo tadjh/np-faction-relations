@@ -4,7 +4,7 @@ import {
   SET_ALL,
   SET_ACTIVE,
   SET_ALLIES,
-  SET_ASSOCIATES,
+  SET_AFFILIATES,
   SET_BENCH_COUNT,
   SET_COLD_WAR,
   SET_DISPLAY_NAME,
@@ -34,7 +34,7 @@ export const initialState: TimestampedFaction = {
   order: 0,
   relationships: {
     allies: [],
-    associates: [],
+    affiliates: [],
     coldWars: [],
     enemies: [],
     friends: [],
@@ -57,7 +57,7 @@ export type FactionAction =
   | { type: typeof SET_HAS_LAB }
   | { type: typeof SET_LAB_COUNT; payload: number }
   | { type: typeof SET_ALLIES; payload: string[] }
-  | { type: typeof SET_ASSOCIATES; payload: string[] }
+  | { type: typeof SET_AFFILIATES; payload: string[] }
   | { type: typeof SET_COLD_WAR; payload: string[] }
   | { type: typeof SET_ENEMIES; payload: string[] }
   | { type: typeof SET_FRIENDS; payload: string[] }
@@ -132,12 +132,12 @@ export function reducer(
           allies: action.payload,
         },
       };
-    case SET_ASSOCIATES:
+    case SET_AFFILIATES:
       return {
         ...state,
         relationships: {
           ...state.relationships,
-          associates: action.payload,
+          affiliates: action.payload,
         },
       };
     case SET_COLD_WAR:

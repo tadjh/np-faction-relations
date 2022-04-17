@@ -7,7 +7,7 @@ export const CELL_ROW_HEIGHT =
   (BASE_SPACING * (MULTIPLIER - 1)) / BASE_FONT_SIZE + 'rem';
 export const HEADER_SIZE = '5.75rem';
 
-export const COLOR_ASSOCIATE = 'bg-lime-900';
+export const COLOR_AFFILIATE = 'bg-lime-900';
 export const COLOR_ALLY = 'bg-lime-600';
 export const COLOR_FRIEND = 'bg-lime-300';
 export const COLOR_HOT_WAR = 'bg-red-600';

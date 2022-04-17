@@ -3,7 +3,7 @@ import {
   COLOR_HAS_BENCH,
   COLOR_HAS_LAB,
   COLOR_BACKGROUND_LINE,
-  COLOR_ASSOCIATE,
+  COLOR_AFFILIATE,
   COLOR_ALLY,
   COLOR_FRIEND,
   COLOR_COLD_WAR,
@@ -15,7 +15,7 @@ import {
 import {
   getHasBench,
   getHasLab,
-  getAssociates,
+  getAffiliates,
   getAllies,
   getFriends,
   getColdWars,
@@ -57,9 +57,9 @@ export function useStyles() {
       return COLOR_BACKGROUND_LINE;
     }
 
-    for (let associate of getAssociates(faction)) {
-      if (isNotEqual(associate, columnFactionId)) continue;
-      return COLOR_ASSOCIATE;
+    for (let affiliate of getAffiliates(faction)) {
+      if (isNotEqual(affiliate, columnFactionId)) continue;
+      return COLOR_AFFILIATE;
     }
 
     for (let ally of getAllies(faction)) {

@@ -5,7 +5,7 @@ import {
   SET_ACTIVE,
   SET_ALL,
   SET_ALLIES,
-  SET_ASSOCIATES,
+  SET_AFFILIATES,
   SET_BENCH_COUNT,
   SET_COLD_WAR,
   SET_DISPLAY_NAME,
@@ -34,7 +34,7 @@ export interface FormDataHandlers {
   handleHasLab: ChangeEventHandler<HTMLInputElement>;
   handleLabCount: ChangeEventHandler<HTMLInputElement>;
   handleAllies: ChangeEventHandler<HTMLSelectElement>;
-  handleAssociates: ChangeEventHandler<HTMLSelectElement>;
+  handleAffiliates: ChangeEventHandler<HTMLSelectElement>;
   handleColdWars: ChangeEventHandler<HTMLSelectElement>;
   handleEnemies: ChangeEventHandler<HTMLSelectElement>;
   handleFriends: ChangeEventHandler<HTMLSelectElement>;
@@ -45,7 +45,7 @@ export interface FormDataHandlers {
   ) => void;
   resetState: VoidFunction;
   resetAllies: VoidFunction;
-  resetAssociates: VoidFunction;
+  resetAffiliates: VoidFunction;
   resetColdWars: VoidFunction;
   resetEnemies: VoidFunction;
   resetFriends: VoidFunction;
@@ -99,9 +99,9 @@ export function useFormData(props?: Partial<TimestampedFaction>): UseFormData {
       payload: formatRelationshipSet(event.target.selectedOptions),
     });
 
-  const handleAssociates: ChangeEventHandler<HTMLSelectElement> = (event) =>
+  const handleAffiliates: ChangeEventHandler<HTMLSelectElement> = (event) =>
     dispatch({
-      type: SET_ASSOCIATES,
+      type: SET_AFFILIATES,
       payload: formatRelationshipSet(event.target.selectedOptions),
     });
 
@@ -136,8 +136,8 @@ export function useFormData(props?: Partial<TimestampedFaction>): UseFormData {
     switch (type) {
       case 'allies':
         return handleAllies(event);
-      case 'associates':
-        return handleAssociates(event);
+      case 'affiliates':
+        return handleAffiliates(event);
       case 'coldWars':
         return handleColdWars(event);
       case 'enemies':
@@ -157,10 +157,10 @@ export function useFormData(props?: Partial<TimestampedFaction>): UseFormData {
       type: SET_ALLIES,
       payload: props?.relationships?.allies || [],
     });
-  const resetAssociates = () =>
+  const resetAffiliates = () =>
     dispatch({
-      type: SET_ASSOCIATES,
-      payload: props?.relationships?.associates || [],
+      type: SET_AFFILIATES,
+      payload: props?.relationships?.affiliates || [],
     });
   const resetColdWars = () =>
     dispatch({
@@ -187,8 +187,8 @@ export function useFormData(props?: Partial<TimestampedFaction>): UseFormData {
     switch (type) {
       case 'allies':
         return resetAllies();
-      case 'associates':
-        return resetAssociates();
+      case 'affiliates':
+        return resetAffiliates();
       case 'coldWars':
         return resetColdWars();
       case 'enemies':
@@ -216,7 +216,7 @@ export function useFormData(props?: Partial<TimestampedFaction>): UseFormData {
       handleHasLab,
       handleLabCount,
       handleAllies,
-      handleAssociates,
+      handleAffiliates,
       handleColdWars,
       handleEnemies,
       handleFriends,
@@ -224,7 +224,7 @@ export function useFormData(props?: Partial<TimestampedFaction>): UseFormData {
       handleRelationship,
       resetState,
       resetAllies,
-      resetAssociates,
+      resetAffiliates,
       resetColdWars,
       resetEnemies,
       resetFriends,
