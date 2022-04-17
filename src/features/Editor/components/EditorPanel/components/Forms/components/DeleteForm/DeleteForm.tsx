@@ -14,7 +14,6 @@ import { useApi, useFactions } from '../../../../../../../../hooks';
 import {
   getErrorMessage,
   isEmptyString,
-  shouldCreateSnapshot,
   shouldResetMutation,
 } from '../../../../../../../../utils';
 import Accordian from '../../../../../../../../components/Accordian';
@@ -27,7 +26,7 @@ import { useSnapshot } from '../../hooks';
 function DeleteForm() {
   const [selected, setSelected] = useState('');
   const { deleteFaction } = useApi();
-  const { snapshotMutation } = useSnapshot();
+  const { handleSnapshot } = useSnapshot();
   const { lastUpdate, factions } = useFactions();
   const queryClient = useQueryClient();
 
@@ -77,9 +76,7 @@ function DeleteForm() {
   const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
 
-    if (shouldCreateSnapshot(lastUpdate)) {
-      snapshotMutation.mutate(factions);
-    }
+    handleSnapshot(factions, lastUpdate);
 
     mutation.mutate(selected);
   };

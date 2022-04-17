@@ -2,6 +2,7 @@ import {
   addDoc,
   getDocs,
   serverTimestamp,
+  Timestamp,
   updateDoc,
   writeBatch,
 } from 'firebase/firestore';
@@ -226,17 +227,15 @@ export function useApi() {
     try {
       const docs = await getDocs(FACTION_COLLECTION_QUERY);
       let factions = {};
-      let lastUpdate = 0;
+      let lastUpdate = new Timestamp(0, 0);
       docs.forEach((doc) => {
         const data = doc.data();
         factions = { ...factions, [doc.id]: data };
         lastUpdate =
-          data.updated && data.updated.seconds > lastUpdate
-            ? data.updated.seconds
+          data.updated && data.updated.toMillis() > lastUpdate.toMillis()
+            ? data.updated
             : lastUpdate;
       });
-
-      lastUpdate = lastUpdate * 1000;
 
       const length = Object.keys(factions).length;
 
@@ -246,11 +245,17 @@ export function useApi() {
     }
   };
 
-  const createSnapshot = async (data: Factions | null) => {
-    if (!data) return;
+  interface CreateSnapshot {
+    factions: Factions;
+    lastUpdate: Timestamp;
+  }
+
+  const createSnapshot = async ({ factions, lastUpdate }: CreateSnapshot) => {
+    if (!factions) return;
 
     const newDoc: Snapshot = {
-      factions: data,
+      factions,
+      lastUpdate,
       created: serverTimestamp(),
     };
     try {

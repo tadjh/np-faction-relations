@@ -5,13 +5,12 @@ import {
   PROJECT_ID,
 } from '../../config/environment';
 import { useFactions } from '../../hooks';
-import { dateToString } from '../../utils';
 
 function Footer() {
   const { lastUpdate } = useFactions();
   return (
     <AnimatePresence>
-      {!!lastUpdate && (
+      {lastUpdate.seconds > 0 && (
         <motion.footer
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -20,7 +19,7 @@ function Footer() {
         >
           <div>{IS_DEVELOPMENT ? PROJECT_ID : DOMAIN_NAME}</div>
           <div className="text-right">
-            {`Last updated ${dateToString(lastUpdate)}`}
+            {`Last updated ${lastUpdate.toDate().toString()}`}
           </div>
         </motion.footer>
       )}

@@ -62,5 +62,6 @@ export interface ServerFactions {
 
 export interface Snapshot {
   factions: Factions;
+  lastUpdate: Timestamp;
   created: FieldValue;
 }

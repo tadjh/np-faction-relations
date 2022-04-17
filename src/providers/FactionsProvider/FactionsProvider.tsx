@@ -7,6 +7,7 @@ import FactionsContext, {
 } from '../../contexts/factions.context';
 import { useApi } from '../../hooks';
 import { getErrorMessage } from '../../utils';
+import { Timestamp } from 'firebase/firestore';
 
 function FactionsProvider({ children }: { children: ReactNode }) {
   const { getFactions } = useApi();
@@ -18,7 +19,7 @@ function FactionsProvider({ children }: { children: ReactNode }) {
   const value: FactionsContextType = {
     factions: data?.factions || null,
     length: data?.length || 0,
-    lastUpdate: data?.lastUpdate || 0,
+    lastUpdate: data?.lastUpdate || new Timestamp(0, 0),
   };
 
   return (

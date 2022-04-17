@@ -12,10 +12,7 @@ import {
   CREATE_FACTION_IS_ERROR_TEXT,
 } from '../../../../config/strings';
 import { COLLECTION_FACTIONS } from '../../../../../../../../config/environment';
-import {
-  getErrorMessage,
-  shouldCreateSnapshot,
-} from '../../../../../../../../utils';
+import { getErrorMessage } from '../../../../../../../../utils';
 import FormInfo from '../FormInfo';
 import { useFormData, useSnapshot } from '../../hooks';
 import toast from 'react-hot-toast';
@@ -24,7 +21,7 @@ function AddForm() {
   const { length, lastUpdate, factions } = useFactions();
   const { state, handlers } = useFormData({ order: length });
   const { createFaction } = useApi();
-  const { snapshotMutation } = useSnapshot();
+  const { handleSnapshot } = useSnapshot();
   const queryClient = useQueryClient();
   const hasSumbitted = useRef(false);
 
@@ -55,9 +52,7 @@ function AddForm() {
   const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
 
-    if (shouldCreateSnapshot(lastUpdate)) {
-      snapshotMutation.mutate(factions);
-    }
+    handleSnapshot(factions, lastUpdate);
 
     hasSumbitted.current = true;
     mutation.mutate(state);

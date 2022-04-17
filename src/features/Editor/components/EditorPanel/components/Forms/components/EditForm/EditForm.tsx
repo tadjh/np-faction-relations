@@ -23,7 +23,6 @@ import {
   getErrorMessage,
   isEmptyString,
   isNotEmptyString,
-  shouldCreateSnapshot,
 } from '../../../../../../../../utils';
 import Accordian from '../../../../../../../../components/Accordian';
 import FormInfo from '../FormInfo';
@@ -41,7 +40,7 @@ function EditForm() {
   const { lastUpdate, factions } = useFactions();
   const [currentFaction, setCurrentFaction] = useState('');
   const { editFaction } = useApi();
-  const { snapshotMutation } = useSnapshot();
+  const { handleSnapshot } = useSnapshot();
   const queryClient = useQueryClient();
   let [searchParams] = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
@@ -51,6 +50,7 @@ function EditForm() {
     if (!factionId) return;
     loadFaction(factions, factionId);
     setIsOpen(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [factionId]);
 
   const mutation = useMutation(editFaction, {
@@ -96,9 +96,7 @@ function EditForm() {
 
     if (mutation.isError) return handleReset();
 
-    if (shouldCreateSnapshot(lastUpdate)) {
-      snapshotMutation.mutate(factions);
-    }
+    handleSnapshot(factions, lastUpdate);
 
     if (factions) {
       const prev = factions[currentFaction];
