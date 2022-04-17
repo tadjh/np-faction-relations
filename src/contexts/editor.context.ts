@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 
 export interface EditorContextType {
-  isOpen: boolean;
+  isEditorOpen: boolean;
   openEditor: VoidFunction;
   closeEditor: VoidFunction;
 }

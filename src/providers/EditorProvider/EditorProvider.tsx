@@ -3,16 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import EditorContext from '../../contexts/editor.context';
 
 function EditorProvider({ children }: { children: ReactNode }) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isEditorOpen, setIsEditorOpen] = useState(false);
   let navigate = useNavigate();
 
-  const openEditor = () => setIsOpen(true);
+  const openEditor = () => setIsEditorOpen(true);
 
   const closeEditor = () => {
-    setIsOpen(false);
+    setIsEditorOpen(false);
     navigate('/');
   };
-  const value = { isOpen, openEditor, closeEditor };
+  const value = { isEditorOpen, openEditor, closeEditor };
   return (
     <EditorContext.Provider value={value}>{children}</EditorContext.Provider>
   );

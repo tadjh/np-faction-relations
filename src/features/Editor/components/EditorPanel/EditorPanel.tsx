@@ -14,7 +14,7 @@ function EditPanel({ isOpen, onClose }: EditPanelProps) {
   return (
     <div
       className={clsx(
-        'fixed top-0 left-0 z-30 flex h-screen w-[394px] flex-col gap-y-4 overflow-scroll border bg-gray-100 p-4 font-mono shadow-md transition-transform',
+        'fixed top-0 left-0 z-100 flex h-screen w-[394px] flex-col gap-y-4 overflow-scroll border bg-gray-100 p-4 font-mono shadow-md transition-transform',
         isOpen ? 'translate-x-0' : 'translate-x-[-500px]'
       )}
     >
