@@ -1,18 +1,16 @@
-import { useRef } from 'react';
 import Footer from '../Footer';
 import Grid from '../../features/Grid';
 import Header from '../Header';
+import Main from '../Main';
 
 function Layout() {
-  const headerRef = useRef<HTMLDivElement | null>(null);
-  const footerRef = useRef<HTMLDivElement | null>(null);
   return (
-    <div className="relative flex h-screen flex-col items-center overflow-hidden p-2.5 font-mono md:p-4">
-      <Header ref={headerRef} />
-      <div className="relative w-full flex-1">
-        <Grid headerRef={headerRef} footerRef={footerRef} />
-      </div>
-      <Footer ref={footerRef} />
+    <div className="flex h-screen max-h-screen flex-col gap-y-2 p-2.5 font-mono md:items-center md:p-4">
+      <Header />
+      <Main>
+        <Grid />
+      </Main>
+      <Footer />
     </div>
   );
 }
