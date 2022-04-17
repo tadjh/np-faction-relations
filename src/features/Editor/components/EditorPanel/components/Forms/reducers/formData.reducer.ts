@@ -16,11 +16,12 @@ import {
   SET_LAB_COUNT,
   SET_NAME,
   SET_ORDER,
+  SET_VISIBILITY,
 } from '../config/constants';
 import { TimestampedFaction } from '../../../../../../../types';
 
 export const initialState: TimestampedFaction = {
-  visibility: 'public',
+  active: true,
   attributes: {
     benchCount: 0,
     hasBench: false,
@@ -40,11 +41,13 @@ export const initialState: TimestampedFaction = {
     hotWars: [],
   },
   updated: new Timestamp(0, 0),
+  visibility: 'public',
 };
 
 export type FactionAction =
   | { type: typeof INIT; payload: Partial<TimestampedFaction> }
   | { type: typeof SET_ALL; payload: TimestampedFaction }
+  | { type: typeof SET_VISIBILITY }
   | { type: typeof SET_ACTIVE }
   | { type: typeof SET_DISPLAY_NAME; payload: string }
   | { type: typeof SET_NAME; payload: string }
@@ -70,9 +73,16 @@ export function reducer(
     case SET_ALL:
       return { ...state, ...action.payload };
     case SET_ACTIVE:
+      const active = !state.active;
       return {
         ...state,
-        visibility: state.visibility === 'public' ? 'private' : 'public',
+        active,
+      };
+    case SET_VISIBILITY:
+      const visibility = state.visibility === 'public' ? 'private' : 'public';
+      return {
+        ...state,
+        visibility: visibility,
       };
     case SET_DISPLAY_NAME:
       return { ...state, displayName: action.payload };

@@ -34,12 +34,13 @@ export type AttributeData = {
 };
 
 export interface Faction {
-  visibility: 'public' | 'private';
+  active: boolean;
   attributes: AttributeData;
   displayName: string;
   name: string;
   order: number;
   relationships: Relationships;
+  visibility: 'public' | 'private';
 }
 
 export interface TimestampedFaction extends Faction {

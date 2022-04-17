@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { DOMAttributes, HTMLAttributes, RefObject } from 'react';
+import { HTMLAttributes, RefObject } from 'react';
 import {
   CELL_COLUMN_WIDTH,
   CELL_ROW_HEIGHT,

@@ -17,12 +17,14 @@ import {
   SET_LAB_COUNT,
   SET_NAME,
   SET_ORDER,
+  SET_VISIBILITY,
 } from '../config/constants';
 import { initialState, reducer } from '../reducers/formData.reducer';
 import { Relationship, TimestampedFaction } from '../../../../../../../types';
 
 export interface FormDataHandlers {
   handleSetAll: (data: TimestampedFaction | null) => void;
+  handleVisibility: ChangeEventHandler<HTMLInputElement>;
   handleActive: ChangeEventHandler<HTMLInputElement>;
   handleDisplayName: ChangeEventHandler<HTMLInputElement>;
   handleName: ChangeEventHandler<HTMLInputElement>;
@@ -63,8 +65,11 @@ export function useFormData(props?: Partial<TimestampedFaction>): UseFormData {
     if (!data) return;
     dispatch({ type: SET_ALL, payload: data });
   };
-  const handleActive: ChangeEventHandler<HTMLInputElement> = () =>
+  const handleVisibility: ChangeEventHandler<HTMLInputElement> = () =>
+    dispatch({ type: SET_VISIBILITY });
+  const handleActive: ChangeEventHandler<HTMLInputElement> = () => {
     dispatch({ type: SET_ACTIVE });
+  };
   const handleDisplayName: ChangeEventHandler<HTMLInputElement> = (event) =>
     dispatch({ type: SET_DISPLAY_NAME, payload: sanitize(event.target.value) });
   const handleName: ChangeEventHandler<HTMLInputElement> = (event) =>
@@ -201,6 +206,7 @@ export function useFormData(props?: Partial<TimestampedFaction>): UseFormData {
     state,
     handlers: {
       handleSetAll,
+      handleVisibility,
       handleActive,
       handleDisplayName,
       handleName,

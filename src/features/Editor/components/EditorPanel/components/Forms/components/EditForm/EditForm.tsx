@@ -14,6 +14,7 @@ import {
 } from '../../../../config/strings';
 
 import {
+  getActive,
   getFaction,
   getName,
   useApi,
@@ -34,6 +35,7 @@ import IconButton from '../../../../../../../../components/Inputs/IconButton';
 import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
 import { useSearchParams } from 'react-router-dom';
 import { Factions } from '../../../../../../../../types';
+import Checkbox from '../../../../../../../../components/Inputs/Checkbox';
 
 function EditForm() {
   const { state, handlers } = useFormData();
@@ -155,6 +157,14 @@ function EditForm() {
           )}
         >
           <FormInfo state={state} handlers={handlers} />
+          <Checkbox
+            name="active"
+            checked={getActive(state)}
+            onChange={handlers.handleActive}
+            className="h-5 px-2"
+          >
+            show?
+          </Checkbox>
           <FormRelationships
             state={state}
             handlers={handlers}

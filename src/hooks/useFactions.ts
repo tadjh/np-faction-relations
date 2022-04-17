@@ -23,6 +23,10 @@ export function getDisplayName(faction: TimestampedFaction) {
   return faction.displayName;
 }
 
+export function getActive(faction: TimestampedFaction) {
+  return faction.active;
+}
+
 export function getHasBench(faction: TimestampedFaction) {
   return faction.attributes.hasBench;
 }
@@ -117,6 +121,11 @@ export function composeFullName(faction: TimestampedFaction) {
 
 export function composeShortName(faction: TimestampedFaction) {
   return getDisplayName(faction) || getName(faction);
+}
+
+export function shouldShow(factions: Factions | null, factionId: string) {
+  if (!factions) return false;
+  return getActive(factions[factionId]);
 }
 
 export function useFactions() {

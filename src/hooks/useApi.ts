@@ -264,11 +264,55 @@ export function useApi() {
     }
   };
 
+  const getFactionsFix = async (): Promise<FactionsContextType> => {
+    try {
+      const docs = await getDocs(FACTION_COLLECTION_QUERY);
+
+      let factions: Factions = {};
+      let lastUpdate = new Timestamp(0, 0);
+      docs.forEach((doc) => {
+        const data = doc.data();
+        factions = { ...factions, [doc.id]: { ...data, active: true } };
+        lastUpdate =
+          data.updated && data.updated.toMillis() > lastUpdate.toMillis()
+            ? data.updated
+            : lastUpdate;
+      });
+
+      const batch = writeBatch(db);
+
+      for (let docId in factions) {
+        batch.update(factionDocumentReference(docId), {
+          ...factions[docId],
+        });
+        if (IS_DEVELOPMENT)
+          console.log(
+            '%cFaction:',
+            'font-weight: bold',
+            factions[docId].name,
+            `[${docId}]`,
+            'edited'
+          );
+      }
+
+      try {
+        await batch.commit();
+      } catch (error: any) {
+        throw error;
+      }
+
+      return { factions, lastUpdate };
+    } catch (error: any) {
+      throw error;
+    }
+  };
+
   return {
     createFaction,
     editFaction,
     deleteFaction,
     getFactions,
     createSnapshot,
+    getFactionsFix,
   };
 }

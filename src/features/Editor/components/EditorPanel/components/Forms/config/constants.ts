@@ -14,3 +14,4 @@ export const SET_COLD_WAR = 'SET COLD WAR';
 export const SET_HOT_WAR = 'SET HOT WAR';
 export const SET_ENEMIES = 'SET ENEMIES';
 export const SET_FRIENDS = 'SET FRIENDS';
+export const SET_VISIBILITY = 'SET VISIBILITY';

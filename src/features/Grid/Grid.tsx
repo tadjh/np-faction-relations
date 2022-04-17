@@ -5,7 +5,7 @@ import {
   CELL_ROW_HEIGHT,
   HEADER_SIZE,
 } from './config/constants';
-import { getFaction, useFactions } from '../../hooks';
+import { getFaction, shouldShow, useFactions } from '../../hooks';
 import GridCell from './components/GridCell';
 import GridHeader from './components/GridHeader';
 import GridHeaderCell from './components/GridHeaderCell';
@@ -18,7 +18,13 @@ function Grid() {
   const { factions } = useFactions();
   // const { gridRef, constraints } = useGrid(headerRef, footerRef);
 
-  const factionIds = useMemo(() => Object.keys(factions || {}), [factions]);
+  const factionIds = useMemo(
+    () =>
+      Object.keys(factions || {}).filter((factionId) =>
+        shouldShow(factions, factionId)
+      ),
+    [factions]
+  );
   const columnRefs = useMemo(
     () => ['legend', ...factionIds].map(() => createRef<HTMLDivElement>()),
     [factionIds]
