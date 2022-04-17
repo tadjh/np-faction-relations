@@ -1,11 +1,8 @@
-import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
 import { LABEL_TEXT_NOTES } from '../../config/strings';
 import { variants } from './config';
-import useNotes from './hooks/useNotes';
+import { useAnimations, useNotes } from './hooks';
 import text from './config/text';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faNoteSticky } from '@fortawesome/free-solid-svg-icons';
 import IconButton from '../../components/Inputs/IconButton';
 import {
   faXmark,
@@ -14,30 +11,18 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 function Notes() {
+  const { isNotesOpen: isOpen, closeNotes: handleClose } = useNotes();
   const {
-    isOpen,
     slide,
     progress,
-    handleOpen,
-    handleClose,
     previous,
     next,
     handleOnMouseEnter,
     handleOnMouseLeave,
-  } = useNotes(text.length);
+  } = useAnimations(text.length, isOpen);
 
   return (
     <>
-      <div
-        className={clsx(
-          'absolute top-0 right-0 z-10 flex items-center gap-x-1 p-2.5 font-mono text-[8px] hover:underline md:p-4',
-          isOpen ? 'opacity-0' : 'cursor-pointer opacity-100'
-        )}
-        onClick={handleOpen}
-      >
-        <FontAwesomeIcon icon={faNoteSticky} />
-        {LABEL_TEXT_NOTES}
-      </div>
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -46,7 +31,7 @@ function Notes() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             dragMomentum={false}
-            className="group absolute right-0 top-0 z-10 flex w-[416px] max-w-full flex-col items-center p-2.5 font-mono md:p-4"
+            className="group absolute right-0 top-0 z-50 flex w-[416px] max-w-full flex-col items-center p-2.5 font-mono md:p-4"
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}
           >

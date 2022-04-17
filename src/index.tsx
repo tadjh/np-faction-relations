@@ -8,6 +8,7 @@ import FactionsProvider from './providers/FactionsProvider';
 import { BrowserRouter } from 'react-router-dom';
 import AuthProvider from './providers/AuthProvider';
 import EditorProvider from './providers/EditorProvider';
+import NotesProvider from './providers/NotesProvider';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,7 +25,9 @@ ReactDOM.render(
         <FactionsProvider>
           <AuthProvider>
             <EditorProvider>
-              <App />
+              <NotesProvider>
+                <App />
+              </NotesProvider>
             </EditorProvider>
           </AuthProvider>
         </FactionsProvider>
