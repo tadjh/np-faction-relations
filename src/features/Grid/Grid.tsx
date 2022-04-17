@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { MutableRefObject, useMemo, createRef } from 'react';
+import { useMemo, createRef } from 'react';
 import {
   CELL_COLUMN_WIDTH,
   CELL_ROW_HEIGHT,
@@ -10,17 +10,13 @@ import GridCell from './components/GridCell';
 import GridHeader from './components/GridHeader';
 import GridHeaderCell from './components/GridHeaderCell';
 import GridOverlay from './components/GridOverlay';
-import { useGrid, useHighlight } from './hooks';
+import { useHighlight } from './hooks';
 import { composeCellKey } from './utils';
+import clsx from 'clsx';
 
-export interface GridProps {
-  headerRef: MutableRefObject<HTMLDivElement | null>;
-  footerRef: MutableRefObject<HTMLDivElement | null>;
-}
-
-function Grid({ headerRef, footerRef }: GridProps) {
+function Grid() {
   const { factions } = useFactions();
-  const { gridRef, constraints } = useGrid(headerRef, footerRef);
+  // const { gridRef, constraints } = useGrid(headerRef, footerRef);
 
   const factionIds = useMemo(() => Object.keys(factions || {}), [factions]);
   const columnRefs = useMemo(
@@ -38,64 +34,69 @@ function Grid({ headerRef, footerRef }: GridProps) {
   );
 
   return (
-    <div className="absolute left-0 font-mono text-[8px] md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2">
-      <AnimatePresence>
-        {factions && (
-          <motion.div
-            drag
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            dragMomentum={false}
-            ref={gridRef}
-            dragConstraints={constraints}
-            className="relative grid border border-gray-400 shadow-xl"
-            style={{
-              gridTemplateColumns: `${HEADER_SIZE} repeat(${factionIds.length},${CELL_COLUMN_WIDTH})`,
-              gridTemplateRows: `${HEADER_SIZE} repeat(${factionIds.length},${CELL_ROW_HEIGHT})`,
-            }}
+    <AnimatePresence>
+      {factions && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="relative grid md:m-7 md:shadow-xl"
+          style={{
+            gridTemplateColumns: `${HEADER_SIZE} repeat(${factionIds.length},${CELL_COLUMN_WIDTH})`,
+            gridTemplateRows: `${HEADER_SIZE} repeat(${factionIds.length},${CELL_ROW_HEIGHT})`,
+          }}
+          onMouseLeave={handleMouseLeave}
+        >
+          <GridOverlay factionIds={factionIds} columnRefs={columnRefs} />
+          <GridHeader
+            factionIds={factionIds}
+            factions={factions}
+            onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-          >
-            <GridOverlay factionIds={factionIds} columnRefs={columnRefs} />
-            <GridHeader
-              factionIds={factionIds}
-              factions={factions}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-              headerRefs={headerRefs}
-            />
-            {factionIds.map((rowFactionId, rowIndex) => {
-              const faction = getFaction(factions, rowFactionId);
-              const padRowIndex = rowIndex + 1;
-              return (
-                <div key={`row-${rowFactionId}`} className="group contents">
-                  <GridHeaderCell
-                    rowIndex={padRowIndex}
-                    columnIndex={0}
-                    faction={faction}
-                    factionId={rowFactionId}
-                    onMouseEnter={handleMouseLeave}
-                  />
-                  {factionIds.map((columnFactionId, columnIndex) => {
-                    const padColumnIndex = columnIndex + 1;
-                    return (
-                      <GridCell
-                        key={composeCellKey(padRowIndex, padColumnIndex)}
-                        rowIndex={padRowIndex}
-                        columnIndex={padColumnIndex}
-                        faction={faction}
-                        columnFactionId={columnFactionId}
-                        handleMouseEnter={handleMouseEnter}
-                      />
-                    );
-                  })}
-                </div>
-              );
-            })}
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+            headerRefs={headerRefs}
+          />
+          {factionIds.map((rowFactionId, rowIndex) => {
+            const faction = getFaction(factions, rowFactionId);
+            const padRowIndex = rowIndex + 1;
+            const isLastRow = factionIds.length === padRowIndex;
+            return (
+              <div key={`row-${rowFactionId}`} className="group contents">
+                <GridHeaderCell
+                  rowIndex={padRowIndex}
+                  columnIndex={0}
+                  faction={faction}
+                  factionId={rowFactionId}
+                  onMouseEnter={handleMouseLeave}
+                  className={clsx(
+                    isLastRow &&
+                      'border-b-gray-400 hover:border-b-gray-200 group-hover:border-b-gray-200'
+                  )}
+                />
+                {factionIds.map((columnFactionId, columnIndex) => {
+                  const padColumnIndex = columnIndex + 1;
+                  const isLastColumn = factionIds.length === padColumnIndex;
+                  return (
+                    <GridCell
+                      key={composeCellKey(padRowIndex, padColumnIndex)}
+                      rowIndex={padRowIndex}
+                      columnIndex={padColumnIndex}
+                      faction={faction}
+                      columnFactionId={columnFactionId}
+                      handleMouseEnter={handleMouseEnter}
+                      className={clsx(
+                        isLastColumn &&
+                          'border-r-gray-400 hover:border-r-gray-200',
+                        isLastRow && 'border-b-gray-400 hover:border-b-gray-200'
+                      )}
+                    />
+                  );
+                })}
+              </div>
+            );
+          })}
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
 

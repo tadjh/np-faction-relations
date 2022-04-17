@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { MouseEventHandler } from 'react';
+import { HTMLAttributes, MouseEventHandler } from 'react';
 import { CELL_COLUMN_WIDTH, CELL_ROW_HEIGHT } from '../../config/constants';
 import { getBenchCount } from '../../../../hooks';
 import { TimestampedFaction } from '../../../../types';
@@ -7,7 +7,7 @@ import { isStrictEqual, isGreaterThan } from '../../../../utils';
 import { useStyles } from '../../hooks';
 import { composeCellKey } from '../../utils';
 
-export interface GridCellProps {
+export interface GridCellProps extends HTMLAttributes<HTMLDivElement> {
   rowIndex: number;
   columnIndex: number;
   faction: TimestampedFaction;
@@ -20,6 +20,7 @@ function GridCell({
   columnIndex,
   faction,
   columnFactionId,
+  className,
   handleMouseEnter,
 }: GridCellProps): JSX.Element {
   const benchCount = getBenchCount(faction);
@@ -34,7 +35,8 @@ function GridCell({
           columnIndex,
           rowIndex,
           columnFactionId,
-        })
+        }),
+        className
       )}
     >
       <div

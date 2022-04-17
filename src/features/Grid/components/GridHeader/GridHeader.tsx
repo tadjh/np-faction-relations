@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { MouseEventHandler, RefObject } from 'react';
 import { getFaction } from '../../../../hooks';
 import { Factions } from '../../../../types';
@@ -25,6 +26,7 @@ function GridHeader({
       {factionIds.map((columnFactionId, columnIndex) => {
         const faction = getFaction(factions, columnFactionId);
         const padColumnIndex = columnIndex + 1;
+        const isLast = factionIds.length === padColumnIndex;
         return (
           <GridHeaderCell
             key={composeCellKey(0, padColumnIndex)}
@@ -35,6 +37,9 @@ function GridHeader({
             isRotated={true}
             onMouseEnter={handleMouseEnter}
             headerRef={headerRefs && headerRefs[padColumnIndex]}
+            className={clsx(
+              isLast && 'border-r-gray-400 hover:border-r-gray-200'
+            )}
           />
         );
       })}

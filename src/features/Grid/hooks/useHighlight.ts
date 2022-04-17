@@ -1,9 +1,15 @@
 import { MouseEventHandler, RefObject, useRef } from 'react';
+import { RESPONSIVE_BREAKPOINT } from '../../../config/constants';
+import { useViewport } from '../../../hooks';
 
 export function useHighlight(
   columnRefs: RefObject<HTMLDivElement>[],
   headerRefs: RefObject<HTMLDivElement>[]
 ) {
+  const [viewportWidth] = useViewport();
+
+  const isMobile = viewportWidth < RESPONSIVE_BREAKPOINT;
+
   const prevColumn = useRef<number | null>(null);
 
   const getColumnRef = (
@@ -25,8 +31,8 @@ export function useHighlight(
   const setTransform = (el: HTMLElement, value: string) =>
     (el.style['transform'] = value);
 
-  const setBorderBottomColor = (el: HTMLElement, value: string) =>
-    (el.style['borderBottomColor'] = value);
+  const setBorderColor = (el: HTMLElement, value: string) =>
+    (el.style['borderColor'] = value);
 
   const setDisplay = (el: HTMLElement, value: string) =>
     (el.style['display'] = value);
@@ -52,9 +58,10 @@ export function useHighlight(
     shadow: HTMLElement | null
   ) => {
     if (!header.current) return;
-    setZIndex(header.current, '10');
-    setTransform(header.current, 'translate(0%, -12.5%) scale(1.25)');
-    setBorderBottomColor(header.current, 'rgb(209 213 219)');
+    const scale = isMobile ? 'scale(1.05)' : 'scale(1.10)';
+    setZIndex(header.current, '30');
+    setTransform(header.current, scale);
+    setBorderColor(header.current, 'rgb(209 213 219)');
     if (editIcon) setOpacity(editIcon, '1');
     if (shadow) setDisplay(shadow, 'block');
   };
@@ -67,7 +74,7 @@ export function useHighlight(
     if (!header.current) return;
     removeStyle(header.current, 'z-index');
     removeStyle(header.current, 'transform');
-    removeStyle(header.current, 'border-bottom-color');
+    removeStyle(header.current, 'border-color');
     if (editIcon) removeStyle(editIcon, 'opacity');
     if (shadow) removeStyle(shadow, 'display');
   };

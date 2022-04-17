@@ -1,9 +1,11 @@
-import { BASE_SPACING } from '../../../config/constants';
+import { BASE_FONT_SIZE, BASE_SPACING } from '../../../config/constants';
 
 const MULTIPLIER = 7;
-export const CELL_COLUMN_WIDTH = BASE_SPACING * MULTIPLIER + 'px';
-export const CELL_ROW_HEIGHT = BASE_SPACING * (MULTIPLIER - 1) + 'px';
-export const HEADER_SIZE = '92px';
+export const CELL_COLUMN_WIDTH =
+  (BASE_SPACING * MULTIPLIER) / BASE_FONT_SIZE + 'rem';
+export const CELL_ROW_HEIGHT =
+  (BASE_SPACING * (MULTIPLIER - 1)) / BASE_FONT_SIZE + 'rem';
+export const HEADER_SIZE = '5.75rem';
 
 export const COLOR_ASSOCIATE = 'bg-lime-900';
 export const COLOR_ALLY = 'bg-lime-600';
