@@ -35,7 +35,9 @@ function AuthStatus({ onClose }: AuthStatusProps) {
         <IconButton onClick={onClose} icon={faChevronLeft} />
         <span>{user.displayName ?? user.uid}</span>
       </div>
-      <button onClick={handleSignOut}>{EVENT_TEXT_SIGN_OUT}</button>
+      <button onClick={handleSignOut} type="button" className="hover:underline">
+        {EVENT_TEXT_SIGN_OUT}
+      </button>
     </div>
   );
 }
