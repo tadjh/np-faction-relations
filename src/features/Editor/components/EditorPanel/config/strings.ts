@@ -32,6 +32,8 @@ export const LABEL_TEXT_LINK = 'link';
 export const LABEL_TEXT_WIKI = 'wiki';
 export const LABEL_TEXT_SUBREDDIT = 'subreddit';
 export const LABEL_TEXT_DISCORD = 'discord';
+export const LABEL_TEXT_ADD_WEBSITE = 'add website';
+export const LABEL_TEXT_SELECT_WEBSITE = 'select website';
 
 export const CREATE_FACTION_IS_LOADING_TEXT = 'adding faction...';
 export const CREATE_FACTION_IS_SUCCESS_TEXT = 'faction added';
