@@ -2,35 +2,34 @@ import clsx from 'clsx';
 import { InputHTMLAttributes } from 'react';
 
 export interface CounterProps extends InputHTMLAttributes<HTMLInputElement> {
-  isVisible?: boolean;
+  name: string;
   isWrapped?: boolean;
 }
 
 const UnwrappedCounter = ({
   name,
-  isVisible = true,
   value,
-  onChange,
   children,
   min,
+  hidden,
+  onChange,
 }: CounterProps) => (
   <>
     <label
-      htmlFor={`${name}Count`}
+      htmlFor={name}
       className={clsx(
-        !isVisible ? 'opacity-0' : 'opacity-100',
-        'transition-opacity'
+        'transition-opacity',
+        hidden ? 'invisible opacity-0' : 'opacity-100'
       )}
     >
       {children}
     </label>
     <input
       type="number"
-      name={`${name}Count`}
+      name={name}
       className={clsx(
-        !isVisible ? 'opacity-0' : 'opacity-100',
-        'border w-10 text-right',
-        'transition-opacity'
+        hidden ? 'invisible opacity-0' : 'opacity-100',
+        'w-10 border text-right transition-opacity'
       )}
       value={value}
       onChange={onChange}
@@ -41,7 +40,7 @@ const UnwrappedCounter = ({
 
 function Counter({ isWrapped = true, ...props }: CounterProps) {
   return isWrapped ? (
-    <div className="flex gap-x-2 items-center px-2">
+    <div className="flex items-center gap-x-2 px-2">
       <UnwrappedCounter {...props} />
     </div>
   ) : (

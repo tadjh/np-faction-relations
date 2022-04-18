@@ -1,9 +1,12 @@
 {
-  "name": "@np-faction-relations/client",
-  "version": "0.1.2",
+  "name": "np-faction-relations",
+  "version": "1.3.1",
   "private": true,
   "homepage": ".",
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.1.1",
+    "@fortawesome/free-solid-svg-icons": "^6.1.1",
+    "@fortawesome/react-fontawesome": "^0.1.18",
     "@testing-library/jest-dom": "^5.16.3",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
@@ -18,12 +21,11 @@
     "framer-motion": "^6.2.8",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-hot-toast": "^2.2.0",
     "react-query": "^3.34.19",
     "react-router-dom": "6",
     "react-scripts": "5.0.0",
-    "react-transition-group": "^4.4.2",
     "typescript": "^4.6.3",
-    "uuid": "^8.3.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -32,7 +34,7 @@
     "build:dev": "env-cmd -f .env.development yarn build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "emulators": "firebase emulators:start",
+    "emulators": "firebase use np-faction-relations-dev && firebase emulators:start",
     "preview": "firebase hosting:channel:deploy",
     "predeploy": "yarn install --frozen-lockfile && yarn build",
     "deploy": "firebase deploy -P default --only hosting,firestore",
@@ -58,8 +60,6 @@
   },
   "devDependencies": {
     "@types/dompurify": "^2.3.3",
-    "@types/react-transition-group": "^4.4.4",
-    "@types/uuid": "^8.3.4",
     "autoprefixer": "^10.4.4",
     "env-cmd": "^10.1.0",
     "eslint-config-prettier": "^8.5.0",
@@ -69,6 +69,7 @@
     "lint-staged": "^12.3.7",
     "postcss": "^8.4.12",
     "prettier": "^2.6.1",
+    "prettier-plugin-tailwindcss": "^0.1.8",
     "tailwindcss": "^3.0.23"
   },
   "husky": {

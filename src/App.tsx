@@ -1,20 +1,18 @@
-import Grid from './components/Grid';
-import Notes from './components/Notes';
-import Footer from './components/Footer';
-import Header from './components/Header';
-import Edit from './components/Edit';
+import Notes from './features/Notes';
+import Editor from './features/Editor';
+import Layout from './components/Layout';
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   return (
     <>
-      <Edit />
-      <div className="flex flex-col font-mono min-h-screen p-4">
-        <Header />
-        <div className="flex flex-col flex-1 items-center justify-center">
-          <Grid />
-        </div>
-        <Footer />
-      </div>
+      <Toaster
+        toastOptions={{
+          style: { borderRadius: '0px', fontFamily: 'monospace' },
+        }}
+      />
+      <Editor />
+      <Layout />
       <Notes />
     </>
   );

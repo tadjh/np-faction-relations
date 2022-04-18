@@ -10,18 +10,20 @@ function Input({
   onChange,
   className,
   children,
+  ...props
 }: InputProps) {
   return (
-    <div className={clsx('flex gap-x-2 items-center px-2', className)}>
-      <label htmlFor={name} className="w-32">
+    <div className={clsx('flex items-center gap-x-2', className)}>
+      <label htmlFor={name} className="flex w-1/3 gap-x-0.5">
         {children}
       </label>
       <input
         type={type}
         name={name}
-        className="border flex-1"
+        className="flex-1 border"
         value={value}
         onChange={onChange}
+        {...props}
       />
     </div>
   );

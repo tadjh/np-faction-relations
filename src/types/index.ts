@@ -9,50 +9,67 @@ export type Roles = {
 export interface User {
   uid: string;
   displayName: string | null;
-  roles?: Roles;
+  roles: Roles;
 }
 
 export type Relationship =
   | 'allies'
-  | 'associates'
-  | 'coldWar'
+  | 'affiliates'
+  | 'coldWars'
   | 'enemies'
   | 'friends'
-  | 'hotWar';
+  | 'hotWars';
 
-export interface FactionProps {
-  visibility: 'public' | 'private';
-  attributes: {
-    benchCount: number;
-    hasBench: boolean;
-    hasLab: boolean;
-    labCount: number;
-  };
+export type Relationships = {
+  [key in Relationship]: string[];
+};
+
+export type RelationshipsType = { [x: string]: string[] };
+
+export type AttributeData = {
+  benchCount: number;
+  hasBench: boolean;
+  hasLab: boolean;
+  labCount: number;
+};
+
+export type Website = 'wiki' | 'subreddit' | 'discord';
+
+export type Websites = {
+  [key in Website]: string;
+};
+
+export interface Faction {
+  active: boolean;
+  attributes: AttributeData;
   displayName: string;
   name: string;
   order: number;
-  relationships: {
-    [key in Relationship]: {
-      type: Relationship;
-      data: string[];
-    };
-  };
+  urls: Websites;
+  relationships: Relationships;
+  visibility: 'public' | 'private';
 }
 
-export interface TimestampedFactionProps extends FactionProps {
+export interface TimestampedFaction extends Faction {
   created: Timestamp;
-  updated: Timestamp;
+  updated: Timestamp | null;
 }
 
-export interface ServerTimeFactionProps extends FactionProps {
+export interface ServerTimestampedFaction extends Faction {
   created: FieldValue;
   updated: FieldValue;
 }
 
-export interface AssociativeFactionProps {
-  [id: string]: TimestampedFactionProps;
+export interface Factions {
+  [id: string]: TimestampedFaction;
 }
 
-export interface ServerAssociativeFactionProps {
-  [id: string]: ServerTimeFactionProps;
+export interface ServerFactions {
+  [id: string]: ServerTimestampedFaction;
+}
+
+export interface Snapshot {
+  factions: Factions;
+  lastUpdate: Timestamp;
+  created: FieldValue;
 }

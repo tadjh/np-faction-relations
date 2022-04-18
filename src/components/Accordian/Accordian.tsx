@@ -1,36 +1,44 @@
 import clsx from 'clsx';
-import { HTMLAttributes, MouseEventHandler, useState } from 'react';
+import { HTMLAttributes, MouseEventHandler, useEffect, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 
 export interface AccordianProps extends HTMLAttributes<HTMLDivElement> {
   label: string;
+  show?: boolean;
 }
 
-function Accordian({ label, children }: AccordianProps) {
+function Accordian({ label, children, show }: AccordianProps) {
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    if (show !== true) return;
+    setIsOpen(true);
+  }, [show]);
 
   const toggleAccordian: MouseEventHandler<HTMLSpanElement> = () =>
     setIsOpen((prevState) => !prevState);
 
   return (
-    <div className="flex items-center flex-col justify-center shadow w-full min-w-[360px] bg-white">
+    <div className="flex w-full min-w-[360px] flex-col items-center justify-center bg-white shadow">
       <header
-        className="bg-stone-700 text-white text-opacity-90 w-full hover:cursor-pointer hover:bg-stone-900 transition-colors"
+        className="w-full bg-gray-700 text-white text-opacity-90 transition-colors hover:cursor-pointer hover:bg-gray-900"
         onClick={toggleAccordian}
       >
-        <div className="flex justify-between items-center p-2">
+        <div className="flex items-center justify-between px-2 py-1.5">
           <span>{label}</span>
-          <span className={clsx('text-base', isOpen && 'rotate-180')}>
-            &#x25BC;
-          </span>
+          <FontAwesomeIcon
+            icon={faCaretDown}
+            className={clsx(isOpen && 'rotate-180')}
+          />
         </div>
       </header>
       <div
         className={clsx(
-          'text-xs w-full border-l border-r',
+          'w-full border-l border-r text-xs transition-all',
           isOpen
             ? 'max-h-[800px] overflow-auto border-b'
-            : 'max-h-0 overflow-hidden border-0',
-          'transition-all'
+            : 'max-h-0 overflow-hidden border-0'
         )}
       >
         {children}

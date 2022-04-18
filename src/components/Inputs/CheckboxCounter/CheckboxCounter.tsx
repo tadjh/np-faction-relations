@@ -1,9 +1,11 @@
 import { InputHTMLAttributes } from 'react';
+import { composeCounterName } from '../../../utils/compose';
 import Checkbox from '../Checkbox';
 import Counter from '../Counter';
 
 export interface CheckboxCounterProps
   extends InputHTMLAttributes<HTMLInputElement> {
+  name: string;
   label: string;
   count: number;
   countLabel: string;
@@ -20,24 +22,26 @@ function CheckboxCounter({
   onChangeCount,
 }: CheckboxCounterProps) {
   return (
-    <div className="flex gap-x-2 items-center px-2 h-5">
+    <div className="flex h-5 items-center gap-x-2 px-2">
       <Checkbox
         name={name}
         checked={checked}
         onChange={onChange}
-        className="w-32"
+        className="w-1/3 justify-between"
       >
         {label}
       </Checkbox>
-      <Counter
-        name={`${name}Count`}
-        value={count}
-        onChange={onChangeCount}
-        isVisible={checked}
-        isWrapped={false}
-      >
-        {countLabel}
-      </Counter>
+      <div className="flex flex-1 justify-between gap-x-2">
+        <Counter
+          name={composeCounterName(name)}
+          value={count}
+          onChange={onChangeCount}
+          hidden={!checked}
+          isWrapped={false}
+        >
+          {countLabel}
+        </Counter>
+      </div>
     </div>
   );
 }

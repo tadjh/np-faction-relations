@@ -11,7 +11,7 @@ function Checkbox({
   className,
 }: InputProps) {
   return (
-    <div className={clsx('flex gap-x-2 items-center', className)}>
+    <div className={clsx('flex items-center gap-x-2', className)}>
       <label htmlFor={name}>{children}</label>
       <input
         type="checkbox"

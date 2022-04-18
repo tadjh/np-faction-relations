@@ -8,89 +8,67 @@ import {
 } from '../../config/firebase';
 import { useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
-import { Role, User } from '../../types';
-import { useCallback } from 'react';
-import { DocumentSnapshot, getDoc } from 'firebase/firestore';
+import { Role, Roles, User } from '../../types';
+import { getDoc } from 'firebase/firestore';
+import toast from 'react-hot-toast';
+import { getErrorMessage } from '../../utils';
 
 function AuthProvider({ children }: { children: ReactNode }) {
-  let [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<Omit<User, 'roles'> | null>(null);
+  const [roles, setRoles] = useState<Roles | null>(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
+        setUser({ uid: user.uid, displayName: user.displayName });
         try {
-          const doc = (await getDoc(
-            userDocumentReference(user.uid)
-          )) as DocumentSnapshot<User>;
-
+          const doc = await getDoc(userDocumentReference(user.uid));
           const data = doc.data();
-
-          setUser({
-            uid: user.uid,
-            displayName: user.displayName,
-            roles: data?.roles,
-          });
-        } catch (error) {}
+          setRoles(data?.roles);
+        } catch (error: any) {
+          toast.error('Error getting user roles: ' + getErrorMessage(error));
+        }
       } else {
         setUser(null);
+        setRoles(null);
       }
     });
     return () => unsubscribe();
   }, []);
 
-  const isSignedIn = !!user;
+  const checkAuthorization = (roles: Roles, allowed: Role[]): boolean => {
+    for (let role of allowed) {
+      if (roles[role]) return true;
+    }
+    return false;
+  };
 
-  const checkAuthorization = useCallback(
-    (user: User, allowed: Role[]): boolean => {
-      // if (!user) return false;
-      if (!user.roles) return false;
-      for (let role of allowed) {
-        if (user.roles[role]) return true;
-      }
-      return false;
-    },
-    []
-  );
+  const canCreate = (roles: Roles | null): boolean => {
+    if (!roles) return false;
+    const allowed: Role[] = ['admin'];
+    return checkAuthorization(roles, allowed);
+  };
 
-  const canCreate = useCallback(
-    (user: User | null): boolean => {
-      if (!user) return false;
-      const allowed: Role[] = ['admin'];
-      return checkAuthorization(user, allowed);
-    },
-    [checkAuthorization]
-  );
+  const canRead = (roles: Roles | null): boolean => {
+    if (!roles) return false;
+    const allowed: Role[] = ['admin', 'editor', 'subscriber'];
+    return checkAuthorization(roles, allowed);
+  };
+  const canEdit = (roles: Roles | null): boolean => {
+    if (!roles) return false;
+    const allowed: Role[] = ['admin', 'editor'];
+    return checkAuthorization(roles, allowed);
+  };
 
-  const canRead = useCallback(
-    (user: User | null): boolean => {
-      if (!user) return false;
-      const allowed: Role[] = ['admin', 'editor', 'subscriber'];
-      return checkAuthorization(user, allowed);
-    },
-    [checkAuthorization]
-  );
-
-  const canEdit = useCallback(
-    (user: User | null): boolean => {
-      if (!user) return false;
-      const allowed: Role[] = ['admin', 'editor'];
-      return checkAuthorization(user, allowed);
-    },
-    [checkAuthorization]
-  );
-
-  const canDelete = useCallback(
-    (user: User | null): boolean => {
-      if (!user) return false;
-      const allowed: Role[] = ['admin'];
-      return checkAuthorization(user, allowed);
-    },
-    [checkAuthorization]
-  );
+  const canDelete = (roles: Roles | null): boolean => {
+    if (!roles) return false;
+    const allowed: Role[] = ['admin'];
+    return checkAuthorization(roles, allowed);
+  };
 
   let value = {
     user,
-    isSignedIn,
+    roles,
     signIn,
     signOut,
     canCreate,

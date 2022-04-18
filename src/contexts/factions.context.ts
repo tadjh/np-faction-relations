@@ -1,10 +1,10 @@
+import { Timestamp } from 'firebase/firestore';
 import { createContext } from 'react';
-import { AssociativeFactionProps } from '../types';
+import { Factions } from '../types';
 
 export interface FactionsContextType {
-  factions: AssociativeFactionProps | null;
-  length: number;
-  updated: number;
+  factions: Factions | null;
+  lastUpdate: Timestamp;
 }
 
 let FactionsContext = createContext<FactionsContextType>(null!);

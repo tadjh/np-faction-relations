@@ -3,20 +3,33 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter } from 'react-router-dom';
 import { QueryClientProvider, QueryClient } from 'react-query';
 import FactionsProvider from './providers/FactionsProvider';
+import { BrowserRouter } from 'react-router-dom';
+import AuthProvider from './providers/AuthProvider';
+import EditorProvider from './providers/EditorProvider';
+import NotesProvider from './providers/NotesProvider';
 
-const queryClient = new QueryClient();
-
-// basename="/np-faction-relations"
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
         <FactionsProvider>
-          <App />
+          <AuthProvider>
+            <EditorProvider>
+              <NotesProvider>
+                <App />
+              </NotesProvider>
+            </EditorProvider>
+          </AuthProvider>
         </FactionsProvider>
       </QueryClientProvider>
     </BrowserRouter>

@@ -1,73 +1,81 @@
 import {
   addDoc,
+  getDocs,
   serverTimestamp,
+  Timestamp,
   updateDoc,
   writeBatch,
 } from 'firebase/firestore';
+import { IS_DEVELOPMENT } from '../config/environment';
 import {
   db,
   factionDocumentReference,
+  FACTION_COLLECTION_QUERY,
   FACTION_COLLECTION_REFERENCE,
+  SNAPSHOT_COLLECTION_REFERENCE,
 } from '../config/firebase';
+import { FactionsContextType } from '../contexts/factions.context';
 import {
-  FactionProps,
-  AssociativeFactionProps,
+  Faction,
+  Factions,
   Relationship,
-  ServerTimeFactionProps,
-  TimestampedFactionProps,
-  ServerAssociativeFactionProps,
+  ServerTimestampedFaction,
+  TimestampedFaction,
+  ServerFactions,
+  Relationships,
+  RelationshipsType,
+  Snapshot,
 } from '../types';
 
+interface ComparableHydratedFactionProps {
+  id: string;
+  next: TimestampedFaction;
+  prev: TimestampedFaction;
+  factions: Factions;
+}
+
+type Operation = 'add' | 'delete';
+
+interface Instruction {
+  docId: string;
+  diffId: string;
+  operation: Operation;
+  type: Relationship;
+}
+
 export function useApi() {
-  const createFaction = async (data: FactionProps) => {
-    const newDoc: ServerTimeFactionProps = {
+  const createFaction = async (data: Faction) => {
+    const newDoc: ServerTimestampedFaction = {
       ...data,
       created: serverTimestamp(),
       updated: serverTimestamp(),
     };
     try {
       const docRef = await addDoc(FACTION_COLLECTION_REFERENCE, newDoc);
-      console.log('Document written with ID: ', docRef.id);
+      if (IS_DEVELOPMENT) console.log('Faction created with ID: ', docRef.id);
       return docRef;
-    } catch (error) {
-      console.error('Error adding document: ', error);
+    } catch (error: any) {
       throw error;
     }
   };
 
-  interface ComparableHydratedFactionProps {
-    id: string;
-    next: TimestampedFactionProps;
-    prev: TimestampedFactionProps;
-    factions: AssociativeFactionProps;
-  }
-
-  function difference(setA: Set<string>, setB: Set<string>) {
+  const difference = (setA: Set<string>, setB: Set<string>) => {
     let _difference = new Set(setA);
     setB.forEach((elem) => _difference.delete(elem));
     return _difference;
-  }
-
-  type Operation = 'add' | 'delete';
-
-  interface Instruction {
-    docId: string;
-    diffId: string;
-    operation: Operation;
-    type: Relationship;
-  }
+  };
 
   const compareRelationships = (
     id: string,
-    next: TimestampedFactionProps,
-    prev: TimestampedFactionProps
+    next: Relationships,
+    prev: Relationships
   ) => {
     let instructions: Instruction[] = [];
 
-    for (let relationship in next.relationships) {
+    for (let relationship in next) {
       const type = relationship as Relationship;
-      const nextSet = new Set(next.relationships[type].data);
-      const prevSet = new Set(prev.relationships[type].data);
+      const nextSet = new Set(next[type]);
+      const prevSet = new Set(prev[type]);
       const added = Array.from(difference(nextSet, prevSet));
       const deleted = Array.from(difference(prevSet, nextSet));
 
@@ -92,39 +100,46 @@ export function useApi() {
     return instructions;
   };
 
+  const formatFactionRelationship = (
+    doc: TimestampedFaction,
+    type: Relationship,
+    data: string[]
+  ): TimestampedFaction => {
+    const updatedType: RelationshipsType = { [type]: data };
+    return {
+      ...doc,
+      relationships: {
+        ...doc.relationships,
+        ...updatedType,
+      },
+    };
+  };
+
   const mergeIntructions = (
     instructions: Instruction[],
-    factions: AssociativeFactionProps
-  ): AssociativeFactionProps => {
-    let nextDocs: AssociativeFactionProps = {};
+    factions: Factions
+  ): Factions => {
+    let nextDocs: Factions = {};
 
     for (let { docId, type, operation, diffId } of instructions) {
       let doc = nextDocs[docId] || factions[docId];
 
-      let data = new Set(doc.relationships[type].data);
+      let data = new Set(doc.relationships[type]);
       if (operation === 'add') {
         data.add(diffId);
       } else if (operation === 'delete') {
         data.delete(diffId);
       }
 
-      const nextDoc: TimestampedFactionProps = {
-        ...doc,
-        relationships: {
-          ...doc.relationships,
-          [type]: { ...doc.relationships[type], data: Array.from(data) },
-        },
-      };
+      const nextDoc = formatFactionRelationship(doc, type, Array.from(data));
 
       nextDocs = { ...nextDocs, [docId]: nextDoc };
     }
     return nextDocs;
   };
 
-  const updateTimestamps = (
-    nextDocs: AssociativeFactionProps
-  ): ServerAssociativeFactionProps => {
-    let updatedDocs: ServerAssociativeFactionProps = {};
+  const updateTimestamps = (nextDocs: Factions): ServerFactions => {
+    let updatedDocs: ServerFactions = {};
     for (let id in nextDocs) {
       updatedDocs = {
         ...updatedDocs,
@@ -134,25 +149,26 @@ export function useApi() {
     return updatedDocs;
   };
 
-  const batchUpdates = async (nextDocs: ServerAssociativeFactionProps) => {
+  const batchUpdates = async (nextDocs: ServerFactions) => {
     const batch = writeBatch(db);
 
-    for (let id in nextDocs) {
-      batch.update(factionDocumentReference(id), {
-        ...nextDocs[id],
+    for (let docId in nextDocs) {
+      batch.update(factionDocumentReference(docId), {
+        ...nextDocs[docId],
       });
-      console.log(
-        '%cFaction:',
-        'font-weight: bold',
-        nextDocs[id].name,
-        `[${id}]`,
-        'edited'
-      );
+      if (IS_DEVELOPMENT)
+        console.log(
+          '%cFaction:',
+          'font-weight: bold',
+          nextDocs[docId].name,
+          `[${docId}]`,
+          'edited'
+        );
     }
 
     try {
       await batch.commit();
-    } catch (error) {
+    } catch (error: any) {
       throw error;
     }
   };
@@ -163,7 +179,11 @@ export function useApi() {
     prev,
     factions,
   }: ComparableHydratedFactionProps) => {
-    const instructions = compareRelationships(id, next, prev);
+    const instructions = compareRelationships(
+      id,
+      next.relationships,
+      prev.relationships
+    );
     const nextDocs = mergeIntructions(instructions, factions);
     const stampedDocs = updateTimestamps({ ...nextDocs, [id]: next });
 
@@ -174,22 +194,21 @@ export function useApi() {
         await updateDoc(factionDocumentReference(id), {
           ...stampedDocs[id],
         });
-        console.log(
-          '%cFaction:',
-          'font-weight: bold',
-          stampedDocs[id].name,
-          `[${id}]`,
-          'edited'
-        );
+        if (IS_DEVELOPMENT)
+          console.log(
+            '%cFaction edited:',
+            'font-weight: bold',
+            stampedDocs[id].name,
+            `[${id}]`
+          );
       }
-    } catch (error) {
-      console.error('Error editing document: ', error);
+    } catch (error: any) {
       throw error;
     }
   };
 
   const deleteFaction = async (id: string) => {
-    const nextDoc: Partial<ServerTimeFactionProps> = {
+    const nextDoc: Partial<ServerTimestampedFaction> = {
       visibility: 'private',
       updated: serverTimestamp(),
     };
@@ -197,12 +216,109 @@ export function useApi() {
       await updateDoc(factionDocumentReference(id), {
         ...nextDoc,
       });
-      console.log('Document deleted with ID: ', id);
+      if (IS_DEVELOPMENT) console.log('Faction deleted with ID: ', id);
       return;
-    } catch (error) {
-      console.error('Error deleting document: ', error);
+    } catch (error: any) {
       throw error;
     }
   };
-  return { createFaction, editFaction, deleteFaction };
+
+  const getFactions = async (): Promise<FactionsContextType> => {
+    try {
+      const docs = await getDocs(FACTION_COLLECTION_QUERY);
+      let factions = {};
+      let lastUpdate = new Timestamp(0, 0);
+      docs.forEach((doc) => {
+        const data = doc.data();
+        factions = { ...factions, [doc.id]: data };
+        lastUpdate =
+          data.updated && data.updated.toMillis() > lastUpdate.toMillis()
+            ? data.updated
+            : lastUpdate;
+      });
+
+      return { factions, lastUpdate };
+    } catch (error: any) {
+      throw error;
+    }
+  };
+
+  interface CreateSnapshot {
+    factions: Factions;
+    lastUpdate: Timestamp;
+  }
+
+  const createSnapshot = async ({ factions, lastUpdate }: CreateSnapshot) => {
+    if (!factions) return;
+
+    const newDoc: Snapshot = {
+      factions,
+      lastUpdate,
+      created: serverTimestamp(),
+    };
+    try {
+      const docRef = await addDoc(SNAPSHOT_COLLECTION_REFERENCE, newDoc);
+      if (IS_DEVELOPMENT) console.log('Snapshot created with ID: ', docRef.id);
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const patchFactionUrls = async () => {
+    try {
+      const docs = await getDocs(FACTION_COLLECTION_QUERY);
+
+      let factions: Factions = {};
+      let lastUpdate = new Timestamp(0, 0);
+      docs.forEach((doc) => {
+        const data: any = doc.data();
+        factions = {
+          ...factions,
+          [doc.id]: {
+            ...data,
+            urls: { wiki: '', discord: '', subreddit: '', ...data.urls },
+          },
+        };
+        lastUpdate =
+          data.updated && data.updated.toMillis() > lastUpdate.toMillis()
+            ? data.updated
+            : lastUpdate;
+      });
+
+      const batch = writeBatch(db);
+
+      for (let docId in factions) {
+        batch.update(factionDocumentReference(docId), {
+          ...factions[docId],
+        });
+        if (IS_DEVELOPMENT)
+          console.log(
+            '%cFaction:',
+            'font-weight: bold',
+            factions[docId].name,
+            `[${docId}]`,
+            'edited'
+          );
+      }
+
+      try {
+        await batch.commit();
+      } catch (error: any) {
+        throw error;
+      }
+
+      return { factions, lastUpdate };
+    } catch (error: any) {
+      throw error;
+    }
+  };
+
+  return {
+    createFaction,
+    editFaction,
+    deleteFaction,
+    getFactions,
+    createSnapshot,
+  };
 }

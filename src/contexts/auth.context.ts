@@ -1,15 +1,15 @@
 import { createContext } from 'react';
-import { User } from '../types';
+import { Roles, User } from '../types';
 
 export interface AuthContextType {
-  user: User | null;
-  isSignedIn: boolean;
+  user: Omit<User, 'roles'> | null;
+  roles: Roles | null;
   signIn: () => Promise<void>;
-  signOut: () => void;
-  canCreate: (user: User | null) => boolean;
-  canRead: (user: User | null) => boolean;
-  canEdit: (user: User | null) => boolean;
-  canDelete: (user: User | null) => boolean;
+  signOut: (callback: VoidFunction) => void;
+  canCreate: (roles: Roles | null) => boolean;
+  canRead: (roles: Roles | null) => boolean;
+  canEdit: (roles: Roles | null) => boolean;
+  canDelete: (roles: Roles | null) => boolean;
 }
 
 let AuthContext = createContext<AuthContextType>(null!);
