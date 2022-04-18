@@ -19,6 +19,7 @@ import Accordian from '../../../../../../../../components/Accordian';
 import SubmitButton from '../../../../../../../../components/Inputs/SubmitButton';
 import toast from 'react-hot-toast';
 import { useSnapshot } from '../../hooks';
+import { composeOptionKey } from '../../../../../../../../utils/compose';
 
 function DeleteForm() {
   const [selected, setSelected] = useState('');
@@ -82,13 +83,16 @@ function DeleteForm() {
             value={selected}
             onChange={handleSelected}
           >
-            <option key={`deleteFaction-none`} value={''}>
+            <option key="delete-faction-none" value={''}>
               {LABEL_TEXT_SELECT_FACTION}
             </option>
             {factions &&
-              Object.keys(factions).map((id) => (
-                <option key={`deleteFaction-${id}`} value={id}>
-                  {factions[id].name}
+              Object.keys(factions).map((factionId) => (
+                <option
+                  key={composeOptionKey('delete-faction', factionId)}
+                  value={factionId}
+                >
+                  {factions[factionId].name}
                 </option>
               ))}
           </select>

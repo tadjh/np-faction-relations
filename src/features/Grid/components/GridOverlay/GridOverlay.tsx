@@ -1,5 +1,6 @@
 import { RefObject } from 'react';
-import { HEADER_SIZE, CELL_COLUMN_WIDTH } from '../../config/constants';
+import { composeIndexKey } from '../../../../utils/compose';
+import { composeGridColumns } from '../../utils/compose';
 
 export interface GridOverlayProps {
   factionIds: string[];
@@ -11,7 +12,7 @@ function GridOverlay({ factionIds, columnRefs }: GridOverlayProps) {
     <div
       className="absolute grid h-full w-full"
       style={{
-        gridTemplateColumns: `${HEADER_SIZE} repeat(${factionIds.length},${CELL_COLUMN_WIDTH})`,
+        gridTemplateColumns: composeGridColumns(factionIds.length),
       }}
     >
       <div />
@@ -19,7 +20,7 @@ function GridOverlay({ factionIds, columnRefs }: GridOverlayProps) {
         const padColumnIndex = columnIndex + 1;
         return (
           <div
-            key={`column-overlay-${padColumnIndex}`}
+            key={composeIndexKey('column-overlay', padColumnIndex)}
             ref={columnRefs[padColumnIndex]}
             data-column={padColumnIndex}
             className="pointer-events-none bg-gray-500 bg-opacity-5"

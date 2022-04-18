@@ -1,23 +1,22 @@
 import { LABEL_TEXT_RELATIONSHIPS } from '../../../../config/strings';
 import {
-  getDisplayName,
+  composeFullName,
   getFaction,
   getLabelText,
-  getName,
   getRelationship,
 } from '../../../../../../../../hooks';
-import {
-  Factions,
-  Relationship,
-  TimestampedFaction,
-} from '../../../../../../../../types';
-import { isNotEmptyString } from '../../../../../../../../utils';
+import { Factions, Relationship } from '../../../../../../../../types';
 import FormHeader from '../FormHeader';
 import { UseFormData } from '../../hooks';
 import { useMemo, useState } from 'react';
 import IconButton from '../../../../../../../../components/Inputs/IconButton';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import clsx from 'clsx';
+import {
+  composeLabelKey,
+  composeOptionKey,
+  composeSelectKey,
+} from '../../../../../../../../utils/compose';
 
 const orderedRelationships: Relationship[] = [
   'affiliates',
@@ -51,25 +50,6 @@ function FormRelationships({
 
   const factionIds = useMemo(() => Object.keys(factions), [factions]);
 
-  const composeFullName = (faction: TimestampedFaction) => {
-    const name = getName(faction);
-    const displayName = getDisplayName(faction);
-    if (isNotEmptyString(displayName)) return `${name} [${displayName}]`;
-    return name;
-  };
-
-  const composeLabelKey = (type: Relationship) => {
-    return `relationships-label-${type}`;
-  };
-
-  const composeSelectKey = (type: Relationship) => {
-    return `relationships-select-${type}`;
-  };
-
-  const composeOptionKey = (type: Relationship, factionId: string) => {
-    return `${type}-${factionId}`;
-  };
-
   return (
     <>
       <FormHeader>{LABEL_TEXT_RELATIONSHIPS}</FormHeader>
@@ -79,7 +59,7 @@ function FormRelationships({
             const relationship = getRelationship(state, type);
             return (
               <label
-                key={composeLabelKey(type)}
+                key={composeLabelKey('relationship', type)}
                 htmlFor={type}
                 onClick={() => handleSelected(index)}
                 className={clsx(
@@ -110,7 +90,7 @@ function FormRelationships({
             const relationship = getRelationship(state, type);
             return (
               <select
-                key={composeSelectKey(type)}
+                key={composeSelectKey('relationship', type)}
                 name={type}
                 multiple
                 className="h-full w-full border"

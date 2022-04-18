@@ -9,6 +9,7 @@ import {
   faArrowLeft,
   faArrowRight,
 } from '@fortawesome/free-solid-svg-icons';
+import { composeIndexOfLength, composePercentage } from '../../utils/compose';
 
 function Notes() {
   const { isNotesOpen: isOpen, closeNotes: handleClose } = useNotes();
@@ -46,7 +47,7 @@ function Notes() {
                     icon={faArrowLeft}
                     className="px-2.5 py-1.5 opacity-0 group-hover:opacity-100"
                   />
-                  {`${slide + 1} of ${text.length}`}
+                  {composeIndexOfLength(slide, text.length)}
                   <IconButton
                     onClick={next}
                     icon={faArrowRight}
@@ -59,7 +60,7 @@ function Notes() {
               </div>
               <div
                 className="h-1 bg-gray-500"
-                style={{ width: `${progress}%` }}
+                style={{ width: composePercentage(progress) }}
               ></div>
             </div>
             <div className="relative flex w-[378px] justify-center md:w-[392px]">

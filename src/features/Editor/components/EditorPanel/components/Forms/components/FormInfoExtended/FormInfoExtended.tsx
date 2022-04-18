@@ -3,6 +3,10 @@ import { ChangeEventHandler, useState } from 'react';
 import Input from '../../../../../../../../components/Inputs/TextInput';
 import { TimestampedFaction, Website } from '../../../../../../../../types';
 import {
+  composeOptionKey,
+  composeInputKey,
+} from '../../../../../../../../utils/compose';
+import {
   LABEL_TEXT_ADD_WEBSITE,
   LABEL_TEXT_DISCORD,
   LABEL_TEXT_SELECT_WEBSITE,
@@ -12,14 +16,6 @@ import {
 import { UseFormData } from '../../hooks';
 
 const links = [LABEL_TEXT_WIKI, LABEL_TEXT_SUBREDDIT, LABEL_TEXT_DISCORD];
-
-function composeKey(item: string, index: number) {
-  return `${item}-${index + 1}`;
-}
-
-function composeOptionKey(item: string, index: number) {
-  return `option-${item}-${index + 1}`;
-}
 
 function getUrl(faction: TimestampedFaction, website: Website) {
   return faction.urls[website];
@@ -62,7 +58,7 @@ function FormInfoExtended({ state, handlers }: UseFormData) {
           const value = getUrl(state, website);
           return (
             <Input
-              key={composeKey(website, index)}
+              key={composeInputKey(website, index)}
               name={website}
               type="url"
               value={value}

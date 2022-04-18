@@ -5,7 +5,7 @@ import { getBenchCount } from '../../../../hooks';
 import { TimestampedFaction } from '../../../../types';
 import { isStrictEqual, isGreaterThan } from '../../../../utils';
 import { useStyles } from '../../hooks';
-import { composeCellKey } from '../../utils';
+import { composeCellKey } from '../../utils/compose';
 
 export interface GridCellProps extends HTMLAttributes<HTMLDivElement> {
   rowIndex: number;

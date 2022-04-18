@@ -1,17 +1,17 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useMemo, createRef } from 'react';
-import {
-  CELL_COLUMN_WIDTH,
-  CELL_ROW_HEIGHT,
-  HEADER_SIZE,
-} from './config/constants';
 import { getFaction, shouldShow, useFactions } from '../../hooks';
 import GridCell from './components/GridCell';
 import GridHeader from './components/GridHeader';
 import GridHeaderCell from './components/GridHeaderCell';
 import GridOverlay from './components/GridOverlay';
 import { useHighlight } from './hooks';
-import { composeCellKey } from './utils';
+import {
+  composeCellKey,
+  composeGridColumns,
+  composeGridRows,
+  composeRowKey,
+} from './utils/compose';
 import clsx from 'clsx';
 
 function Grid() {
@@ -47,8 +47,8 @@ function Grid() {
           exit={{ opacity: 0 }}
           className="relative grid md:m-7 md:shadow-xl"
           style={{
-            gridTemplateColumns: `${HEADER_SIZE} repeat(${factionIds.length},${CELL_COLUMN_WIDTH})`,
-            gridTemplateRows: `${HEADER_SIZE} repeat(${factionIds.length},${CELL_ROW_HEIGHT})`,
+            gridTemplateColumns: composeGridColumns(factionIds.length),
+            gridTemplateRows: composeGridRows(factionIds.length),
           }}
           onMouseLeave={handleMouseLeave}
         >
@@ -65,7 +65,7 @@ function Grid() {
             const padRowIndex = rowIndex + 1;
             const isLastRow = factionIds.length === padRowIndex;
             return (
-              <div key={`row-${rowFactionId}`} className="group contents">
+              <div key={composeRowKey(rowFactionId)} className="group contents">
                 <GridHeaderCell
                   rowIndex={padRowIndex}
                   columnIndex={0}

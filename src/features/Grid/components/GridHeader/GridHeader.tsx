@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { MouseEventHandler, RefObject } from 'react';
 import { getFaction } from '../../../../hooks';
 import { Factions } from '../../../../types';
-import { composeCellKey } from '../../utils';
+import { composeCellKey } from '../../utils/compose';
 import GridHeaderCell from '../GridHeaderCell';
 import Legend from '../Legend';
 

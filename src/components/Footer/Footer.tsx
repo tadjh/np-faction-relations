@@ -5,6 +5,7 @@ import {
   PROJECT_ID,
 } from '../../config/environment';
 import { useFactions } from '../../hooks';
+import { composeTimestamp } from '../../utils/compose';
 
 function Footer() {
   const { lastUpdate } = useFactions();
@@ -18,9 +19,7 @@ function Footer() {
           className="flex w-full flex-shrink-0 flex-grow-0 basis-auto justify-center text-[8px] md:justify-between md:gap-x-2"
         >
           <div>{IS_DEVELOPMENT ? PROJECT_ID : DOMAIN_NAME}</div>
-          <div className="text-right">
-            {`Last updated ${lastUpdate.toDate().toString()}`}
-          </div>
+          <div className="text-right">{composeTimestamp(lastUpdate)}</div>
         </motion.footer>
       )}
     </AnimatePresence>

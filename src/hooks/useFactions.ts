@@ -8,7 +8,7 @@ import {
   LABEL_TEXT_ENEMIES,
 } from '../config/strings';
 import FactionsContext from '../contexts/factions.context';
-import { Factions, Relationship, TimestampedFaction } from '../types';
+import { Factions, Relationship, TimestampedFaction, Website } from '../types';
 import { isEmptyString } from '../utils';
 
 export function getFaction(factions: Factions, factionId: string) {
@@ -43,12 +43,12 @@ export function getLabCount(faction: TimestampedFaction) {
   return faction.attributes.labCount;
 }
 
-export function getAllies(faction: TimestampedFaction) {
-  return faction.relationships.allies;
-}
-
 export function getAffiliates(faction: TimestampedFaction) {
   return faction.relationships.affiliates;
+}
+
+export function getAllies(faction: TimestampedFaction) {
+  return faction.relationships.allies;
 }
 
 export function getColdWars(faction: TimestampedFaction) {
@@ -65,6 +65,38 @@ export function getFriends(faction: TimestampedFaction) {
 
 export function getHotWars(faction: TimestampedFaction) {
   return faction.relationships.hotWars;
+}
+
+export function getNumOfAffiliates(faction: TimestampedFaction) {
+  return getAffiliates(faction).length;
+}
+
+export function getNumOfAllies(faction: TimestampedFaction) {
+  return getAllies(faction).length;
+}
+
+export function getNumOfColdWars(faction: TimestampedFaction) {
+  return getColdWars(faction).length;
+}
+
+export function getNumOfEnemies(faction: TimestampedFaction) {
+  return getEnemies(faction).length;
+}
+
+export function getNumOfFriends(faction: TimestampedFaction) {
+  return getFriends(faction).length;
+}
+
+export function getNumOfHotWars(faction: TimestampedFaction) {
+  return getHotWars(faction).length;
+}
+
+export function getWebsites(faction: TimestampedFaction) {
+  return faction.urls;
+}
+
+export function getWebsite(faction: TimestampedFaction, website: Website) {
+  return faction.urls[website];
 }
 
 export function getRelationship(
@@ -112,6 +144,11 @@ export function getOrder(faction: TimestampedFaction) {
   return faction.order;
 }
 
+export function shouldShow(factions: Factions | null, factionId: string) {
+  if (!factions) return false;
+  return getActive(factions[factionId]);
+}
+
 export function composeFullName(faction: TimestampedFaction) {
   const name = getName(faction);
   const displayName = getDisplayName(faction);
@@ -119,13 +156,16 @@ export function composeFullName(faction: TimestampedFaction) {
   return `${name} [${displayName}]`;
 }
 
+export function composeLabeledFullName(faction: TimestampedFaction) {
+  return `name: ${composeFullName(faction)}`;
+}
+
 export function composeShortName(faction: TimestampedFaction) {
   return getDisplayName(faction) || getName(faction);
 }
 
-export function shouldShow(factions: Factions | null, factionId: string) {
-  if (!factions) return false;
-  return getActive(factions[factionId]);
+export function composeWebsiteLabel(website: string) {
+  return `${website}: `;
 }
 
 export function useFactions() {

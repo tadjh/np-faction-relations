@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { DOMAttributes } from 'react';
+import { composeListItem } from '../../../../utils/compose';
 import {
   COLOR_AFFILIATE,
   COLOR_ALLY,
@@ -24,24 +25,24 @@ import {
 import { headerColor } from '../../config/styles';
 
 type LegendData =
-  | { name: typeof RELATION_AFFILIATES; color: typeof COLOR_AFFILIATE }
-  | { name: typeof RELATION_ALLIES; color: typeof COLOR_ALLY }
-  | { name: typeof RELATION_FRIENDS; color: typeof COLOR_FRIEND }
-  | { name: typeof RELATION_COLD_WARS; color: typeof COLOR_COLD_WAR }
-  | { name: typeof RELATION_HOT_WARS; color: typeof COLOR_HOT_WAR }
-  | { name: typeof RELATION_ENEMIES; color: typeof COLOR_ENEMY }
-  | { name: typeof RELATION_HAS_BENCH; color: typeof COLOR_HAS_BENCH }
-  | { name: typeof RELATION_HAS_LAB; color: typeof COLOR_HAS_LAB };
+  | { relationship: typeof RELATION_AFFILIATES; color: typeof COLOR_AFFILIATE }
+  | { relationship: typeof RELATION_ALLIES; color: typeof COLOR_ALLY }
+  | { relationship: typeof RELATION_FRIENDS; color: typeof COLOR_FRIEND }
+  | { relationship: typeof RELATION_COLD_WARS; color: typeof COLOR_COLD_WAR }
+  | { relationship: typeof RELATION_HOT_WARS; color: typeof COLOR_HOT_WAR }
+  | { relationship: typeof RELATION_ENEMIES; color: typeof COLOR_ENEMY }
+  | { relationship: typeof RELATION_HAS_BENCH; color: typeof COLOR_HAS_BENCH }
+  | { relationship: typeof RELATION_HAS_LAB; color: typeof COLOR_HAS_LAB };
 
 const legend: LegendData[] = [
-  { name: RELATION_AFFILIATES, color: COLOR_AFFILIATE },
-  { name: RELATION_ALLIES, color: COLOR_ALLY },
-  { name: RELATION_FRIENDS, color: COLOR_FRIEND },
-  { name: RELATION_COLD_WARS, color: COLOR_COLD_WAR },
-  { name: RELATION_HOT_WARS, color: COLOR_HOT_WAR },
-  { name: RELATION_ENEMIES, color: COLOR_ENEMY },
-  { name: RELATION_HAS_BENCH, color: COLOR_HAS_BENCH },
-  { name: RELATION_HAS_LAB, color: COLOR_HAS_LAB },
+  { relationship: RELATION_AFFILIATES, color: COLOR_AFFILIATE },
+  { relationship: RELATION_ALLIES, color: COLOR_ALLY },
+  { relationship: RELATION_FRIENDS, color: COLOR_FRIEND },
+  { relationship: RELATION_COLD_WARS, color: COLOR_COLD_WAR },
+  { relationship: RELATION_HOT_WARS, color: COLOR_HOT_WAR },
+  { relationship: RELATION_ENEMIES, color: COLOR_ENEMY },
+  { relationship: RELATION_HAS_BENCH, color: COLOR_HAS_BENCH },
+  { relationship: RELATION_HAS_LAB, color: COLOR_HAS_LAB },
 ];
 
 function Legend({ onMouseEnter }: DOMAttributes<HTMLDivElement>) {
@@ -55,16 +56,16 @@ function Legend({ onMouseEnter }: DOMAttributes<HTMLDivElement>) {
       onMouseEnter={onMouseEnter}
     >
       <ul>
-        {legend.map(({ name, color }, index) => {
+        {legend.map(({ relationship, color }) => {
           return (
             <li
-              key={`${index}-${name}`}
+              key={composeListItem('legend', relationship)}
               className="flex h-2.5 items-center gap-x-1"
             >
               <span
                 className={clsx('block h-2 w-4 border border-gray-900', color)}
               ></span>
-              {name}
+              {relationship}
             </li>
           );
         })}

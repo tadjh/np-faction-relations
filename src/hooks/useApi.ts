@@ -100,7 +100,7 @@ export function useApi() {
     return instructions;
   };
 
-  const composeFactionRelationship = (
+  const formatFactionRelationship = (
     doc: TimestampedFaction,
     type: Relationship,
     data: string[]
@@ -131,7 +131,7 @@ export function useApi() {
         data.delete(diffId);
       }
 
-      const nextDoc = composeFactionRelationship(doc, type, Array.from(data));
+      const nextDoc = formatFactionRelationship(doc, type, Array.from(data));
 
       nextDocs = { ...nextDocs, [docId]: nextDoc };
     }

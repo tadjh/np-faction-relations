@@ -34,6 +34,7 @@ import { Factions } from '../../../../../../../../types';
 import FormMetadata from '../FormMetadata';
 import FormAttributes from '../FormAttributes';
 import FormInfoExtended from '../FormInfoExtended';
+import { composeOptionKey } from '../../../../../../../../utils/compose';
 
 function EditForm() {
   const { state, handlers } = useFormData();
@@ -134,7 +135,10 @@ function EditForm() {
             {Object.keys(factions).map((factionId) => {
               const faction = getFaction(factions, factionId);
               return (
-                <option key={`updateFaction-${factionId}`} value={factionId}>
+                <option
+                  key={composeOptionKey('delete-faction', factionId)}
+                  value={factionId}
+                >
                   {getName(faction)}
                 </option>
               );

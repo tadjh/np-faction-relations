@@ -1,10 +1,5 @@
 import clsx from 'clsx';
 import { HTMLAttributes, RefObject } from 'react';
-import {
-  CELL_COLUMN_WIDTH,
-  CELL_ROW_HEIGHT,
-  HEADER_SIZE,
-} from '../../config/constants';
 import { headerColor } from '../../config/styles';
 import { composeShortName, useAuth } from '../../../../hooks';
 import { TimestampedFaction } from '../../../../types';
@@ -14,6 +9,11 @@ import { Link } from 'react-router-dom';
 import { useEditor } from '../../../Editor/hooks';
 import { useState } from 'react';
 import GridHeaderTooltip from '../GridHeaderTooltip';
+import {
+  composeInfoId,
+  composeEditLink,
+  composeEditId,
+} from '../../utils/compose';
 
 export interface GridHeaderCellProps extends HTMLAttributes<HTMLDivElement> {
   rowIndex: number;
@@ -72,6 +72,7 @@ function GridHeaderCell({
       <div
         className="z-10 flex cursor-pointer items-center px-1 py-0.5 opacity-0 group-hover:opacity-100"
         onClick={toggleClick}
+        id={composeInfoId(isRotated, columnIndex)}
       >
         <FontAwesomeIcon icon={faInfoCircle} />
       </div>
@@ -80,10 +81,10 @@ function GridHeaderCell({
       </div>
       {showEditable && (
         <Link
-          to={`/edit?factionId=${factionId}`}
+          to={composeEditLink(factionId)}
           onClick={openEditor}
           className="z-20 block opacity-0 hover:opacity-100 group-hover:opacity-100"
-          id={`${isRotated ? 'column' : 'row'}-header-cell-${columnIndex}-edit`}
+          id={composeEditId(isRotated, columnIndex)}
         >
           <FontAwesomeIcon icon={faPenToSquare} />
         </Link>
