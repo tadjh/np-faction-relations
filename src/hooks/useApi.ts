@@ -265,7 +265,7 @@ export function useApi() {
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const getFactionsFix = async () => {
+  const patchFactionUrls = async () => {
     try {
       const docs = await getDocs(FACTION_COLLECTION_QUERY);
 
@@ -273,13 +273,11 @@ export function useApi() {
       let lastUpdate = new Timestamp(0, 0);
       docs.forEach((doc) => {
         const data: any = doc.data();
-        const affiliates = [...data.relationships.associates];
-        delete data.relationships.associates;
         factions = {
           ...factions,
           [doc.id]: {
             ...data,
-            relationships: { ...data.relationships, affiliates },
+            urls: { wiki: '', discord: '', subreddit: '', ...data.urls },
           },
         };
         lastUpdate =
