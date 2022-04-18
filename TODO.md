@@ -9,7 +9,7 @@
 
 ### Vulnerbilities {#vulnerbilities}
 
-- TODO Form validation
+- TODO More form validation
 
 ### Performance Issues {#performance}
 
@@ -19,9 +19,10 @@
 ## Development {#development}
 
 - TODO Add different sorts
-- TODO add change sort order to api
 
 ### Quality of Life {#qol}
+
+- TODO add change sort order to api functions
 
 ### Environment {#environment}
 
@@ -32,7 +33,6 @@
 
 ### Future Features {#plans}
 
-- TODO Tooltips
 - TODO add note author/editor fields
 - TODO Add notes to database (isEditor)
 - TODO Edit notes with pencil icon inline editor (isEditor)
