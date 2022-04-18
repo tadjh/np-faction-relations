@@ -79,16 +79,18 @@ function GridHeaderCell({
       <div className={clsx(isRotated && '-rotate-90')}>
         {composeShortName(faction)}
       </div>
-      {showEditable && (
-        <Link
-          to={composeEditLink(factionId)}
-          onClick={openEditor}
-          className="z-20 block opacity-0 hover:opacity-100 group-hover:opacity-100"
-          id={composeEditId(isRotated, columnIndex)}
-        >
-          <FontAwesomeIcon icon={faPenToSquare} />
-        </Link>
-      )}
+      <div className="z-20 h-3 w-4 px-1 py-0.5">
+        {showEditable && (
+          <Link
+            to={composeEditLink(factionId)}
+            onClick={openEditor}
+            className="opacity-0 hover:opacity-100 group-hover:opacity-100"
+            id={composeEditId(isRotated, columnIndex)}
+          >
+            <FontAwesomeIcon icon={faPenToSquare} />
+          </Link>
+        )}
+      </div>
     </div>
   );
 }
