@@ -3,11 +3,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import {
   ERROR_TEXT_EDITOR_PERMISSION_DENIED,
   EVENT_TEXT_SIGN_IN,
-} from '../../../config/strings';
-import { useAuth } from '../../../../../../../hooks';
-import SubmitButton from '../../../../../../../components/Inputs/SubmitButton';
+} from '../../../../config/strings';
+import { useAuth } from '../../../../../../../../hooks';
+import SubmitButton from '../../../../../../../../components/Inputs/SubmitButton';
 import toast from 'react-hot-toast';
-import { getErrorMessage } from '../../../../../../../utils';
+import { getErrorMessage } from '../../../../../../../../utils';
 
 function SignIn() {
   let navigate = useNavigate();
