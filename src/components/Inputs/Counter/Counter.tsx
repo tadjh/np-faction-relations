@@ -19,7 +19,7 @@ const UnwrappedCounter = ({
       htmlFor={name}
       className={clsx(
         'transition-opacity',
-        hidden ? 'opacity-0' : 'opacity-100'
+        hidden ? 'invisible opacity-0' : 'opacity-100'
       )}
     >
       {children}
@@ -28,7 +28,7 @@ const UnwrappedCounter = ({
       type="number"
       name={name}
       className={clsx(
-        hidden ? 'opacity-0' : 'opacity-100',
+        hidden ? 'invisible opacity-0' : 'opacity-100',
         'w-10 border text-right transition-opacity'
       )}
       value={value}

@@ -24,8 +24,8 @@ import { composeOptionKey } from '../../../../../../../../utils/compose';
 function DeleteForm() {
   const [selected, setSelected] = useState('');
   const { deleteFaction } = useApi();
-  const { handleSnapshot } = useSnapshot();
-  const { lastUpdate, factions } = useFactions();
+  const { factions, lastUpdate } = useFactions();
+  const { handleSnapshot } = useSnapshot(factions, lastUpdate);
   const queryClient = useQueryClient();
 
   const mutation = useMutation(deleteFaction, {
@@ -62,7 +62,7 @@ function DeleteForm() {
   const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
 
-    handleSnapshot(factions, lastUpdate);
+    handleSnapshot();
 
     mutation.mutate(selected);
   };

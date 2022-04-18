@@ -11,11 +11,12 @@ import { Factions } from '../../../../../../../types';
 import { Timestamp } from 'firebase/firestore';
 import { HALF_DAY_IN_MILLISECONDS } from '../../../../../../../config/constants';
 
-export function shouldCreateSnapshot(last: number) {
+export function shouldCreateSnapshot(last: number, force: boolean) {
+  if (force) return true;
   return Date.now() - last > HALF_DAY_IN_MILLISECONDS;
 }
 
-export function useSnapshot() {
+export function useSnapshot(factions: Factions | null, lastUpdate: Timestamp) {
   const { createSnapshot } = useApi();
 
   const snapshotMutation = useMutation(createSnapshot, {
@@ -34,12 +35,12 @@ export function useSnapshot() {
     },
   });
 
-  const handleSnapshot = (factions: Factions | null, lastUpdate: Timestamp) => {
+  const handleSnapshot = (force = false) => {
     if (!factions) return;
-    if (shouldCreateSnapshot(lastUpdate.toMillis())) {
+    if (shouldCreateSnapshot(lastUpdate.toMillis(), force)) {
       snapshotMutation.mutate({ factions, lastUpdate });
     }
   };
 
-  return { handleSnapshot };
+  return { snapshotMutation, handleSnapshot };
 }

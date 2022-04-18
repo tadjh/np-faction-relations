@@ -1,9 +1,10 @@
 import { ERROR_TEXT_WIDGETS_PERMISSION_DENIED } from '../../config/strings';
 import { useAuth } from '../../../../../../hooks';
 import { isAllFalse } from '../../../../../../utils';
-import AddForm from '../Forms/components/AddForm';
-import DeleteForm from '../Forms/components/DeleteForm';
-import EditForm from '../Forms/components/EditForm';
+import AddFaction from '../Forms/components/AddFaction';
+import DeleteFaction from '../Forms/components/DeleteFaction';
+import EditFaction from '../Forms/components/EditFaction';
+import AddSnapshot from '../Forms/components/AddSnapshot';
 
 function Widgets() {
   const { roles, canCreate, canEdit, canDelete } = useAuth();
@@ -26,9 +27,10 @@ function Widgets() {
   }
   return (
     <>
-      {shouldAllowAdd && <AddForm />}
-      {shouldAllowEdit && <EditForm />}
-      {shouldAllowDelete && <DeleteForm />}
+      {shouldAllowAdd && <AddFaction />}
+      {shouldAllowEdit && <EditFaction />}
+      {shouldAllowDelete && <DeleteFaction />}
+      {shouldAllowAdd && <AddSnapshot />}
     </>
   );
 }

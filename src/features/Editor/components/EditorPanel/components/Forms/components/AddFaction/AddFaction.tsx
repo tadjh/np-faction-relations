@@ -19,14 +19,14 @@ import toast from 'react-hot-toast';
 import FormMetadata from '../FormMetadata';
 
 function AddForm() {
-  const { lastUpdate, factions } = useFactions();
+  const { factions, lastUpdate } = useFactions();
   const order = useMemo(
     () => (factions ? Object.keys(factions).length : 0),
     [factions]
   );
   const { state, handlers } = useFormData({ order });
   const { createFaction } = useApi();
-  const { handleSnapshot } = useSnapshot();
+  const { handleSnapshot } = useSnapshot(factions, lastUpdate);
   const queryClient = useQueryClient();
   const hasSumbitted = useRef(false);
 
@@ -57,7 +57,7 @@ function AddForm() {
   const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
 
-    handleSnapshot(factions, lastUpdate);
+    handleSnapshot();
 
     hasSumbitted.current = true;
     mutation.mutate(state);

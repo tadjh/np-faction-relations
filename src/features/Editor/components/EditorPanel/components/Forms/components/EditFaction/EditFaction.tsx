@@ -38,10 +38,10 @@ import { composeOptionKey } from '../../../../../../../../utils/compose';
 
 function EditForm() {
   const { state, handlers } = useFormData();
-  const { lastUpdate, factions } = useFactions();
+  const { factions, lastUpdate } = useFactions();
   const [currentFaction, setCurrentFaction] = useState('');
   const { editFaction } = useApi();
-  const { handleSnapshot } = useSnapshot();
+  const { handleSnapshot } = useSnapshot(factions, lastUpdate);
   const queryClient = useQueryClient();
   let [searchParams] = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
@@ -90,7 +90,7 @@ function EditForm() {
 
     if (mutation.isError) return handleReset();
 
-    handleSnapshot(factions, lastUpdate);
+    handleSnapshot();
 
     if (factions) {
       const prev = factions[currentFaction];
