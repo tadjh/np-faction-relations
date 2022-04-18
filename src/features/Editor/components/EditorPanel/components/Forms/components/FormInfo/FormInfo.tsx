@@ -8,20 +8,25 @@ import { getDisplayName, getName } from '../../../../../../../../hooks';
 import FormHeader from '../FormHeader';
 import Input from '../../../../../../../../components/Inputs/TextInput';
 import { UseFormData } from '../../hooks';
+import RequiredText from '../RequiredText';
 
 function FormInfo({ state, handlers }: UseFormData) {
   const { handleName, handleDisplayName } = handlers;
+  const maxLength = 7;
+  const name = getName(state);
+  const isRequired = name.length > maxLength;
   return (
     <>
       <FormHeader>{LABEL_TEXT_INFO}</FormHeader>
       <Input
         name={LABEL_TEXT_NAME}
         type="text"
-        value={getName(state)}
+        value={name}
         onChange={handleName}
         className="px-2"
+        required={true}
       >
-        {LABEL_TEXT_NAME}
+        <RequiredText label={LABEL_TEXT_NAME} />
       </Input>
       <Input
         name="displayName"
@@ -29,9 +34,13 @@ function FormInfo({ state, handlers }: UseFormData) {
         value={getDisplayName(state)}
         onChange={handleDisplayName}
         className="px-2"
+        maxLength={maxLength}
+        required={isRequired}
       >
-        {LABEL_TEXT_DISPLAY_NAME}{' '}
-        <span className="text-[8px]">{LABEL_TEXT_OPTIONAL}</span>
+        <RequiredText label={LABEL_TEXT_DISPLAY_NAME} isRequired={isRequired} />
+        {!isRequired && (
+          <span className="text-[8px]">{LABEL_TEXT_OPTIONAL}</span>
+        )}
       </Input>
     </>
   );
