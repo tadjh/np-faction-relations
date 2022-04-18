@@ -34,9 +34,6 @@ export function useHighlight(
   const setBorderColor = (el: HTMLElement, value: string) =>
     (el.style['borderColor'] = value);
 
-  const setDisplay = (el: HTMLElement, value: string) =>
-    (el.style['display'] = value);
-
   const removeStyle = (el: HTMLElement, value: string) =>
     el.style.removeProperty(value);
 
@@ -55,7 +52,7 @@ export function useHighlight(
   const growHeaderRef = (
     header: RefObject<HTMLDivElement>,
     editIcon: HTMLElement | null,
-    shadow: HTMLElement | null
+    tooltipIcon: HTMLElement | null
   ) => {
     if (!header.current) return;
     const scale = isMobile ? 'scale(1.05)' : 'scale(1.10)';
@@ -63,26 +60,34 @@ export function useHighlight(
     setTransform(header.current, scale);
     setBorderColor(header.current, 'rgb(209 213 219)');
     if (editIcon) setOpacity(editIcon, '1');
-    if (shadow) setDisplay(shadow, 'block');
+    if (tooltipIcon) setOpacity(tooltipIcon, '1');
   };
 
   const shrinkHeaderRef = (
     header: RefObject<HTMLDivElement>,
     editIcon: HTMLElement | null,
-    shadow: HTMLElement | null
+    tooltipIcon: HTMLElement | null
   ) => {
     if (!header.current) return;
     removeStyle(header.current, 'z-index');
     removeStyle(header.current, 'transform');
     removeStyle(header.current, 'border-color');
     if (editIcon) removeStyle(editIcon, 'opacity');
-    if (shadow) removeStyle(shadow, 'display');
+    if (tooltipIcon) removeStyle(tooltipIcon, 'opacity');
   };
 
   const saveColumn = (columnIndex: number) =>
     (prevColumn.current = columnIndex);
 
   const deleteColumn = () => (prevColumn.current = null);
+
+  const getEditIcon = (columnIndex: number) => {
+    return document.getElementById(`column-header-cell-${columnIndex}-edit`);
+  };
+
+  const getTooltipIcon = (columnIndex: number) => {
+    return document.getElementById(`column-header-cell-${columnIndex}-info`);
+  };
 
   const getColumn = (currentTarget: EventTarget & HTMLDivElement): number =>
     parseInt(currentTarget.getAttribute('data-column') || '');
@@ -94,31 +99,25 @@ export function useHighlight(
     if (columnIndex !== prevColumn.current)
       handleForceLeave(prevColumn.current);
 
-    const editIcon = document.getElementById(
-      `column-header-cell-${columnIndex}-edit`
-    );
-    const shadow = document.getElementById(
-      `column-header-cell-${columnIndex}-shadow`
-    );
+    const editIcon = getEditIcon(columnIndex);
+    const tooltipIcon = getTooltipIcon(columnIndex);
+
     const column = getColumnRef(columnIndex, columnRefs);
     const header = getHeaderRef(columnIndex, headerRefs);
     showColumnRef(column);
-    growHeaderRef(header, editIcon, shadow);
+    growHeaderRef(header, editIcon, tooltipIcon);
     saveColumn(columnIndex);
   };
 
   const handleForceLeave = (columnIndex: number | null) => {
     if (!columnIndex) return;
-    const editIcon = document.getElementById(
-      `column-header-cell-${columnIndex}-edit`
-    );
-    const shadow = document.getElementById(
-      `column-header-cell-${columnIndex}-shadow`
-    );
+    const editIcon = getEditIcon(columnIndex);
+    const tooltipIcon = getTooltipIcon(columnIndex);
+
     const column = getColumnRef(columnIndex, columnRefs);
     const header = getHeaderRef(columnIndex, headerRefs);
     hideColumnRef(column);
-    shrinkHeaderRef(header, editIcon, shadow);
+    shrinkHeaderRef(header, editIcon, tooltipIcon);
   };
 
   const handleMouseLeave: MouseEventHandler<HTMLDivElement> = (event) => {

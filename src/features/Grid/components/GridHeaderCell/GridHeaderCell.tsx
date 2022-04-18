@@ -8,10 +8,12 @@ import {
 import { headerColor } from '../../config/styles';
 import { composeShortName, useAuth } from '../../../../hooks';
 import { TimestampedFaction } from '../../../../types';
-import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import { faInfoCircle, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 import { useEditor } from '../../../Editor/hooks';
+import { useState } from 'react';
+import GridHeaderTooltip from '../GridHeaderTooltip';
 
 export interface GridHeaderCellProps extends HTMLAttributes<HTMLDivElement> {
   rowIndex: number;
@@ -21,6 +23,7 @@ export interface GridHeaderCellProps extends HTMLAttributes<HTMLDivElement> {
   isRotated?: boolean;
   headerRef?: RefObject<HTMLDivElement>;
 }
+
 function GridHeaderCell({
   rowIndex,
   columnIndex,
@@ -34,6 +37,16 @@ function GridHeaderCell({
   const { roles, canEdit } = useAuth();
   const { openEditor } = useEditor();
   const showEditable = canEdit(roles);
+  const [isTooltip, setIsTooltip] = useState(false);
+
+  const hideTooltip = () => setIsTooltip(false);
+
+  const toggleClick = () => {
+    setIsTooltip((prevState) => !prevState);
+  };
+
+  const handleMouseLeave = () => hideTooltip();
+
   return (
     <div
       ref={headerRef}
@@ -45,21 +58,23 @@ function GridHeaderCell({
           : 'left-0 origin-right flex-row border-x-gray-400 px-2 group-hover:border-x-gray-200',
         className
       )}
+      data-column={isRotated ? columnIndex : null}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
-      <div
-        id={`${isRotated ? 'column' : 'row'}-header-cell-${columnIndex}-shadow`}
-        data-column={isRotated ? columnIndex : null}
-        className={clsx(
-          'absolute hidden bg-gray-500 bg-opacity-5 px-2 group-hover:block',
-          isRotated ? 'top-0' : 'left-0'
-        )}
-        style={{
-          width: isRotated ? CELL_COLUMN_WIDTH : HEADER_SIZE,
-          height: isRotated ? HEADER_SIZE : CELL_ROW_HEIGHT,
-        }}
-        onMouseEnter={handleMouseEnter}
+      <GridHeaderTooltip
+        isRotated={isRotated}
+        columnIndex={columnIndex}
+        rowIndex={rowIndex}
+        isTooltip={isTooltip}
+        faction={faction}
       />
-      <div />
+      <div
+        className="z-10 flex cursor-pointer items-center px-1 py-0.5 opacity-0 group-hover:opacity-100"
+        onClick={toggleClick}
+      >
+        <FontAwesomeIcon icon={faInfoCircle} />
+      </div>
       <div className={clsx(isRotated && '-rotate-90')}>
         {composeShortName(faction)}
       </div>

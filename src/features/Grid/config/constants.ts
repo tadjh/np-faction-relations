@@ -19,3 +19,5 @@ export const COLOR_BACKGROUND = 'bg-white';
 export const COLOR_BACKGROUND_ALT = 'bg-gray-50';
 export const COLOR_BACKGROUND_LINE = 'diagonal-line';
 export const COLOR_BACKGROUND_SPLIT = 'diagonal-solid';
+
+export const LABEL_TEXT_DETAILS = 'details';
