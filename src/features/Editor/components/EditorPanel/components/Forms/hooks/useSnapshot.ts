@@ -9,10 +9,10 @@ import {
 } from '../../../config/strings';
 import { Factions } from '../../../../../../../types';
 import { Timestamp } from 'firebase/firestore';
-import { ONE_DAY_IN_MILLISECONDS } from '../../../../../../../config/constants';
+import { HALF_DAY_IN_MILLISECONDS } from '../../../../../../../config/constants';
 
 export function shouldCreateSnapshot(last: number) {
-  return Date.now() - last > ONE_DAY_IN_MILLISECONDS;
+  return Date.now() - last > HALF_DAY_IN_MILLISECONDS;
 }
 
 export function useSnapshot() {
