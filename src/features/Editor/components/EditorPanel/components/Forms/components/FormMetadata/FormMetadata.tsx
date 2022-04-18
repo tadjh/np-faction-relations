@@ -14,6 +14,17 @@ function FormMetadata({ state, handlers }: UseFormData) {
   return (
     <>
       <FormHeader>{LABEL_TEXT_METADATA}</FormHeader>
+      <div className="flex px-2">
+        <Checkbox
+          name="active"
+          checked={getActive(state)}
+          onChange={handlers.handleActive}
+          className="h-5 w-1/3 justify-between"
+        >
+          {LABEL_TEXT_IS_ACTIVE}
+        </Checkbox>
+        <div className="flex-1"></div>
+      </div>
       <Counter
         name="sortOrder"
         min={0}
@@ -22,14 +33,6 @@ function FormMetadata({ state, handlers }: UseFormData) {
       >
         {LABEL_TEXT_SORT_ORDER}
       </Counter>
-      <Checkbox
-        name="active"
-        checked={getActive(state)}
-        onChange={handlers.handleActive}
-        className="h-5 px-2"
-      >
-        {LABEL_TEXT_IS_ACTIVE}
-      </Checkbox>
     </>
   );
 }

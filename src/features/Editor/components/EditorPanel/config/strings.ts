@@ -29,6 +29,9 @@ export const LABEL_TEXT_LAB_COUNT = 'number of labs';
 export const LABEL_TEXT_SELECT_FACTION = 'select faction';
 export const LABEL_TEXT_RELATIONSHIPS = 'relationships';
 export const LABEL_TEXT_LINK = 'link';
+export const LABEL_TEXT_WIKI = 'wiki';
+export const LABEL_TEXT_SUBREDDIT = 'subreddit';
+export const LABEL_TEXT_DISCORD = 'discord';
 
 export const CREATE_FACTION_IS_LOADING_TEXT = 'adding faction...';
 export const CREATE_FACTION_IS_SUCCESS_TEXT = 'faction added';

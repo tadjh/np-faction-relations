@@ -12,8 +12,8 @@ function Input({
   children,
 }: InputProps) {
   return (
-    <div className={clsx('flex items-center gap-x-2 px-2', className)}>
-      <label htmlFor={name} className="w-32">
+    <div className={clsx('flex items-center gap-x-2', className)}>
+      <label htmlFor={name} className="w-1/3">
         {children}
       </label>
       <input

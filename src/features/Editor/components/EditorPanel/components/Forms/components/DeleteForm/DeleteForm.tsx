@@ -72,7 +72,7 @@ function DeleteForm() {
         <div className="flex items-center gap-x-2 px-2">
           <label
             htmlFor="deleteFaction"
-            className="flex h-8 w-32 items-center gap-x-2"
+            className="flex h-8 w-1/3 items-center gap-x-2"
           >
             {LABEL_TEXT_SELECT_FACTION}
           </label>

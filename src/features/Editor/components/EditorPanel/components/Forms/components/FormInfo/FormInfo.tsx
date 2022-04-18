@@ -19,6 +19,7 @@ function FormInfo({ state, handlers }: UseFormData) {
         type="text"
         value={getName(state)}
         onChange={handleName}
+        className="px-2"
       >
         {LABEL_TEXT_NAME}
       </Input>
@@ -27,6 +28,7 @@ function FormInfo({ state, handlers }: UseFormData) {
         type="text"
         value={getDisplayName(state)}
         onChange={handleDisplayName}
+        className="px-2"
       >
         {LABEL_TEXT_DISPLAY_NAME}{' '}
         <span className="text-[8px]">{LABEL_TEXT_OPTIONAL}</span>

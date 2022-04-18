@@ -33,12 +33,19 @@ export type AttributeData = {
   labCount: number;
 };
 
+export type Website = 'wiki' | 'subreddit' | 'discord';
+
+export type Websites = {
+  [key in Website]: string;
+};
+
 export interface Faction {
   active: boolean;
   attributes: AttributeData;
   displayName: string;
   name: string;
   order: number;
+  urls: Websites;
   relationships: Relationships;
   visibility: 'public' | 'private';
 }

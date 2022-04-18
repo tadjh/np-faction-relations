@@ -17,8 +17,9 @@ import {
   SET_NAME,
   SET_ORDER,
   SET_VISIBILITY,
+  SET_URL,
 } from '../config/constants';
-import { TimestampedFaction } from '../../../../../../../types';
+import { TimestampedFaction, Website } from '../../../../../../../types';
 
 export const initialState: TimestampedFaction = {
   active: true,
@@ -32,6 +33,11 @@ export const initialState: TimestampedFaction = {
   displayName: '',
   name: '',
   order: 0,
+  urls: {
+    wiki: '',
+    subreddit: '',
+    discord: '',
+  },
   relationships: {
     allies: [],
     affiliates: [],
@@ -61,7 +67,8 @@ export type FactionAction =
   | { type: typeof SET_COLD_WAR; payload: string[] }
   | { type: typeof SET_ENEMIES; payload: string[] }
   | { type: typeof SET_FRIENDS; payload: string[] }
-  | { type: typeof SET_HOT_WAR; payload: string[] };
+  | { type: typeof SET_HOT_WAR; payload: string[] }
+  | { type: typeof SET_URL; name: Website; payload: string };
 
 export function reducer(
   state: TimestampedFaction,
@@ -71,7 +78,7 @@ export function reducer(
     case INIT:
       return { ...state, ...initialState, ...action.payload };
     case SET_ALL:
-      return { ...state, ...action.payload };
+      return { ...state, ...initialState, ...action.payload };
     case SET_ACTIVE:
       const active = !state.active;
       return {
@@ -171,6 +178,11 @@ export function reducer(
           ...state.relationships,
           hotWars: action.payload,
         },
+      };
+    case SET_URL:
+      return {
+        ...state,
+        urls: { ...state.urls, [action.name]: action.payload },
       };
     default:
       throw new Error('Invalid dispatch action in Form Data reducer');

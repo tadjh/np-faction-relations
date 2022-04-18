@@ -14,7 +14,6 @@ import {
 } from '../../../../config/strings';
 
 import {
-  getActive,
   getFaction,
   getName,
   useApi,
@@ -32,7 +31,6 @@ import { useFormData, useSnapshot } from '../../hooks';
 import toast from 'react-hot-toast';
 import { useSearchParams } from 'react-router-dom';
 import { Factions } from '../../../../../../../../types';
-import Checkbox from '../../../../../../../../components/Inputs/Checkbox';
 import FormMetadata from '../FormMetadata';
 import FormAttributes from '../FormAttributes';
 import FormInfoExtended from '../FormInfoExtended';
@@ -47,13 +45,6 @@ function EditForm() {
   let [searchParams] = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
   let factionId = searchParams.get('factionId');
-
-  useEffect(() => {
-    if (!factionId) return;
-    loadFaction(factions, factionId);
-    setIsOpen(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [factionId]);
 
   const mutation = useMutation(editFaction, {
     onMutate: () => {
@@ -112,6 +103,13 @@ function EditForm() {
     }
   };
 
+  useEffect(() => {
+    if (!factionId) return;
+    loadFaction(factions, factionId);
+    setIsOpen(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [factionId]);
+
   if (!factions) return null;
 
   return (
@@ -120,7 +118,7 @@ function EditForm() {
         <div className="flex items-center gap-x-2 px-2 pt-4">
           <label
             htmlFor="updateFaction"
-            className="flex h-8 w-32 items-center gap-x-2"
+            className="flex h-8 w-1/3 items-center gap-x-2"
           >
             {LABEL_TEXT_SELECT_FACTION}
           </label>

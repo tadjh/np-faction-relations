@@ -18,9 +18,14 @@ import {
   SET_NAME,
   SET_ORDER,
   SET_VISIBILITY,
+  SET_URL,
 } from '../config/constants';
 import { initialState, reducer } from '../reducers/formData.reducer';
-import { Relationship, TimestampedFaction } from '../../../../../../../types';
+import {
+  Relationship,
+  TimestampedFaction,
+  Website,
+} from '../../../../../../../types';
 
 export interface FormDataHandlers {
   handleSetAll: (data: TimestampedFaction | null) => void;
@@ -43,6 +48,7 @@ export interface FormDataHandlers {
     event: ChangeEvent<HTMLSelectElement>,
     type: Relationship
   ) => void;
+  handleUrls: (event: ChangeEvent<HTMLInputElement>, name: Website) => void;
   resetState: VoidFunction;
   resetAllies: VoidFunction;
   resetAffiliates: VoidFunction;
@@ -151,6 +157,14 @@ export function useFormData(props?: Partial<TimestampedFaction>): UseFormData {
     }
   };
 
+  const handleUrls = (event: ChangeEvent<HTMLInputElement>, name: Website) => {
+    dispatch({
+      type: SET_URL,
+      name,
+      payload: event.target.value,
+    });
+  };
+
   const resetState = () => dispatch({ type: INIT, payload: props || {} });
   const resetAllies = () =>
     dispatch({
@@ -222,6 +236,7 @@ export function useFormData(props?: Partial<TimestampedFaction>): UseFormData {
       handleFriends,
       handleHotWars,
       handleRelationship,
+      handleUrls,
       resetState,
       resetAllies,
       resetAffiliates,

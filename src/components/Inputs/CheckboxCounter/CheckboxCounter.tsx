@@ -25,19 +25,21 @@ function CheckboxCounter({
         name={name}
         checked={checked}
         onChange={onChange}
-        className="w-32"
+        className="w-1/3 justify-between"
       >
         {label}
       </Checkbox>
-      <Counter
-        name={`${name}Count`}
-        value={count}
-        onChange={onChangeCount}
-        hidden={!checked}
-        isWrapped={false}
-      >
-        {countLabel}
-      </Counter>
+      <div className="flex flex-1 justify-between gap-x-2">
+        <Counter
+          name={`${name}Count`}
+          value={count}
+          onChange={onChangeCount}
+          hidden={!checked}
+          isWrapped={false}
+        >
+          {countLabel}
+        </Counter>
+      </div>
     </div>
   );
 }
