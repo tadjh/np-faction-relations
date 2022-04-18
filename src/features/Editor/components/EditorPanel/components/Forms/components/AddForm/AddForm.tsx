@@ -16,6 +16,7 @@ import { getErrorMessage } from '../../../../../../../../utils';
 import FormInfo from '../FormInfo';
 import { useFormData, useSnapshot } from '../../hooks';
 import toast from 'react-hot-toast';
+import FormMetadata from '../FormMetadata';
 
 function AddForm() {
   const { lastUpdate, factions } = useFactions();
@@ -70,6 +71,7 @@ function AddForm() {
         onFocus={handleReset}
       >
         <FormInfo state={state} handlers={handlers} />
+        <FormMetadata state={state} handlers={handlers} />
         <div className="flex h-11 w-full items-center justify-between p-2">
           <span
             className={clsx(

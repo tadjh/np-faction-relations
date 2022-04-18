@@ -20,7 +20,6 @@
 
 - TODO Add different sorts
 - TODO add change sort order to api
-- TODO rename associaties to affiliates
 
 ### Quality of Life {#qol}
 

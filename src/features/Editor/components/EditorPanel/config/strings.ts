@@ -18,13 +18,17 @@ export const ERROR_TEXT_WIDGETS_PERMISSION_DENIED =
 
 export const LABEL_TEXT_INFO = 'info';
 export const LABEL_TEXT_OPTIONAL = 'optional';
+export const LABEL_TEXT_METADATA = 'metadata';
 export const LABEL_TEXT_SORT_ORDER = 'sort order';
+export const LABEL_TEXT_IS_ACTIVE = 'show?';
+export const LABEL_TEXT_ATTRIBUTES = 'attributes';
 export const LABEL_TEXT_HAS_BENCH = 'has bench?';
 export const LABEL_TEXT_HAS_LAB = 'has lab?';
 export const LABEL_TEXT_BENCH_COUNT = 'number of benches';
 export const LABEL_TEXT_LAB_COUNT = 'number of labs';
 export const LABEL_TEXT_SELECT_FACTION = 'select faction';
 export const LABEL_TEXT_RELATIONSHIPS = 'relationships';
+export const LABEL_TEXT_LINK = 'link';
 
 export const CREATE_FACTION_IS_LOADING_TEXT = 'adding faction...';
 export const CREATE_FACTION_IS_SUCCESS_TEXT = 'faction added';

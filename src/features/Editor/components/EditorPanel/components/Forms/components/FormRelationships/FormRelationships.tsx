@@ -87,12 +87,17 @@ function FormRelationships({
                   selected !== -1 && selected !== index && 'text-gray-400'
                 )}
               >
-                <div className="flex gap-x-1">
-                  {relationship.length > 0 && (
-                    <span className="bg-gray-200 px-1">
-                      {relationship.length}
-                    </span>
-                  )}
+                <div className="flex w-24 gap-x-1">
+                  <span
+                    className={clsx(
+                      'transition-all',
+                      relationship.length > 0
+                        ? 'w-auto bg-gray-200 px-1 opacity-100'
+                        : 'w-0 opacity-0'
+                    )}
+                  >
+                    {relationship.length > 0 && relationship.length}
+                  </span>
                   {getLabelText(type)}
                 </div>
                 <IconButton icon={faPlus} />

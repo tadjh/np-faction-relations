@@ -22,7 +22,6 @@ import {
 } from '../../../../../../../../hooks';
 import {
   getErrorMessage,
-  isEmptyString,
   isNotEmptyString,
 } from '../../../../../../../../utils';
 import Accordian from '../../../../../../../../components/Accordian';
@@ -31,11 +30,12 @@ import FormRelationships from '../FormRelationships';
 import SubmitButton from '../../../../../../../../components/Inputs/SubmitButton';
 import { useFormData, useSnapshot } from '../../hooks';
 import toast from 'react-hot-toast';
-import IconButton from '../../../../../../../../components/Inputs/IconButton';
-import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
 import { useSearchParams } from 'react-router-dom';
 import { Factions } from '../../../../../../../../types';
 import Checkbox from '../../../../../../../../components/Inputs/Checkbox';
+import FormMetadata from '../FormMetadata';
+import FormAttributes from '../FormAttributes';
+import FormInfoExtended from '../FormInfoExtended';
 
 function EditForm() {
   const { state, handlers } = useFormData();
@@ -123,11 +123,6 @@ function EditForm() {
             className="flex h-8 w-32 items-center gap-x-2"
           >
             {LABEL_TEXT_SELECT_FACTION}
-            <IconButton
-              icon={faArrowRotateRight}
-              onClick={handleReset}
-              hidden={isEmptyString(currentFaction)}
-            />
           </label>
           <select
             name="updateFaction"
@@ -157,20 +152,15 @@ function EditForm() {
           )}
         >
           <FormInfo state={state} handlers={handlers} />
-          <Checkbox
-            name="active"
-            checked={getActive(state)}
-            onChange={handlers.handleActive}
-            className="h-5 px-2"
-          >
-            show?
-          </Checkbox>
+          <FormInfoExtended state={state} handlers={handlers} />
           <FormRelationships
             state={state}
             handlers={handlers}
             factions={factions}
             currentFaction={currentFaction}
           />
+          <FormAttributes state={state} handlers={handlers} />
+          <FormMetadata state={state} handlers={handlers} />
           <div className="flex h-11 w-full items-center justify-between p-2">
             <span
               className={clsx(

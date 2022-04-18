@@ -13,14 +13,11 @@ import {
 import { useApi, useFactions } from '../../../../../../../../hooks';
 import {
   getErrorMessage,
-  isEmptyString,
   shouldResetMutation,
 } from '../../../../../../../../utils';
 import Accordian from '../../../../../../../../components/Accordian';
 import SubmitButton from '../../../../../../../../components/Inputs/SubmitButton';
 import toast from 'react-hot-toast';
-import IconButton from '../../../../../../../../components/Inputs/IconButton';
-import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
 import { useSnapshot } from '../../hooks';
 
 function DeleteForm() {
@@ -61,18 +58,6 @@ function DeleteForm() {
       mutation.reset();
   };
 
-  const resetSelected = () => {
-    setSelected('');
-    if (
-      shouldResetMutation(
-        mutation.isSuccess,
-        mutation.isError,
-        mutation.isLoading
-      )
-    )
-      mutation.reset();
-  };
-
   const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
 
@@ -90,11 +75,6 @@ function DeleteForm() {
             className="flex h-8 w-32 items-center gap-x-2"
           >
             {LABEL_TEXT_SELECT_FACTION}
-            <IconButton
-              icon={faArrowRotateRight}
-              onClick={resetSelected}
-              hidden={isEmptyString(selected)}
-            />
           </label>
           <select
             name="deleteFaction"
