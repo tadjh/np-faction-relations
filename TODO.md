@@ -18,10 +18,11 @@
 
 ## Development {#development}
 
-- TODO Add different sorts
+- TODO Add different sorts (georgraphcial x,y)
 
 ### Quality of Life {#qol}
 
+- TODO Show all
 - TODO add change sort order to api functions
 - TODO consider chaging colors (gradients)
 - TODO hover cells display relationship (show faction names)
