@@ -10,11 +10,12 @@ import Input from '../../../../../../../../components/Inputs/TextInput';
 import { UseFormData } from '../../hooks';
 import RequiredText from '../RequiredText';
 
+const NAME_MAX_LENGTH = 8;
+
 function FormInfo({ state, handlers }: UseFormData) {
   const { handleName, handleDisplayName } = handlers;
-  const maxLength = 7;
   const name = getName(state);
-  const isRequired = name.length > maxLength;
+  const isRequired = name.length > NAME_MAX_LENGTH;
   return (
     <>
       <FormHeader>{LABEL_TEXT_INFO}</FormHeader>
@@ -34,7 +35,7 @@ function FormInfo({ state, handlers }: UseFormData) {
         value={getDisplayName(state)}
         onChange={handleDisplayName}
         className="px-2"
-        maxLength={maxLength}
+        maxLength={NAME_MAX_LENGTH}
         required={isRequired}
       >
         <RequiredText label={LABEL_TEXT_DISPLAY_NAME} isRequired={isRequired} />

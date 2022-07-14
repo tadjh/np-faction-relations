@@ -18,11 +18,17 @@
 
 ## Development {#development}
 
-- TODO Add different sorts
+- TODO Add different sorts (georgraphcial x,y)
 
 ### Quality of Life {#qol}
 
+- TODO Show all
 - TODO add change sort order to api functions
+- TODO consider chaging colors (gradients)
+- TODO hover cells display relationship (show faction names)
+- TODO color code edit form relationships
+- TODO delete faction button confirmation button
+- TODO dark mode
 
 ### Environment {#environment}
 
@@ -37,5 +43,6 @@
 - TODO Add notes to database (isEditor)
 - TODO Edit notes with pencil icon inline editor (isEditor)
 - TODO Delete notes (isEditor)
+- TODO Dbl click cell to add/change relationship
 
 ---
